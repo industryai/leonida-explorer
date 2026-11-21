@@ -11,7 +11,7 @@
   "What's in the Bag?","Ambulance Chaser","Just Moved In","Girls' Trip","Moses","Daily Driver","Slam Dunk","Breakfast Run","Coffee Break","Afternoon Delight","Checking Out"
  ]},
  {id:3,name:"Tits Ass Drug Money",items:[
-  "Welcome to Vice City","Dealer's Choice","Meet the Heders","Dubious Provenance","Mami Knows Best","South Leonida Real Estate","Tyrone","Here, Kitty Kitty","Car Services","Top Billing","Boobie Time","First Impressions","Caught Slipping","Crosstown Traffic","Credit Check","Steal the Zorruso for Randy","Sinfrontera National Bank","Security Expert","Ride or Die","Company Property","The Missing Link","Safe Word","Cooties","Bricked Up","Hidden Charges","The Cartel Heist"
+  "Welcome to Vice City","Dealer's Choice","Meet the Heders","Dubious Provenance","Mami Knows Best","South Leonida Real Estate","Tyrone","Here, Kitty Kitty","Car Services","Top Billing","Boobie Time","First Impressions","Caught Slipping","Crosstown Traffic","Credit Check","Steal the Zorrusso for Randy","Sinfrontera National Bank","Security Expert","Ride or Die","Company Property","The Missing Link","Safe Word","Cooties","Bricked Up","Hidden Charges","The Cartel Heist"
  ]},
  {id:4,name:"Vice City, Baby",items:[
   "Ocean Beach","Another Life","Company Cars","Lawyer Up","Party Hard","Heavy Lifting","Photo/Shoot","Making Gainz","Watch It","Cash Injections","Amateur Hour","Dirty Work","Too Much Baggage","Adventures in Babysitting","Fresh Evidence","Power Play","Child's Play","Headliners","Close Surveillance","Delivery Method","Team Building","Fully Catered","VCIA Takedown","Sunset","Story Mission 25 (Spoiler Protected)"
@@ -69,7 +69,7 @@
   "Caught Slipping":"Jason and Lucia intervene in a burglary.",
   "Crosstown Traffic":"Lucia tails a gang member.",
   "Credit Check":"Raul invites Jason and Lucia to his base and introduces the next stage of the work.",
-  "Steal the Zorruso for Randy":"Jason and Lucia steal a high-end car for Randy.",
+  "Steal the Zorrusso for Randy":"Jason and Lucia steal a high-end car for Randy.",
   "Sinfrontera National Bank":"Jason and Lucia prepare the Cartel Heist.",
   "Security Expert":"Jason and Lucia meet Nicole and arrange security expertise for the heist.",
   "Ride or Die":"Jason helps Dre'Quan with a problem.",
