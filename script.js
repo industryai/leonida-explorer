@@ -855,3 +855,12 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
  function render(){const q=search.value.trim().toLowerCase();const list=entries.filter(x=>(kind.value==="all"||x.k===kind.value)&&(region.value==="all"||x.r===region.value)&&(status.value==="all"||(status.value==="reviewed"?reviewed.has(x.n):!reviewed.has(x.n)))&&(!q||[x.n,x.t,x.r,x.d,x.e].join(" ").toLowerCase().includes(q)));$("businessCount").textContent=list.length+" / "+entries.length;$("businessReviewed").textContent=reviewed.size+" / "+entries.length;$("businessTrackFill").style.width=(reviewed.size/entries.length*100)+"%";grid.innerHTML=list.map(x=>'<article class="business-directory-card"><div class="business-card-top"><span>'+esc(x.t.toUpperCase())+'</span><small class="'+(x.e==="Guide-reported"?"business-evidence-guide":"business-evidence-rockstar")+'">'+esc(x.e)+'</small></div><h3>'+esc(x.n)+'</h3><div class="business-card-region"><small>AREA / REGION</small><b>'+esc(x.r)+'</b></div><p>'+esc(x.d)+'</p><label class="business-review-check"><input type="checkbox" data-business="'+esc(x.n)+'" '+(reviewed.has(x.n)?"checked":"")+'> MARK AS REVIEWED</label></article>').join("")||'<p class="business-empty">No matching entries. Try a different search or filter.</p>';grid.querySelectorAll("[data-business]").forEach(box=>box.addEventListener("change",()=>{box.checked?reviewed.add(box.dataset.business):reviewed.delete(box.dataset.business);save();render();}));}
  [search,kind,region,status].forEach(el=>el.addEventListener(el===search?"input":"change",render));$("businessReset").addEventListener("click",()=>{if(!confirm("Reset all reviewed business and property entries?"))return;reviewed.clear();save();render();});render();
 })();
+
+
+/* Shops and services quick-access hub */
+(function initServiceHub(){
+ const grid=document.getElementById("serviceHubGrid");if(!grid)return;
+ const search=document.getElementById("serviceHubSearch"),filter=document.getElementById("serviceHubFilter");
+ function apply(){const q=search.value.trim().toLowerCase();grid.querySelectorAll(".service-hub-card").forEach(card=>{const matchText=card.textContent.toLowerCase().includes(q);const matchCat=filter.value==="all"||card.dataset.service===filter.value;card.hidden=!(matchText&&matchCat);});}
+ search.addEventListener("input",apply);filter.addEventListener("change",apply);
+})();
