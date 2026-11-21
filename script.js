@@ -655,3 +655,31 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
  document.getElementById("tripWildTemplate")?.addEventListener("click",()=>{region.value="Mount Kalaga";state.day="Day 1 — Leonida Outdoors";day.value=state.day;state.region=region.value;state.stops=[{name:"Mount Kalaga National Park",type:"Wildlife / hunting / fishing",region:"Mount Kalaga",note:"Wildlife study and hiking",visited:false},{name:"Abandoned Concrete Plant",type:"Landmark",region:"Mount Kalaga",note:"Check the hunting area",visited:false},{name:"Buckskin Swamps",type:"Wildlife / hunting / fishing",region:"Grassrivers",note:"Wetland wildlife and fishing",visited:false},{name:"Key Lento",type:"Activity",region:"Leonida Keys",note:"Finish at the fishing charter area",visited:false}];save();render();});
  render();
 })();
+
+
+/* Official GTA VI character profile index */
+(function initCharacterDatabase(){
+ const grid=document.getElementById("characterGrid"),search=document.getElementById("characterSearch"),role=document.getElementById("characterRole"),status=document.getElementById("characterStatus"),count=document.getElementById("characterCount"),tracked=document.getElementById("characterTracked"),fill=document.getElementById("characterTrackFill"),reset=document.getElementById("characterReset");
+ if(!grid||!search||!role||!status||!count||!tracked||!fill||!reset)return;
+ const rows=[
+  {name:"Jason Duval",role:"protagonist",tag:"MAIN PROTAGONIST",type:"Criminal world",bio:"Former Army serviceman who grew up around grifters and crooks. He now works for local drug runners in the Leonida Keys and is looking for a different path.",links:"Lucia Caminos · Brian Heder · Cal Hampton",credit:"Dylan Rourke"},
+  {name:"Lucia Caminos",role:"protagonist",tag:"MAIN PROTAGONIST",type:"Criminal world",bio:"Recently released from Leonida Penitentiary. Her father taught her to fight, and she is determined to build the life her mother wanted for her. Her partnership with Jason is central to the story premise.",links:"Jason Duval · Mia Caminos (family name appears in credits; relationship not detailed here)",credit:"Manni L. Perez"},
+  {name:"Cal Hampton",role:"supporting",tag:"SUPPORTING CHARACTER",type:"Criminal world",bio:"Jason's friend and a fellow associate of Brian. He feels safest at home, listening to Coast Guard communications and following his own suspicious theories.",links:"Jason Duval · Brian Heder",credit:"Bobby Moynihan"},
+  {name:"Boobie Ike",role:"supporting",tag:"SUPPORTING CHARACTER",type:"Music industry",bio:"A Vice City figure who turned his street experience into a legitimate business empire spanning real estate, a strip club and a recording studio. He is partnered with Dre'Quan at Only Raw Records.",links:"Dre'Quan Priest · Only Raw Records",credit:"Mike Forbs"},
+  {name:"Dre'Quan Priest",role:"supporting",tag:"SUPPORTING CHARACTER",type:"Music industry",bio:"An aspiring music mogul and former street dealer focused on making it in the music business. He partners with Boobie and has signed Real Dimez to Only Raw Records.",links:"Boobie Ike · Real Dimez · Only Raw Records",credit:"Naiqui Macabroad"},
+  {name:"Real Dimez",role:"supporting",tag:"DUO / SHARED PROFILE",type:"Music industry",bio:"Rap duo made up of longtime friends Bae-Luxe and Roxy. After an early hit with local rapper DWNPLY, they are signed to Only Raw Records and trying to repeat their success.",links:"Bae-Luxe · Roxy Rashad · Dre'Quan Priest · DWNPLY",credit:"Bae-Luxe: Hood Brat · Roxy: Krissy Celess"},
+  {name:"Raul Bautista",role:"supporting",tag:"SUPPORTING CHARACTER",type:"Criminal world",bio:"A seasoned bank robber known for confidence, charm and cunning. He recruits people willing to take risks for high rewards, while his recklessness raises the stakes for his crew.",links:"His robbery crew (individual members not specified in this profile)",credit:"Manny Perez"},
+  {name:"Brian Heder",role:"supporting",tag:"SUPPORTING CHARACTER",type:"Criminal world",bio:"A veteran Keys drug runner who still moves product through his boat yard. He lets Jason live at one of his rental properties in return for help with local shakedowns.",links:"Jason Duval · Cal Hampton · Lori Heder",credit:"Stephen Root"}
+ ];
+ const key="vicecitywire-character-review-v1";let saved={};try{saved=JSON.parse(localStorage.getItem(key)||"{}")||{};}catch(e){}
+ const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ function render(){
+  const q=search.value.trim().toLowerCase(),r=role.value,s=status.value;
+  const list=rows.map((x,i)=>({...x,i,done:!!saved[i]})).filter(x=>(r==="all"||x.role===r||(r==="criminal"&&x.type==="Criminal world")||(r==="music"&&x.type==="Music industry"))&&(s==="all"||(s==="reviewed"&&x.done)||(s==="unreviewed"&&!x.done))&&[x.name,x.tag,x.type,x.bio,x.links,x.credit].join(" ").toLowerCase().includes(q));
+  grid.innerHTML=list.length?list.map(x=>'<article class="character-card"><div class="character-card-top"><span>'+esc(x.tag)+'</span><small>ROCKSTAR PROFILE</small></div><h3>'+esc(x.name)+'</h3><p>'+esc(x.bio)+'</p><div class="character-facts"><div><small>STATED CONNECTIONS</small><b>'+esc(x.links)+'</b></div><div><small>OFFICIAL GAME CREDIT</small><b>'+esc(x.credit)+'</b></div></div><label class="character-check"><input type="checkbox" data-character="'+x.i+'" '+(x.done?'checked':'')+'><span>MARK PROFILE AS REVIEWED</span></label></article>').join(""):'<div class="db-empty">No matching character profiles. Adjust your search or filters.</div>';
+  const done=rows.reduce((n,x,i)=>n+(saved[i]?1:0),0);count.textContent=list.length+" / "+rows.length;tracked.textContent=done+" / "+rows.length;fill.style.width=(done/rows.length*100)+"%";
+ }
+ grid.addEventListener("change",e=>{if(e.target.matches("[data-character]")){saved[e.target.dataset.character]=e.target.checked;try{localStorage.setItem(key,JSON.stringify(saved));}catch(e){}render();}});
+ [search].forEach(x=>x.addEventListener("input",render));[role,status].forEach(x=>x.addEventListener("change",render));
+ reset.addEventListener("click",()=>{saved={};try{localStorage.removeItem(key);}catch(e){}render();});render();
+})();
