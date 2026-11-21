@@ -115,6 +115,15 @@
  setText('#vehicles .heading .status',"29 CATALOGUED RECORDS · PARTIAL INDEX");
  setText('#weapons .heading .status',"65 INDEX RECORDS · 66 STANDARD ISSUE TARGET");
  setText('#fishing .heading .status',"35 SPECIES · REPORTED AREAS");
+ setText('#locations .heading .status',"160 MAP LABELS · 4 TYPES");
+ setText('#businesses .heading .status',"60 BUSINESS / PROPERTY ENTRIES");
+ setText('#factions .heading .status',"27 GANGS, CREWS & AGENCIES");
+ setText('#ammu .heading .status',"24 STORES · 5 COUNTIES");
+ setText('#hunting .heading .status',"28 NAMED ANIMALS · 61 LOG SLOTS");
+ setText('#collectible-index .heading .status',"18 CARD SETS · 33 UNDERWATER SITES");
+ setText('#trophies .heading .status',"55 CONSOLE AWARDS · 1,000G");
+ setText('#secrets .heading .status',"11 REPORTED DISCOVERIES");
+ setText('#completion .heading .status',"35 REQUIREMENTS · 100% TOTAL");
  const missionStatus=document.querySelector('#missions .heading .status');if(missionStatus)missionStatus.textContent="91 MAIN STORY MISSIONS · 5 CHAPTERS";
  const missionNote=document.querySelector('#missions .spoiler-alert');if(missionNote)missionNote.textContent="SPOILER WARNING: The index covers 91 main-story missions across five chapters. Optional missions, side tasks and Strangers & Freaks are separate; mission order can vary. Three late-story titles remain spoiler-protected in this index.";
  const completionNote=document.querySelector('#completion .db-footnote');if(completionNote)completionNote.innerHTML='Weighting follows the published in-game split: Main Story 50%, Story Tasks 27%, Exploration & Activities 20%, Discovery 3%. Each checklist row carries its reported contribution. Progress is stored locally in this browser. <a href="https://www.powerpyx.com/gta-6-100-completion-checklist-guide/" target="_blank" rel="noopener">POWERPYX · 100% REQUIREMENTS ↗</a> · <a href="https://www.gtabase.com/articles/gta-6/gta-6-100-completion-guide-interactive-checklist" target="_blank" rel="noopener">GTABASE · WEIGHTED CHECKLIST ↗</a>';
