@@ -424,3 +424,22 @@ footer p a{color:#ff83b8}
 @media(max-width:900px){.character-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:720px){.character-summary{grid-template-columns:1fr 1fr}.character-summary-track{grid-column:1/-1;grid-row:2}.character-summary button{justify-self:start}.character-controls{flex-wrap:wrap}.character-controls input{flex-basis:100%}}
 @media(max-width:620px){.character-grid{grid-template-columns:1fr}.character-controls{flex-direction:column}.character-controls select{width:100%}.character-summary{grid-template-columns:1fr}.character-summary-track{grid-column:1;grid-row:auto}}
+
+/* Gangs and faction dossier */
+.faction-summary{display:grid;grid-template-columns:auto auto 1fr auto;gap:15px;align-items:center;padding:14px 16px;margin:0 0 14px;border:1px solid var(--line);background:#101a27}
+.faction-summary>div:not(.faction-summary-track){display:grid;gap:4px}.faction-summary b{font:20px Georgia,serif;color:var(--cyan)}.faction-summary small{font-size:8px;letter-spacing:.1em;color:var(--muted)}
+.faction-summary-track{height:7px;background:#263448;overflow:hidden}.faction-summary-track span{display:block;width:0;height:100%;background:linear-gradient(90deg,var(--cyan),var(--pink));transition:width .2s}
+.faction-summary button{background:transparent;border:1px solid #4a586b;color:#c0cbd6;padding:9px 11px;font-size:8px;letter-spacing:.1em;cursor:pointer}
+.faction-controls{display:flex;gap:9px;margin:0 0 15px}.faction-controls input,.faction-controls select{background:#0b1420;color:var(--txt);border:1px solid var(--line);padding:12px 13px;font:inherit;font-size:10px;min-width:0}.faction-controls input{flex:1}
+.faction-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
+.faction-card{display:flex;flex-direction:column;min-height:285px;padding:15px;border:1px solid var(--line);background:linear-gradient(145deg,#192638,#101722)}
+.faction-card-top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}.faction-kind,.faction-evidence{font-size:7px;letter-spacing:.09em;padding:5px 6px;border:1px solid #42536a;color:#b8c7d5}
+.faction-evidence{color:#8ddac7;border-color:#477a68}.evidence-game{color:#e3c18c;border-color:#80643f}.evidence-community{color:#b9a8dc;border-color:#66548a}
+.faction-card h3{font:21px Georgia,serif;margin:12px 0 5px}.faction-type{font-size:9px;color:var(--cyan);margin-bottom:10px}
+.faction-area{display:grid;gap:4px;padding:9px 0;border-top:1px solid #2a394d;border-bottom:1px solid #2a394d}.faction-area small,.faction-source{font-size:7px;letter-spacing:.1em;color:var(--muted)}.faction-area b{font-size:10px;color:#dce6ef}
+.faction-card>p{font-size:9px;line-height:1.6;color:var(--muted);margin:10px 0;flex:1}.faction-source{padding-top:8px;border-top:1px solid #2a394d;line-height:1.5}
+.faction-check{display:flex;align-items:center;gap:8px;padding-top:10px;margin-top:9px;border-top:1px solid #2a394d;font-size:8px;letter-spacing:.1em;color:#b8c7d5;cursor:pointer}.faction-check input{accent-color:var(--cyan)}
+.faction-source-panel{padding:17px;margin-top:18px;border:1px solid var(--line);background:#101a27}.faction-source-panel>b{font-size:8px;letter-spacing:.14em;color:var(--cyan)}.faction-source-panel p{font-size:10px;line-height:1.65;color:var(--muted);margin:9px 0}.faction-source-panel>div{display:flex;gap:16px;flex-wrap:wrap}.faction-source-panel a{font-size:8px;letter-spacing:.1em;color:var(--cyan);text-decoration:none}.faction-source-panel a:hover{text-decoration:underline}
+@media(max-width:900px){.faction-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:720px){.faction-summary{grid-template-columns:1fr 1fr}.faction-summary-track{grid-column:1/-1;grid-row:2}.faction-summary button{justify-self:start}.faction-controls{flex-wrap:wrap}.faction-controls input{flex-basis:100%}}
+@media(max-width:620px){.faction-grid{grid-template-columns:1fr}.faction-controls{flex-direction:column}.faction-controls select{width:100%}.faction-summary{grid-template-columns:1fr}.faction-summary-track{grid-column:1;grid-row:auto}}
