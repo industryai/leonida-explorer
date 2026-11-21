@@ -281,3 +281,20 @@ footer p a{color:#ff83b8}
 .collection-card>a:hover{text-decoration:underline}
 @media(max-width:900px){.collection-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:620px){.collection-summary{grid-template-columns:1fr}.collection-grid{grid-template-columns:1fr}}
+
+/* Wildlife field guide */
+.wildlife-progress{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px;align-items:center;padding:14px 16px;margin-bottom:15px;border:1px solid var(--line);background:#101a27}
+.wildlife-progress>div:first-child{display:grid;gap:3px}
+.wildlife-progress b{font-size:12px;color:var(--cyan)}
+.wildlife-progress small{font-size:9px;color:var(--muted)}
+.wildlife-progress-track{height:7px;background:#263448;overflow:hidden}
+.wildlife-progress-track span{display:block;width:0;height:100%;background:linear-gradient(90deg,var(--cyan),var(--pink));transition:width .2s}
+.wildlife-card h3{font:21px Georgia,serif;margin:5px 15px}
+.wildlife-card .db-card-top{margin:12px 15px 0}
+.wildlife-card .db-status.wildlife-rumour{border-color:#80643f;color:#eac59e}
+.wildlife-habitat{margin:0 15px!important;font-size:10px!important;line-height:1.55;flex:1}
+.wildlife-habitat b{font-size:8px;letter-spacing:.1em;color:var(--cyan)}
+.wildlife-source{margin:0 15px!important;font-size:8px!important;color:var(--muted)}
+.wildlife-check{display:flex;align-items:center;gap:9px;padding:10px 15px;margin-top:4px;border-top:1px solid #2a394d;font-size:8px;letter-spacing:.1em;color:#b8c7d5;cursor:pointer}
+.wildlife-check input{accent-color:var(--cyan)}
+@media(max-width:620px){.wildlife-progress{grid-template-columns:1fr}.wildlife-progress-track{grid-column:1}}
