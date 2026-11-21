@@ -695,12 +695,22 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
   {name:"Raul Bautista",role:"supporting",tag:"SUPPORTING CHARACTER",type:"Criminal world",bio:"A seasoned bank robber known for confidence, charm and cunning. He recruits people willing to take risks for high rewards, while his recklessness raises the stakes for his crew.",links:"His robbery crew (individual members not specified in this profile)",credit:"Manny Perez"},
   {name:"Brian Heder",role:"supporting",tag:"SUPPORTING CHARACTER",type:"Criminal world",bio:"A veteran Keys drug runner who still moves product through his boat yard. He lets Jason live at one of his rental properties in return for help with local shakedowns.",links:"Jason Duval · Cal Hampton · Lori Heder",credit:"Stephen Root"}
  ];
+ const dossierLinks={
+  "Jason Duval":[["REGION · LEONIDA KEYS","#region-leonida-keys"],["MAP LOCATIONS","#locations"],["GANGS & FACTIONS","#factions"],["TRIP PLANNER","#trip-planner"]],
+  "Lucia Caminos":[["VICE CITY / LEONIDA LOCATIONS","#locations"],["MISSIONS INDEX","#missions"]],
+  "Cal Hampton":[["REGION · LEONIDA KEYS","#region-leonida-keys"],["MAP LOCATIONS","#locations"],["GANGS & FACTIONS","#factions"]],
+  "Boobie Ike":[["REGION · VICE CITY","#region-vice-city"],["BUSINESSES & PROPERTY","#businesses"],["SHOPS & SERVICES","#service-hub"],["CONNECTION MAP","#network"]],
+  "Dre'Quan Priest":[["REGION · VICE CITY","#region-vice-city"],["BUSINESSES & PROPERTY","#businesses"],["CONNECTION MAP","#network"]],
+  "Real Dimez":[["REGION · VICE CITY","#region-vice-city"],["SHOPS & SERVICES","#service-hub"],["CONNECTION MAP","#network"]],
+  "Raul Bautista":[["GANGS & FACTIONS","#factions"],["CONNECTION MAP","#network"],["MISSIONS INDEX","#missions"]],
+  "Brian Heder":[["REGION · LEONIDA KEYS","#region-leonida-keys"],["BUSINESSES & PROPERTY","#businesses"],["GANGS & FACTIONS","#factions"],["CONNECTION MAP","#network"]]
+ };
  const key="vicecitywire-character-review-v1";let saved={};try{saved=JSON.parse(localStorage.getItem(key)||"{}")||{};}catch(e){}
  const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
  function render(){
   const q=search.value.trim().toLowerCase(),r=role.value,s=status.value;
   const list=rows.map((x,i)=>({...x,i,done:!!saved[i]})).filter(x=>(r==="all"||x.role===r||(r==="criminal"&&x.type==="Criminal world")||(r==="music"&&x.type==="Music industry"))&&(s==="all"||(s==="reviewed"&&x.done)||(s==="unreviewed"&&!x.done))&&[x.name,x.tag,x.type,x.bio,x.links,x.credit].join(" ").toLowerCase().includes(q));
-  grid.innerHTML=list.length?list.map(x=>'<article class="character-card"><div class="character-card-top"><span>'+esc(x.tag)+'</span><small>ROCKSTAR PROFILE</small></div><h3>'+esc(x.name)+'</h3><p>'+esc(x.bio)+'</p><div class="character-facts"><div><small>STATED CONNECTIONS</small><b>'+esc(x.links)+'</b></div><div><small>OFFICIAL GAME CREDIT</small><b>'+esc(x.credit)+'</b></div></div><label class="character-check"><input type="checkbox" data-character="'+x.i+'" '+(x.done?'checked':'')+'><span>MARK PROFILE AS REVIEWED</span></label></article>').join(""):'<div class="db-empty">No matching character profiles. Adjust your search or filters.</div>';
+  grid.innerHTML=list.length?list.map(x=>'<article class="character-card"><div class="character-card-top"><span>'+esc(x.tag)+'</span><small>ROCKSTAR PROFILE</small></div><h3>'+esc(x.name)+'</h3><p>'+esc(x.bio)+'</p><div class="character-facts"><div><small>STATED CONNECTIONS</small><b>'+esc(x.links)+'</b></div><div><small>OFFICIAL GAME CREDIT</small><b>'+esc(x.credit)+'</b></div></div><div class="character-dossier-links"><small>RELATED DATABASES &amp; PLACES</small><div>'+((dossierLinks[x.name]||[]).map(([label,href])=>'<a href="'+href+'">'+esc(label)+' ↗</a>').join(""))+'</div></div><label class="character-check"><input type="checkbox" data-character="'+x.i+'" '+(x.done?'checked':'')+'><span>MARK PROFILE AS REVIEWED</span></label></article>').join(""):'<div class="db-empty">No matching character profiles. Adjust your search or filters.</div>';
   const done=rows.reduce((n,x,i)=>n+(saved[i]?1:0),0);count.textContent=list.length+" / "+rows.length;tracked.textContent=done+" / "+rows.length;fill.style.width=(done/rows.length*100)+"%";
  }
  grid.addEventListener("change",e=>{if(e.target.matches("[data-character]")){saved[e.target.dataset.character]=e.target.checked;try{localStorage.setItem(key,JSON.stringify(saved));}catch(e){}render();}});
