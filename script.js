@@ -389,3 +389,76 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
  reset.addEventListener("click",()=>{grid.querySelectorAll("[data-collection]").forEach(input=>input.value=0);try{localStorage.removeItem(key);}catch(e){}update(false);});
  update(false);
 })();
+
+/* Wildlife field guide and personal study log */
+(function initWildlifeDatabase(){
+ const animals=[
+  ["American alligator","Land animals","Grassrivers swamps and canals; also reported around Vice City","documented","Trailer 1 / in-game log"],
+  ["Wild boar","Land animals","Mount Kalaga National Park; shady woodland by day, more active at night","documented","Trailer / hunting deck"],
+  ["Bobcat","Land animals","Grassrivers","documented","Official screenshot"],
+  ["Cane toad","Land animals","Grassrivers wetlands; hunting target around Buckskin swamps and Pelican Valley","documented","Game Informer / in-game"],
+  ["Cat","Land animals","Vice City streets and residential areas","documented","Trailer"],
+  ["Chihuahua","Land animals","Vice City residential areas","documented","Trailer"],
+  ["White-tailed deer","Land animals","Mount Kalaga National Park and areas near water; Abandoned Concrete Plant hunting area","documented","Official screenshot / hunting guide"],
+  ["Fox","Land animals","Mount Kalaga National Park","documented","Official screenshot"],
+  ["German Shepherd","Land animals","Vice City and Leonida neighbourhoods","documented","Game Informer"],
+  ["Green iguana","Land animals","Leonida Keys","documented","Official screenshot"],
+  ["Nile monitor","Land animals","Grassrivers wetlands; Buckskin swamps and Pelican Valley hunting area","documented","Launch trailer / in-game"],
+  ["Nine-banded armadillo","Land animals","Mount Kalaga rural country","documented","Game Informer"],
+  ["Raccoon","Land animals","Mount Kalaga National Park","documented","Official screenshot"],
+  ["Rhesus macaque","Land animals","Grassrivers region","documented","Game Informer"],
+  ["Rottweiler","Land animals","Vice City and Ambrosia areas","documented","Press preview"],
+  ["Eastern spotted skunk","Land animals","Mount Kalaga grassy areas; nocturnal","documented","In-game"],
+  ["Nutria","Land animals","Buckskin swamps and Pelican Valley","documented","In-game hunting deck"],
+  ["Beaver","Land animals","Grassrivers","documented","Official screenshot"],
+  ["River otter","Land animals","Leonida rivers and wetlands","documented","In-game guide"],
+  ["Opossum","Land animals","Yards, woodland and roadsides","documented","In-game guide"],
+  ["Rat","Land animals","Vice City alleys and docks","documented","In-game guide"],
+  ["Cow","Land animals","Rural farms and ranches","documented","In-game guide"],
+  ["Frog","Land animals","Ponds, ditches and swamps","documented","In-game guide"],
+  ["Double-crested cormorant","Birds","Grassrivers waterways","documented","Trailer"],
+  ["Duck","Birds","Leonida lakes and canals","documented","Trailer"],
+  ["American flamingo","Birds","Leonida Keys lagoons and wetlands","documented","Trailer / Game Informer"],
+  ["Great blue heron","Birds","Grassrivers wetlands","documented","Launch trailer"],
+  ["Brown pelican","Birds","Leonida Keys and coastal marinas","documented","Extended Look"],
+  ["Pigeon","Birds","Vice City urban areas","documented","Official website"],
+  ["Seagull","Birds","Vice City, Port Gellhorn and Leonida Keys coast","documented","Official website"],
+  ["Roseate spoonbill","Birds","Grassrivers wetlands","documented","Game Informer"],
+  ["Whooping crane","Birds","Grassrivers wetlands","documented","Game Informer"],
+  ["Wild turkey","Birds","Mount Kalaga grassy and wooded country","documented","In-game"],
+  ["Bald eagle","Birds","Lakes and open country","documented","In-game guide"],
+  ["Bottlenose dolphin","Sea life","Leonida coastal waters","documented","Ultimate Edition screenshot"],
+  ["Eel","Sea life","Leonida Keys underwater areas","documented","Official screenshot"],
+  ["Reef fish","Sea life","Reefs and underwater areas around Leonida Keys","documented","Official screenshot"],
+  ["Shark","Sea life","Offshore waters around Leonida","documented","Rockstar species list / EDGE"],
+  ["Hammerhead shark","Sea life","Coastal and offshore waters","documented","EDGE magazine"],
+  ["Jellyfish","Sea life","Leonida coastal waters","documented","Game Informer"],
+  ["Orca (killer whale)","Sea life","Offshore waters","documented","Extended Look"],
+  ["Lionfish","Sea life","Underwater areas around Leonida Keys","documented","Official screenshot"],
+  ["West Indian manatee","Sea life","Leonida waterways and coastal waters","documented","Extended Look"],
+  ["Sea turtle","Sea life","Leonida Keys","documented","Official screenshot"],
+  ["Stingray","Sea life","Leonida coastal waters","documented","Extended Look"],
+  ["Largemouth bass","Sea life","Freshwater fishing locations","documented","Game Informer"],
+  ["Mountain lion","Land animals","Unconfirmed habitat; fan-wiki listing only","rumour","Fan-wiki rumour"],
+  ["Black bear","Land animals","Unconfirmed; leak-only sighting","rumour","Leak only"],
+  ["Osprey","Birds","Unconfirmed; leak-only sighting","rumour","Leak only"],
+  ["Great white shark","Sea life","Unconfirmed; no cited official image","rumour","Fan-wiki rumour"],
+  ["Common snook","Sea life","Unconfirmed; listed without official source","rumour","Unverified listing"]
+ ];
+ const grid=document.getElementById("wildlifeGrid"),search=document.getElementById("wildlifeSearch"),type=document.getElementById("wildlifeType"),status=document.getElementById("wildlifeStatus"),count=document.getElementById("wildlifeCount"),fill=document.getElementById("wildlifeFill");
+ if(!grid||!search||!type||!status||!count||!fill)return;
+ const key="vicecitywire-wildlife-studied-v1";let saved={};try{saved=JSON.parse(localStorage.getItem(key)||"{}")||{};}catch(e){}
+ const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ function render(){
+  const q=search.value.trim().toLowerCase();
+  const list=animals.map((a,i)=>({...{name:a[0],group:a[1],habitat:a[2],status:a[3],source:a[4]},i})).filter(a=>(type.value==="all"||a.group===type.value)&&(status.value==="all"||a.status===status.value)&&(a.name+" "+a.group+" "+a.habitat).toLowerCase().includes(q));
+  grid.innerHTML=list.length?list.map(a=>'<article class="db-card wildlife-card"><div class="db-card-top"><span class="db-type">'+esc(a.group)+'</span><span class="db-status '+(a.status==="rumour"?"wildlife-rumour":"")+'">'+(a.status==="rumour"?"UNVERIFIED RUMOUR":"DOCUMENTED")+'</span></div><h3>'+esc(a.name)+'</h3><p class="wildlife-habitat"><b>HABITAT</b> · '+esc(a.habitat)+'</p><p class="wildlife-source">SOURCE STATUS · '+esc(a.source)+'</p><label class="wildlife-check"><input type="checkbox" data-animal="'+a.i+'" '+(saved[a.i]?"checked":"")+'><span>MARK AS STUDIED</span></label></article>').join(""):'<div class="db-empty">No matching animals. Try another search or filter.</div>';
+ }
+ function update(save=true){
+  const total=Object.values(saved).filter(Boolean).length;
+  count.textContent=total+" / 100 studied";fill.style.width=Math.min(100,total)+"%";
+  if(save)try{localStorage.setItem(key,JSON.stringify(saved));}catch(e){}
+ }
+ grid.addEventListener("change",e=>{const cb=e.target.closest("[data-animal]");if(!cb)return;saved[cb.dataset.animal]=cb.checked;update(true);});
+ search.addEventListener("input",render);type.addEventListener("change",render);status.addEventListener("change",render);render();update(false);
+})();
