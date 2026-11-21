@@ -133,3 +133,43 @@ render();applyTransform();
  mount({grid:"vehicleGrid",search:"vehicleSearch",select:"vehicleType",items:vehicles});
  mount({grid:"weaponGrid",search:"weaponSearch",select:"weaponType",items:weapons});
 })();
+/* GTA VI mission index: titles from current third-party guide lists. */
+(function initMissionLibrary(){
+ const chapters=[
+  {id:1,name:"Just Like Paradise",missions:[
+   "Prologue","Gone Fishing","Gear Up","Just a Scratch","Lab Fees","Unwanted Attention","Pipework","Hey Arnold!","Island Dreams","Feng Shui","Coming Home","Buck Me","Clean Up After Donnie","Down to Earth","Clear Skies","Day Release","Swamped","Recalibration","Tourist Trap","Home Sweet Home","Discharge Time"
+  ]},
+  {id:2,name:"Paradise Lost",missions:[
+   "What's in the Bag?","Ambulance Chaser","Just Moved In","Girls' Trip","Moses","Daily Driver","Slam Dunk","Breakfast Run","Coffee Break","Afternoon Delight","Thrillbillies","Twist Wrist, Smash, Grab","Checking Out"
+  ]},
+  {id:3,name:"Tits, Ass, Drug Money",missions:[
+   "Welcome to Vice City","Dealer's Choice","Meet the Heders","Dubious Provenance","Mami Knows Best","South Leonida Real Estate","Tyrone","Here, Kitty Kitty","Kitty Litter Labs","Car Service","Top Billing","Boobie Time","First Impressions","Caught Slipping","Crosstown Traffic","Credit Check","Steal the Zorrusso for Randy","Sinfrontera National Bank","Security Expert","Ride or Die","Company Property","The Missing Link","Safe Word","Cooties","Bricked Up","Hidden Charges","The Cartel Heist"
+  ]},
+  {id:4,name:"Vice City, Baby",missions:[
+   "Ocean Beach","Another Life","Company Cars","Lawyer Up","Party Hard","Heavy Lifting","Photo/Shoot","Making Gainz","Watch It","Cash Injections","Amateur Hour","Dirty Work","Too Much Baggage","Adventures in Babysitting","Fresh Evidence","Power Play","Child's Play","Headliners","Close Surveillance","Delivery Method","Team Building","Fully Catered","VCIA Takedown","Sunset"
+  ]},
+  {id:5,name:"Top of the World, Ma",missions:[
+   "Bird in the Hand","Taking Liberties","VC Baby","Doggie Bag","Operation Savage Glory","Protective Custody"
+  ]}
+ ];
+ const list=document.getElementById("missionList"),detail=document.getElementById("missionDetail"),search=document.getElementById("missionSearch"),filter=document.getElementById("chapterFilter");
+ if(!list||!detail||!search||!filter)return;
+ const all=chapters.flatMap(c=>c.missions.map((name,index)=>({name,chapter:c.id,chapterName:c.name,number:index+1,optional:["Thrillbillies","Twist Wrist, Smash, Grab","Kitty Litter Labs"].includes(name)})));
+ function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+ function showMission(m){
+  detail.innerHTML="<small>CHAPTER "+m.chapter+" / "+(m.optional?"OPTIONAL MISSION":"STORY MISSION")+"</small><h3>"+esc(m.name)+"</h3><p><b>"+esc(m.chapterName)+"</b><br>Diese Mission ist im Missionsindex erfasst. Ein vollständiger Schritt-für-Schritt-Walkthrough mit Zielen, Kartenpositionen und Belohnungen wird ergänzt, sobald die Details zuverlässig gegengeprüft sind.</p><span class='guide-state'>WALKTHROUGH IN VORBEREITUNG</span><br><a href='https://www.gamesradar.com/games/grand-theft-auto/gta-6-mission-list/' target='_blank' rel='noopener'>Missionsübersicht / Quelle ↗</a>";
+  list.querySelectorAll(".mission-item").forEach(b=>b.classList.toggle("active",b.dataset.name===m.name));
+ }
+ function render(){
+  const q=search.value.trim().toLowerCase(),chapter=filter.value;
+  const items=all.filter(m=>(chapter==="all"||String(m.chapter)===chapter)&&m.name.toLowerCase().includes(q));
+  list.innerHTML="";
+  if(!items.length){list.innerHTML="<div class='mission-empty'>Keine Mission gefunden. Prüfe Schreibweise oder Kapitel-Filter.</div>";return;}
+  items.forEach(m=>{
+   const b=document.createElement("button");b.type="button";b.className="mission-item";b.dataset.name=m.name;
+   b.innerHTML="<span class='mission-no'>"+String(m.number).padStart(2,"0")+"</span><span><span class='mission-name'>"+esc(m.name)+(m.optional?" · Optional":"")+"</span><span class='mission-chapter'>CHAPTER "+m.chapter+" / "+esc(m.chapterName.toUpperCase())+"</span></span>";
+   b.addEventListener("click",()=>showMission(m));list.append(b);
+  });
+ }
+ search.addEventListener("input",render);filter.addEventListener("change",render);render();
+})();
