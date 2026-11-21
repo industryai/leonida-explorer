@@ -152,3 +152,21 @@ footer p a{color:#ff83b8}
 .map-viewport img{position:absolute;max-width:none;width:auto;height:100%;max-height:none;left:50%;top:50%;transform:translate(-50%,-50%) scale(1);transform-origin:center;user-select:none;-webkit-user-drag:none;pointer-events:none}
 .map-hint{margin:0;padding:9px 12px;text-align:center;font-size:8px;letter-spacing:.13em;color:var(--muted);background:#111d2b}
 @media(max-width:620px){.map-viewport{height:72vh;min-height:420px}.map-toolbar{padding:8px}.map-toolbar>div{gap:4px}.map-toolbar button,.map-fullscreen{min-width:30px;padding:0 7px}}
+
+/* Searchable launch-week secrets and Easter eggs */
+.secret-controls{display:flex;gap:10px;margin:0 0 16px}
+.secret-controls input,.secret-controls select{background:#0b1420;color:var(--txt);border:1px solid var(--line);padding:12px 13px;font:inherit;font-size:11px}
+.secret-controls input{flex:1;min-width:0}.secret-controls select{min-width:190px}
+.secret-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
+.secret-card{display:flex;flex-direction:column;gap:9px;padding:17px;border:1px solid var(--line);background:linear-gradient(145deg,#192638,#101722);min-height:220px}
+.secret-card-top{display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--cyan);font-size:8px;letter-spacing:.1em;text-transform:uppercase}
+.secret-card-top em{font-style:normal;font-size:7px;padding:5px 7px;letter-spacing:.09em;border:1px solid #536477;color:#b8c7d5}
+.secret-card-top em.verified{border-color:#477a68;color:#8ee0b6}
+.secret-card-top em.reported{border-color:#80643f;color:#eac59e}
+.secret-card h3{font:22px Georgia,serif;margin:4px 0 0}
+.secret-card p{font-size:10px;line-height:1.65;color:var(--muted);margin:0}
+.secret-card .secret-where{font-size:8px;letter-spacing:.06em;color:#c2cfdb}
+.secret-card a{margin-top:auto;padding-top:10px;border-top:1px solid #2a394d;color:var(--cyan);font-size:8px;letter-spacing:.08em;text-decoration:none}
+.secret-card a:hover{text-decoration:underline}
+@media(max-width:850px){.secret-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.secret-controls{flex-direction:column}.secret-controls select{width:100%}.secret-grid{grid-template-columns:1fr}}
