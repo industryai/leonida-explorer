@@ -511,3 +511,24 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
  reset.addEventListener("click",()=>{saved={};try{localStorage.removeItem(key);}catch(e){}render();update(false);});
  render();update(false);
 })();
+
+/* Fishing species database and personal catch log */
+(function initFishingDatabase(){
+ const fish=[
+ ["Atlantic Tarpon","Key Lento"],["Spotted Moray Eel","Key Lento"],["Greater Amberjack","Key Lento"],["Lake Chubsucker","Key Lento"],["Striped Bass","Key Lento"],["Bluegill","Key Lento"],["American Eel","Key Lento"],["Permit","Watson Bay"],["Blue Striped Grunt","Watson Bay"],["Redbreast Sunfish","Watson Bay"],["Spanish Mackerel","Watson Bay"],["Littlehead Porgy","Watson Bay"],["Great Barracuda","Hamlet"],["Atlantic Herring","Key Lento"],["Candy Fish","Capri"],["Red Northern Snapper","Capri"],["Yellowtail Snapper","Capri"],["Red Lionfish","Gloriana Key"],["Green Moray Eel","Gloriana Key"],["Florida Gar","Vice City"],["Common Snook","Vice Beach"],["Salt Fish","Vice City"],["Cobia","Ambrosia"],["Redfin Pickerel","Ambrosia"],["Mahi-Mahi","Capri"],["Yellowfin Tuna","Port Gellhorn"],["Black Drum","Port Gellhorn"],["Sea Rock Bass","Ambrosia"],["Channel Catfish","Ambrosia"],["Atlantic Spadefish","Vice Beach"],["Stoplight Parrotfish","Waning Sands"],["Hogfish","Waning Sands"],["Largemouth Bass","Ambrosia"],["Tiger Grouper","Ambrosia"],["Black Grouper","Port Gellhorn"]
+ ];
+ const grid=document.getElementById("fishingGrid"),search=document.getElementById("fishingSearch"),region=document.getElementById("fishingRegion"),status=document.getElementById("fishingStatus"),count=document.getElementById("fishingCount"),fill=document.getElementById("fishingFill"),reset=document.getElementById("fishingReset");
+ if(!grid||!search||!region||!status||!count||!fill||!reset)return;
+ const key="vicecitywire-fishing-log-v1";let saved={};try{saved=JSON.parse(localStorage.getItem(key)||"{}")||{};}catch(e){}
+ const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ function render(){
+  const q=search.value.trim().toLowerCase();
+  const list=fish.map((a,i)=>({name:a[0],spot:a[1],i,caught:!!saved[i]})).filter(a=>(region.value==="all"||a.spot===region.value)&&(status.value==="all"||(status.value==="caught"?a.caught:!a.caught))&&(a.name+" "+a.spot).toLowerCase().includes(q));
+  grid.innerHTML=list.length?list.map(a=>'<article class="db-card fishing-card"><div class="db-card-top"><span class="db-type">FISHING LOG / '+String(a.i+1).padStart(2,"0")+'</span><span class="db-status">'+(a.caught?"CAUGHT":"NOT CAUGHT")+'</span></div><h3>'+esc(a.name)+'</h3><p><b>REPORTED HOTSPOT</b> · '+esc(a.spot)+'</p><a class="fishing-map-link" href="https://www.gtabase.com/gta-6/map/?feature=fishing" target="_blank" rel="noopener">OPEN FISHING MAP ↗</a><label class="fishing-check"><input type="checkbox" data-fish="'+a.i+'" '+(a.caught?"checked":"")+'><span>MARK AS CAUGHT</span></label></article>').join(""):'<div class="db-empty">No matching fish. Try another search or filter.</div>';
+ }
+ function update(save=true){const total=Object.values(saved).filter(Boolean).length;count.textContent=total+" / "+fish.length+" caught";fill.style.width=(total/fish.length*100)+"%";if(save)try{localStorage.setItem(key,JSON.stringify(saved));}catch(e){}}
+ grid.addEventListener("change",e=>{const cb=e.target.closest("[data-fish]");if(!cb)return;saved[cb.dataset.fish]=cb.checked;update(true);render();});
+ search.addEventListener("input",render);region.addEventListener("change",render);status.addEventListener("change",render);
+ reset.addEventListener("click",()=>{saved={};try{localStorage.removeItem(key);}catch(e){}render();update(false);});
+ render();update(false);
+})();
