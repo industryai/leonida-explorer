@@ -97,7 +97,12 @@
  ["Leonida Highway Patrol","Law enforcement","Leonida","State highway patrol entry in post-release community databases."],
  ["National Coast Guard","Law enforcement","Leonida coastal waters","Coast Guard entry in post-release community databases."],
  ["Leonida Department of Corrections","Law enforcement","Leonida","Corrections authority entry in post-release community databases."],
- ["Protection of Animals & Controlled Hunting (POACH)","Law enforcement","Leonida wilderness","Wildlife and hunting enforcement entry in post-release community databases."]
+ ["Protection of Animals & Controlled Hunting (POACH)","Law enforcement","Leonida wilderness","Wildlife and hunting enforcement entry in post-release community databases."],
+ ["Port Gellhorn Police Department","Law enforcement","Port Gellhorn","Local police entry in post-release community databases."],
+ ["Vice Beach Police Department","Law enforcement","Vice Beach","Local police entry in post-release community databases."],
+ ["Vice City Police Department","Law enforcement","Vice City","City police entry in post-release community databases."],
+ ["Vice-Dale Police Department","Law enforcement","Vice-Dale","Local police entry in post-release community databases."],
+ ["Waning Sands Police Department","Law enforcement","Waning Sands","City police entry in post-release community databases."]
  ];
  const factionGrid=$("factionGrid"),factionSearch=$("factionSearch"),factionKind=$("factionKind"),factionEvidence=$("factionEvidence"),factionStatus=$("factionStatus");
  if(factionGrid&&factionSearch&&factionKind&&factionEvidence&&factionStatus){
@@ -117,7 +122,10 @@
  const networkDetail=$("networkDetail"),networkCount=$("networkCount"),graph=$("relationshipGraph");
  if(networkDetail&&networkCount&&graph){
   const names=[...new Set(network.flatMap(x=>x.slice(0,2)))];
-  graph.innerHTML=names.map((name,i)=>{const x=95+(i%5)*225,y=55+Math.floor(i/5)*115;return '<g class="network-node people" data-story-node="'+esc(name)+'" tabindex="0" role="button"><circle cx="'+x+'" cy="'+y+'" r="28"></circle><text x="'+x+'" y="'+(y+46)+'">'+esc(name)+'</text></g>';}).join("");
+  const positions=Object.fromEntries(names.map((name,i)=>[name,{x:95+(i%5)*225,y:55+Math.floor(i/5)*115}]));
+  const lines=network.map(edge=>{const a=positions[edge[0]],b=positions[edge[1]],mx=(a.x+b.x)/2,my=(a.y+b.y)/2-8;return '<g class="network-edge"><line x1="'+a.x+'" y1="'+a.y+'" x2="'+b.x+'" y2="'+b.y+'"></line><text x="'+mx+'" y="'+my+'">'+esc(edge[2])+'</text></g>';}).join("");
+  const nodeMarkup=names.map(name=>{const p=positions[name];return '<g class="network-node people" data-story-node="'+esc(name)+'" tabindex="0" role="button"><circle cx="'+p.x+'" cy="'+p.y+'" r="28"></circle><text x="'+p.x+'" y="'+(p.y+46)+'">'+esc(name)+'</text></g>';}).join("");
+  graph.innerHTML=lines+nodeMarkup;
   networkCount.textContent=names.length+" NODES · "+network.length+" CONNECTIONS";
   const select=name=>{
    const related=network.filter(x=>x[0]===name||x[1]===name).map(x=>({other:x[0]===name?x[1]:x[0],relation:x[2]}));
