@@ -1,9 +1,8 @@
-const CACHE_NAME = "vicecitywire-shell-v6";
+const CACHE_NAME = "vicecitywire-shell-v7";
 const APP_SHELL = [
- "./", "./index.html",
- "./styles.css", "./script.js",
+ "./", "./index.html", "./styles.css", "./script.js",
  "./story-content.js", "./quality-pass.js", "./cheats.js", "./pwa.js",
- "./manifest.webmanifest", "./icon.svg", "./icon-192.svg", "./icon-512.svg",
+ "./manifest.webmanifest", "./icon.jpg", "./icon.svg", "./icon-192.svg", "./icon-512.svg",
  "./styles.css?v=cheats-chevron-20261121-1",
  "./script.js?v=world-discover-fix-20261121-1",
  "./story-content.js?v=story-content-20261121-5",

@@ -8,6 +8,7 @@ on:
       - "*.js"
       - "*.css"
       - "*.svg"
+      - "*.jpg"
       - "*.webmanifest"
       - "assets/**"
       - "package.json"
@@ -39,8 +40,8 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v4
 
-      - name: Install SVG renderer
-        run: sudo apt-get update && sudo apt-get install -y librsvg2-bin
+      - name: Install image renderer
+        run: sudo apt-get update && sudo apt-get install -y imagemagick
 
       - name: Install JavaScript dependencies
         run: npm install
@@ -54,28 +55,30 @@ jobs:
       - name: Sync Capacitor assets
         run: npx cap sync android
 
-      - name: Apply VICECITYWIRE launcher icon
+      - name: Apply official VICECITYWIRE launcher icon
         shell: bash
         run: |
           set -euo pipefail
+          test -s icon.jpg
           for spec in "mdpi:48" "hdpi:72" "xhdpi:96" "xxhdpi:144" "xxxhdpi:192"; do
             density="${spec%%:*}"
             size="${spec##*:}"
             target="android/app/src/main/res/mipmap-${density}"
             mkdir -p "$target"
-            rsvg-convert -w "$size" -h "$size" icon.svg > "$target/ic_launcher.png"
+            convert icon.jpg -resize "${size}x${size}" -background '#090d15' -gravity center -extent "${size}x${size}" "$target/ic_launcher.png"
             cp "$target/ic_launcher.png" "$target/ic_launcher_round.png"
           done
-          # Adaptive icons require separate foreground and background layers.
-          foreground="android/app/src/main/res/mipmap-xxxhdpi"
-          rsvg-convert -w 432 -h 432 icon.svg > "$foreground/ic_launcher_foreground.png"
+          # Override Capacitor's default gamepad vector foreground with the real brand image.
+          rm -f android/app/src/main/res/drawable-v24/ic_launcher_foreground.xml
+          mkdir -p android/app/src/main/res/drawable-nodpi
+          convert icon.jpg -resize 432x432 -background '#090d15' -gravity center -extent 432x432 android/app/src/main/res/drawable-nodpi/ic_launcher_foreground.png
           adaptive="android/app/src/main/res/mipmap-anydpi-v26"
           mkdir -p "$adaptive"
           cat > "$adaptive/ic_launcher.xml" <<'EOF'
           <?xml version="1.0" encoding="utf-8"?>
           <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
               <background android:drawable="@color/ic_launcher_background"/>
-              <foreground android:drawable="@mipmap/ic_launcher_foreground"/>
+              <foreground android:drawable="@drawable/ic_launcher_foreground"/>
           </adaptive-icon>
           EOF
           cp "$adaptive/ic_launcher.xml" "$adaptive/ic_launcher_round.xml"
@@ -85,6 +88,9 @@ jobs:
               <color name="ic_launcher_background">#090d15</color>
           </resources>
           EOF
+          # Fail the build if the Capacitor gamepad foreground survives.
+          test ! -f android/app/src/main/res/drawable-v24/ic_launcher_foreground.xml
+          test -s android/app/src/main/res/drawable-nodpi/ic_launcher_foreground.png
 
       - name: Build debug APK
         working-directory: android
