@@ -107,6 +107,9 @@ footer p a{color:#ff83b8}
 .location-controls select{min-width:190px}
 .location-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
 
+.location-add-trip{display:inline-flex;align-items:center;justify-content:center;width:100%;margin:0 0 8px;padding:8px;border:1px solid #3b7c79;background:#102a31;color:#9ce6d9;font-size:8px;letter-spacing:.12em;font-weight:800;cursor:pointer}
+.location-add-trip:hover{border-color:var(--pink);color:var(--pink)}
+.location-add-trip:disabled{opacity:.7;cursor:default}
 .location-related{width:100%;margin:8px 0 10px;padding-top:9px;border-top:1px solid #ffffff18}
 .location-related>small{display:block;font-size:7px;letter-spacing:.13em;color:var(--cyan);font-weight:800;margin-bottom:7px}
 .location-related>div{display:flex;flex-wrap:wrap;gap:5px}
