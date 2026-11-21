@@ -752,13 +752,34 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
  {name:"Vice-Dale Police Department",kind:"law",type:"Local police department",area:"Vice-Dale",evidence:"game",basis:"Listed as a local police department in the post-release faction database.",source:"GTABase / GTATracker"},
  {name:"Waning Sands Police Department",kind:"law",type:"City police department",area:"Waning Sands",evidence:"game",basis:"Listed as a city police department in the post-release faction database.",source:"GTATracker database"}
  ];
+ const factionLinks={
+  "PTT Youngin$":[["REGION · VICE CITY","#region-vice-city"],["BUSINESSES & PROPERTY","#businesses"],["CHARACTERS","#characters"],["WEAPONS DATABASE","#weapons"]],
+  "Final Chapter MC":[["REGION · AMBROSIA","#region-ambrosia"],["CHARACTERS","#characters"],["WILDLIFE & HUNTING","#hunting"],["TRIP PLANNER","#trip-planner"]],
+  "San4San":[["REGION · VICE CITY","#region-vice-city"],["MAP LOCATIONS","#locations"],["CHARACTERS","#characters"],["CONNECTION MAP","#network"]],
+  "Kingfishers":[["REGION · GRASSRIVERS","#region-grassrivers"],["WILDLIFE","#wildlife"],["HUNTING","#hunting"],["FISHING","#fishing"]],
+  "Kolt & Associates":[["REGION · PORT GELLHORN","#region-port-gellhorn"],["BUSINESSES & PROPERTY","#businesses"],["CHARACTERS","#characters"]],
+  "Brian Heder's operation":[["REGION · LEONIDA KEYS","#region-leonida-keys"],["BRIAN HEDER · CHARACTER DOSSIER","#characters"],["BUSINESSES & PROPERTY","#businesses"],["CONNECTION MAP","#network"]],
+  "Raul Bautista's crew":[["VICE CITY REGION","#region-vice-city"],["RAUL BAUTISTA · CHARACTER DOSSIER","#characters"],["MISSIONS INDEX","#missions"],["CONNECTION MAP","#network"]],
+  "Devil's Dozen":[["MISSIONS INDEX","#missions"],["REGION · LEONIDA KEYS","#region-leonida-keys"],["CHARACTERS","#characters"]],
+  "Aviators Crew":[["REGION · LEONIDA KEYS","#region-leonida-keys"],["MAP LOCATIONS","#locations"],["TRIP PLANNER","#trip-planner"]]
+ };
+ const commonLinks=x=>{
+  if(factionLinks[x.name])return factionLinks[x.name];
+  if(x.kind==="law")return [["REGIONAL MAP LOCATIONS","#locations"],["REGION DIRECTORY","#regions"],["TRIP PLANNER","#trip-planner"]];
+  if(x.area.includes("Grassrivers"))return [["REGION · GRASSRIVERS","#region-grassrivers"],["WILDLIFE","#wildlife"],["HUNTING","#hunting"],["FISHING","#fishing"]];
+  if(x.area.includes("Ambrosia"))return [["REGION · AMBROSIA","#region-ambrosia"],["BUSINESSES & PROPERTY","#businesses"],["HUNTING","#hunting"]];
+  if(x.area.includes("Port Gellhorn"))return [["REGION · PORT GELLHORN","#region-port-gellhorn"],["BUSINESSES & PROPERTY","#businesses"],["SHOPS & SERVICES","#service-hub"]];
+  if(x.area.includes("Vice City")||x.area.includes("Vice-Dale"))return [["REGION · VICE CITY","#region-vice-city"],["BUSINESSES & PROPERTY","#businesses"],["CHARACTERS","#characters"]];
+  if(x.area.includes("Keys")||x.area.includes("Key Lento"))return [["REGION · LEONIDA KEYS","#region-leonida-keys"],["MAP LOCATIONS","#locations"],["TRIP PLANNER","#trip-planner"]];
+  return [["MAP LOCATIONS","#locations"],["REGION DIRECTORY","#regions"],["CHARACTERS","#characters"]];
+ };
  const key="vicecitywire-faction-review-v1";let saved={};try{saved=JSON.parse(localStorage.getItem(key)||"{}")||{};}catch(e){}
  const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
  const labels={official:"ROCKSTAR-STATED",game:"IN-GAME / VISUAL",community:"COMMUNITY CLASSIFICATION"};
  function render(){
   const q=search.value.trim().toLowerCase(),k=kind.value,e=evidence.value,s=status.value;
   const list=rows.map((x,i)=>({...x,i,done:!!saved[i]})).filter(x=>(k==="all"||x.kind===k)&&(e==="all"||x.evidence===e)&&(s==="all"||(s==="reviewed"&&x.done)||(s==="unreviewed"&&!x.done))&&[x.name,x.type,x.area,x.basis,x.source].join(" ").toLowerCase().includes(q));
-  grid.innerHTML=list.length?list.map(x=>'<article class="faction-card"><div class="faction-card-top"><span class="faction-kind">'+(x.kind==="law"?"LAW ENFORCEMENT":x.kind==="crew"?"LOCAL CREW":"CRIMINAL GROUP")+'</span><span class="faction-evidence evidence-'+x.evidence+'">'+labels[x.evidence]+'</span></div><h3>'+esc(x.name)+'</h3><div class="faction-type">'+esc(x.type)+'</div><div class="faction-area"><small>REPORTED AREA</small><b>'+esc(x.area)+'</b></div><p>'+esc(x.basis)+'</p><div class="faction-source">SOURCE: '+esc(x.source)+'</div><label class="faction-check"><input type="checkbox" data-faction="'+x.i+'" '+(x.done?'checked':'')+'><span>MARK AS REVIEWED</span></label></article>').join(""):'<div class="db-empty">No matching factions. Adjust your search or filters.</div>';
+  grid.innerHTML=list.length?list.map(x=>'<article class="faction-card"><div class="faction-card-top"><span class="faction-kind">'+(x.kind==="law"?"LAW ENFORCEMENT":x.kind==="crew"?"LOCAL CREW":"CRIMINAL GROUP")+'</span><span class="faction-evidence evidence-'+x.evidence+'">'+labels[x.evidence]+'</span></div><h3>'+esc(x.name)+'</h3><div class="faction-type">'+esc(x.type)+'</div><div class="faction-area"><small>REPORTED AREA</small><b>'+esc(x.area)+'</b></div><p>'+esc(x.basis)+'</p><div class="faction-source">SOURCE: '+esc(x.source)+'</div><div class="faction-dossier-links"><small>RELATED DATABASES &amp; REGIONS</small><div>'+commonLinks(x).map(([label,href])=>'<a href="'+href+'">'+esc(label)+' ↗</a>').join("")+'</div></div><label class="faction-check"><input type="checkbox" data-faction="'+x.i+'" '+(x.done?'checked':'')+'><span>MARK AS REVIEWED</span></label></article>').join(""):'<div class="db-empty">No matching factions. Adjust your search or filters.</div>';
   const done=rows.reduce((n,x,i)=>n+(saved[i]?1:0),0);count.textContent=list.length+" / "+rows.length;tracked.textContent=done+" / "+rows.length;fill.style.width=(done/rows.length*100)+"%";
  }
  grid.addEventListener("change",e=>{if(e.target.matches("[data-faction]")){saved[e.target.dataset.faction]=e.target.checked;try{localStorage.setItem(key,JSON.stringify(saved));}catch(e){}render();}});
