@@ -630,3 +630,28 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
  [search,grade,category,status].forEach(x=>x.addEventListener(x===search?"input":"change",render));
  reset.addEventListener("click",()=>{saved={};try{localStorage.removeItem(key);}catch(e){}render();});render();
 })();
+
+/* Leonida day-by-day itinerary planner */
+(function initTripPlanner(){
+ const day=document.getElementById("tripDayName"),region=document.getElementById("tripRegion"),name=document.getElementById("tripStopName"),type=document.getElementById("tripStopType"),note=document.getElementById("tripStopNote"),add=document.getElementById("tripAddStop"),list=document.getElementById("tripStopList"),summary=document.getElementById("tripSummary"),reset=document.getElementById("tripReset"),copy=document.getElementById("tripExport");
+ if(!day||!region||!name||!type||!note||!add||!list||!summary||!reset||!copy)return;
+ const key="vicecitywire-trip-planner-v1";let state={day:"Day 1 — Vice City",region:"Vice City",stops:[]};try{state={...state,...JSON.parse(localStorage.getItem(key)||"{}")};}catch(e){}
+ const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ day.value=state.day||"";region.value=state.region||"Vice City";
+ function save(){state.day=day.value;state.region=region.value;try{localStorage.setItem(key,JSON.stringify(state));}catch(e){}}
+ function render(){
+  list.innerHTML=state.stops.length?state.stops.map((x,i)=>'<article class="trip-stop '+(x.visited?"visited":"")+'"><div class="trip-stop-number">'+String(i+1).padStart(2,"0")+'</div><div class="trip-stop-main"><div class="trip-stop-top"><span>'+esc(x.type)+'</span><b>'+esc(x.name)+'</b></div><p>'+esc(x.note||"No note added")+'</p><small>'+esc(x.region)+'</small></div><div class="trip-stop-actions"><label><input type="checkbox" data-visit="'+i+'" '+(x.visited?"checked":"")+'> VISITED</label><button type="button" data-up="'+i+'" '+(i===0?"disabled":"")+' aria-label="Move stop up">↑</button><button type="button" data-down="'+i+'" '+(i===state.stops.length-1?"disabled":"")+' aria-label="Move stop down">↓</button><button type="button" data-remove="'+i+'" aria-label="Remove stop">×</button></div></article>').join(""):'<div class="db-empty">No stops added yet. Add your first destination above or load a starter route.</div>';
+  const visited=state.stops.filter(x=>x.visited).length;summary.textContent=state.stops.length+" stops · "+visited+" visited";save();
+ }
+ function addStop(n,t,r,nt){if(!n.trim())return;state.stops.push({name:n.trim(),type:t,region:region.value,note:nt.trim(),visited:false});name.value="";note.value="";save();render();}
+ add.addEventListener("click",()=>addStop(name.value,type.value,region.value,note.value));
+ name.addEventListener("keydown",e=>{if(e.key==="Enter")add.click();});
+ day.addEventListener("input",save);region.addEventListener("change",save);
+ list.addEventListener("change",e=>{if(e.target.matches("[data-visit]")){state.stops[+e.target.dataset.visit].visited=e.target.checked;save();render();}});
+ list.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;const i=Number(b.dataset.up??b.dataset.down??b.dataset.remove);if(b.hasAttribute("data-remove"))state.stops.splice(i,1);else if(b.hasAttribute("data-up")&&i>0)[state.stops[i-1],state.stops[i]]=[state.stops[i],state.stops[i-1]];else if(b.hasAttribute("data-down")&&i<state.stops.length-1)[state.stops[i+1],state.stops[i]]=[state.stops[i],state.stops[i+1]];save();render();});
+ reset.addEventListener("click",()=>{state.stops=[];save();render();});
+ copy.addEventListener("click",()=>{const textOut=[state.day+" — "+state.region,...state.stops.map((x,i)=>(i+1)+". ["+(x.visited?"x":" ")+"] "+x.name+" ("+x.type+")"+(x.note?" — "+x.note:""))].join("\n");if(navigator.clipboard?.writeText)navigator.clipboard.writeText(textOut).then(()=>{copy.textContent="COPIED";setTimeout(()=>copy.textContent="COPY ITINERARY",1600);}).catch(()=>{copy.textContent="COPY BLOCKED";});});
+ document.getElementById("tripViceTemplate")?.addEventListener("click",()=>{region.value="Vice City";state.day="Day 1 — Vice City";day.value=state.day;state.region=region.value;state.stops=[{name:"Vice Beach",type:"Landmark",region:"Vice City",note:"Start with the beachfront",visited:false},{name:"Washington Island",type:"Landmark",region:"Vice City",note:"Explore the island district",visited:false},{name:"Trinity Apartments",type:"Secret / Easter egg",region:"Vice City",note:"Check the Dexter apartment reference",visited:false},{name:"Ocean Beach",type:"Activity",region:"Vice City",note:"Finish with the waterfront",visited:false}];save();render();});
+ document.getElementById("tripWildTemplate")?.addEventListener("click",()=>{region.value="Mount Kalaga";state.day="Day 1 — Leonida Outdoors";day.value=state.day;state.region=region.value;state.stops=[{name:"Mount Kalaga National Park",type:"Wildlife / hunting / fishing",region:"Mount Kalaga",note:"Wildlife study and hiking",visited:false},{name:"Abandoned Concrete Plant",type:"Landmark",region:"Mount Kalaga",note:"Check the hunting area",visited:false},{name:"Buckskin Swamps",type:"Wildlife / hunting / fishing",region:"Grassrivers",note:"Wetland wildlife and fishing",visited:false},{name:"Key Lento",type:"Activity",region:"Leonida Keys",note:"Finish at the fishing charter area",visited:false}];save();render();});
+ render();
+})();
