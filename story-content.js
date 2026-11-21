@@ -232,7 +232,40 @@
   render();
  }
  const network=[
- ["Jason Duval","Lucia Caminos","Story partners"],["Jason Duval","Cal Hampton","Friends"],["Cal Hampton","Brian Heder","Associates"],["Jason Duval","Brian Heder","Rents from / works for"],["Brian Heder","Lori Heder","Married"],["Jason Duval","Leonida Keys","Works in"],["Brian Heder","Leonida Keys","Operates in"],["Brian Heder","Brian's boat yard","Moves product through"],["Boobie Ike","Dre'Quan Priest","Business partners"],["Dre'Quan Priest","Only Raw Records","Develops label"],["Boobie Ike","Only Raw Records","Business partnership"],["Real Dimez","Only Raw Records","Signed act"],["DWNPLY","Real Dimez","Early hit collaboration"],["Boobie Ike","Vice City","Business base"],["Raul Bautista","Raul's robbery crew","Recruits for robberies"]
+ ["Jason Duval","Lucia Caminos","Story partners"],
+ ["Jason Duval","Cal Hampton","Friends"],
+ ["Cal Hampton","Brian Heder","Associates"],
+ ["Jason Duval","Brian Heder","Rents from / works for"],
+ ["Brian Heder","Lori Heder","Married"],
+ ["Jason Duval","Leonida Keys","Works in"],
+ ["Brian Heder","Leonida Keys","Operates in"],
+ ["Brian Heder","Brian's Boat Works & Marina","Moves product through"],
+ ["Boobie Ike","Dre'Quan Priest","Business partners"],
+ ["Dre'Quan Priest","Only Raw Records","Runs label"],
+ ["Boobie Ike","Only Raw Records","Business partnership"],
+ ["Bae-Luxe","Only Raw Records","Signed act"],
+ ["Roxy","Only Raw Records","Signed act"],
+ ["Bae-Luxe","Roxy","Rap duo / longtime friends"],
+ ["DWNPLY","Bae-Luxe","Early hit collaboration"],
+ ["DWNPLY","Roxy","Early hit collaboration"],
+ ["Raul Bautista","Raul's robbery crew","Recruits for robberies"],
+ ["Andrés de León","Val","Client / security contact"],
+ ["Andrés de León","Petra Navarro","Megamundo colleagues"],
+ ["Petra Navarro","Megamundo","Chief operating officer"],
+ ["Val","Jason Duval","Hires for security assignment"],
+ ["Val","Lucia Caminos","Hires for security assignment"],
+ ["Billy","Thrillbilly Mud Club","Questline / off-road club"],
+ ["Bret Vogel","Mount Kalaga National Park","Hunting business / region"],
+ ["Kirk","Pelican Valley","Skunk Ape quest area"],
+ ["Kyle","McKittrick Farm","Crop-duster base"],
+ ["Lori Heder","Brian Heder","Married"],
+ ["Mandy","Brian Heder","Tenant at his property"],
+ ["Moses Watkins","Port Gellhorn","Mechanic / vehicle buyer"],
+ ["Phil","Phil's Ammu-Nation","Store owner"],
+ ["Shirley","Jason Duval","Neighbour in Key Lento"],
+ ["Stefanie","Lucia Caminos","Prison social worker"],
+ ["Wyman","Classic Car Collection","Vehicle collection commission"],
+ ["Erin Henshaw","Ambrosia","Mayoral candidate on campaign signs"]
  ];
  const networkDetail=$("networkDetail"),networkCount=$("networkCount"),graph=$("relationshipGraph");
  if(networkDetail&&networkCount&&graph){
