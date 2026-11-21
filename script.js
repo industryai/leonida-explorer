@@ -1,3 +1,27 @@
+/* Single-section navigation: homepage plus independently opened content areas */
+(function initSectionNavigation(){
+ const main=document.querySelector("#app");if(!main)return;
+ const pages=[...main.querySelectorAll(":scope > section")];
+ const homeIds=new Set(["home","home-hub"]);
+ function showPage(){
+  const requested=decodeURIComponent(location.hash.replace(/^#/,""))||"home";
+  const target=pages.find(page=>page.id===requested);
+  const active=target?requested:"home";
+  pages.forEach(page=>{page.hidden=homeIds.has(active)?!homeIds.has(page.id):page.id!==active;});
+  document.querySelectorAll("#nav details[open]").forEach(menu=>menu.removeAttribute("open"));
+  if(active==="home")window.scrollTo({top:0,behavior:"instant"});
+  else window.scrollTo({top:0,behavior:"instant"});
+  window.dispatchEvent(new Event("resize"));
+ }
+ document.querySelectorAll('a[href^="#"]').forEach(link=>link.addEventListener("click",event=>{
+  const id=link.getAttribute("href").slice(1);
+  if(!pages.some(page=>page.id===id))return;
+  if(location.hash==="#"+id){showPage();}
+ }));
+ window.addEventListener("hashchange",showPage);
+ showPage();
+})();
+
 /* Global navigation and footer */
 document.querySelector("#menu")?.addEventListener("click",()=>document.querySelector("#nav")?.classList.toggle("open"));
 document.querySelectorAll("#nav a").forEach(a=>a.addEventListener("click",()=>document.querySelector("#nav")?.classList.remove("open")));
