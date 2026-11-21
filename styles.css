@@ -589,3 +589,34 @@ footer p a{color:#ff83b8}
  .hero#home .stats{margin-top:48px;gap:13px;flex-wrap:wrap;font-size:8px}
  .hero#home .hero-art-credit{font-size:7px}
 }
+
+
+/* Region directory cards and individual region field-guide pages */
+.region-card{position:relative}
+.region-card .region-open{display:inline-flex;align-self:flex-start;margin-top:14px;padding:10px 12px;border:1px solid #3a5268;color:var(--cyan);font-size:8px;font-weight:800;letter-spacing:.14em;transition:background .18s,border-color .18s}
+.region-card .region-open:hover{background:#5be0d712;border-color:var(--cyan)}
+.region-detail-page{padding-top:0}
+.region-detail-hero{position:relative;isolation:isolate;overflow:hidden;min-height:340px;padding:clamp(28px,6vw,76px);display:flex;flex-direction:column;align-items:flex-start;justify-content:center;background:radial-gradient(ellipse at 78% 35%,#d94c8a45,transparent 35%),linear-gradient(120deg,#121d2c,#101321 65%,#21182d);border:1px solid #35445a}
+.region-detail-hero:after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#0b111de8,transparent)}
+.region-detail-kicker,.region-detail-disclaimer,.region-detail-overview>div>small{font-size:9px;letter-spacing:.18em;color:var(--cyan);font-weight:800}
+.region-detail-hero h2{max-width:900px;font-size:clamp(38px,6.5vw,76px);line-height:.98;letter-spacing:-.04em;margin:20px 0}
+.region-detail-hero h2 em{color:var(--pink);font:italic .72em Georgia,serif}
+.region-detail-hero>p{max-width:650px;color:#d0d8e4;font-size:14px;line-height:1.75}
+.region-detail-actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 25px}
+.region-detail-disclaimer{color:#a8b5c5;font-size:8px}
+.region-detail-overview{display:grid;grid-template-columns:minmax(220px,.8fr) minmax(0,1.2fr);gap:25px;margin-top:22px;padding:24px;border:1px solid var(--line);background:#101925}
+.region-detail-overview h3{font:28px Georgia,serif;margin:12px 0}
+.region-detail-overview p,.region-detail-note p{font-size:12px;line-height:1.75;color:var(--muted)}
+.region-tool-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.region-tool-card{display:flex;flex-direction:column;gap:10px;min-height:112px;padding:16px;border:1px solid #33475c;background:linear-gradient(145deg,#172638,#101722);transition:border-color .18s,transform .18s}
+.region-tool-card:hover{border-color:var(--pink);transform:translateY(-2px)}
+.region-tool-card span{font-size:8px;letter-spacing:.15em;color:var(--cyan)}
+.region-tool-card b{font:18px Georgia,serif}
+.region-tool-card i{font-style:normal;font-size:9px;color:var(--pink);margin-top:auto}
+.region-detail-note{margin-top:14px;padding:18px 22px;border-left:2px solid var(--pink);background:#111a27}
+.region-detail-note b{font-size:9px;letter-spacing:.15em;color:var(--pink)}
+.region-detail-note p{margin:8px 0 0}
+.region-detail-footer{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-top:20px;padding-top:16px;border-top:1px solid var(--line)}
+.region-detail-footer a{font-size:9px;letter-spacing:.13em;color:var(--cyan);font-weight:800}
+@media(max-width:760px){.region-detail-overview{grid-template-columns:1fr}.region-tool-grid{grid-template-columns:1fr 1fr}.region-detail-hero{min-height:300px}}
+@media(max-width:460px){.region-tool-grid{grid-template-columns:1fr}.region-detail-actions .btn{width:100%;justify-content:center}}
