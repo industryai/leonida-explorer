@@ -17,7 +17,7 @@ on:
       - ".github/workflows/android-test-build.yml"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   android-debug:
@@ -124,3 +124,15 @@ jobs:
           path: android/app/build/outputs/bundle/release/app-release.aab
           if-no-files-found: error
           retention-days: 14
+
+      - name: Prepare public APK download
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk VICECITYWIRE.apk
+
+      - name: Publish APK download release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: android-build-${{ github.run_number }}
+          name: VICECITYWIRE Android Build ${{ github.run_number }}
+          body: "Download the VICECITYWIRE Android app. Install the APK on your Android device."
+          files: VICECITYWIRE.apk
+          make_latest: true
