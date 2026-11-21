@@ -1,4 +1,4 @@
-const CACHE_NAME = "vicecitywire-shell-v7";
+const CACHE_NAME = "vicecitywire-shell-v8";
 const APP_SHELL = [
  "./", "./index.html", "./styles.css", "./script.js",
  "./story-content.js", "./quality-pass.js", "./cheats.js", "./pwa.js",
