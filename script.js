@@ -244,3 +244,49 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
  panel.addEventListener("click",e=>{if(e.target.closest(".vehicle-detail-close")){panel.hidden=true;panel.innerHTML="";}});
  search.addEventListener("input",render);filter.addEventListener("change",render);render();
 })();
+/* Ammu-Nation directory: 24 named locations mapped by PowerPyx. */
+(function initAmmuNationDirectory(){
+ const stores=[
+ ["Barrage Gun Supply","Mariana County","Watson Bay","Standard","Clothing, weapon locker and fishing supplies are reported."],
+ ["Chuck’s Tackle & Shot","Mariana County","Key Lento","Limited","Limited inventory; clothing, weapon locker and fishing supplies are reported."],
+ ["Guns Aplenty!","Mariana County","Watson Bay","Hunting","Hunting-focused inventory; ATM and weapon locker are reported."],
+ ["Richardson Hunting Supplies","Mariana County","North Mariana County","Standard","Standard inventory; clothing and weapon locker are reported."],
+ ["Woodhatch","Mariana County","Capri","Expanded","Expanded inventory; clothing, weapon locker and fishing supplies are reported."],
+ ["Big Shots","Vice-Dale County","Hamlet","Expanded","Expanded inventory; clothing and weapon locker are reported."],
+ ["Hamlet Traders","Vice-Dale County","Hamlet","Standard","Standard inventory."],
+ ["Phil’s Ammu-Nation","Vice-Dale County","South Vice City","Expanded","Expanded inventory; clothing, weapon locker and fishing supplies are reported."],
+ ["Tequesta Guns & Ammo","Vice-Dale County","Central Vice City","Standard","Standard inventory; weapon locker is reported."],
+ ["Vice City Firearms","Vice-Dale County","South-central Vice City","Standard","Standard inventory; clothing and weapon locker are reported."],
+ ["Martez Empenos","Vice-Dale County","Central Vice City","Standard","Standard inventory."],
+ ["Jackson Firearms","Vice-Dale County","Central Vice City","Standard","Standard inventory; clothing and weapon locker are reported."],
+ ["Vice City Gun & Pawn","Vice-Dale County","Central Vice City","Standard","Standard inventory."],
+ ["Pawn & Gun – Crosstown","Vice-Dale County","Central Vice City","Standard","Standard inventory."],
+ ["Quickscope","Vice-Dale County","Central Vice City","Standard","Standard inventory; clothing and weapon locker are reported."],
+ ["Black Eagle","Vice-Dale County","Northwest Vice City","Expanded","Expanded inventory; clothing and weapon locker are reported."],
+ ["Zenon’s Pawn Shop","Vice-Dale County","North Vice City","Standard","Standard inventory; clothing is reported."],
+ ["Iron & Oak","Vice-Dale County","North Vice City","Expanded","Expanded inventory; clothing and weapon locker are reported."],
+ ["Prestige Firearms","Vice-Dale County","Vice Beach","Expanded","Expanded inventory; clothing, weapon locker and fishing supplies are reported."],
+ ["Tactical Outlet Guns","Leonard County","Belville","Standard","Standard inventory; clothing is reported."],
+ ["Pawn & Gun – Port Gellhorn","Kelly County","Port Gellhorn","Standard","Standard inventory."],
+ ["Gellhorn Outfitters","Kelly County","Port Gellhorn","Standard","Standard inventory; clothing, weapon locker and fishing supplies are reported."],
+ ["Biff’s Gun Supply","Kelly County","Ambrosia","Standard","Standard inventory; clothing, weapon locker and fishing supplies are reported."],
+ ["Rusty Willis Jr. Hunting Supplies","Lummox County","Mount Kalaga National Park","Hunting","Hunting-focused inventory; clothing, weapon locker and fishing supplies are reported."]
+ ];
+ const grid=document.getElementById("ammuGrid"),search=document.getElementById("ammuSearch"),county=document.getElementById("ammuCounty"),level=document.getElementById("ammuLevel"),panel=document.getElementById("ammuDetailPanel");
+ if(!grid||!search||!county||!level||!panel)return;
+ const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ function render(){
+  const q=search.value.trim().toLowerCase();
+  const found=stores.filter(x=>(county.value==="all"||x[1]===county.value)&&(level.value==="all"||x[3]===level.value)&&x.join(" ").toLowerCase().includes(q));
+  grid.innerHTML=found.length?found.map(x=>'<article class="db-card ammu-card"><div class="db-card-top"><span class="db-type">'+esc(x[1])+'</span><span class="db-status">'+esc(x[3].toUpperCase())+'</span></div><h3>'+esc(x[0])+'</h3><p class="db-maker">'+esc(x[2])+'</p><p>'+esc(x[4])+'</p><button class="ammu-open" type="button" data-store="'+stores.indexOf(x)+'">STORE FILE +</button></article>').join(""):'<div class="db-empty">No matching stores. Adjust your search or filters.</div>';
+ }
+ grid.addEventListener("click",e=>{
+  const b=e.target.closest("[data-store]");if(!b)return;
+  const x=stores[Number(b.dataset.store)];
+  panel.hidden=false;
+  panel.innerHTML='<button type="button" class="vehicle-detail-close" aria-label="Close details">×</button><small>AMMU-NATION LOCATION / '+esc(x[1])+'</small><h3>'+esc(x[0])+'</h3><p><b>AREA</b> · '+esc(x[2])+'</p><p><b>STOCK LEVEL</b> · '+esc(x[3])+'</p><p>'+esc(x[4])+'</p><p><b>TRAVEL TIP</b> · Use the in-game map filter for Ammu-Nations; the orange gun icon reveals each store’s selection and available features.</p><a class="btn hot" href="https://www.powerpyx.com/gta-6-all-ammu-nation-gun-stores-locations/" target="_blank" rel="noopener">OPEN LOCATION REFERENCE ↗</a>';
+  panel.scrollIntoView({behavior:"smooth",block:"nearest"});
+ });
+ panel.addEventListener("click",e=>{if(e.target.closest(".vehicle-detail-close")){panel.hidden=true;panel.innerHTML="";}});
+ search.addEventListener("input",render);county.addEventListener("change",render);level.addEventListener("change",render);render();
+})();
