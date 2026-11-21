@@ -195,7 +195,7 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
 (function initMissionLibrary(){
  const chapters=[
   {id:1,name:"Just Like Paradise",missions:[
-   "Prologue","Gone Fishing","Gear Up","Just a Scratch","Lab Fees","Unwanted Attention","Pipework","Hey Arnold!","Island Dreams","Feng Shui","Coming Home","Buck Me","Clean Up After Donnie","Down to Earth","Clear Skies","Day Release","Swamped","Recalibration","Tourist Trap","Home Sweet Home","Discharge Time"
+   "Prologue","Gone Fishing","Gear Up","Just a Scratch","Lab Fees","Unwanted Attention","Pipework","Hey Arnold!","Island Dreams","Feng Shui","Coming Home","Buck Me","Clean Up After Donnie","Down to Earth","Clear Skies","Day Release","Swamped","Don Gone","Recalibration","Tourist Trap","Home Sweet Home","Discharge Time"
   ]},
   {id:2,name:"Paradise Lost",missions:[
    "What's in the Bag?","Ambulance Chaser","Just Moved In","Girls' Trip","Moses","Daily Driver","Slam Dunk","Breakfast Run","Coffee Break","Afternoon Delight","Thrillbillies","Twist Wrist, Smash, Grab","Checking Out"
@@ -204,18 +204,45 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
    "Welcome to Vice City","Dealer's Choice","Meet the Heders","Dubious Provenance","Mami Knows Best","South Leonida Real Estate","Tyrone","Here, Kitty Kitty","Kitty Litter Labs","Car Service","Top Billing","Boobie Time","First Impressions","Caught Slipping","Crosstown Traffic","Credit Check","Steal the Zorrusso for Randy","Sinfrontera National Bank","Security Expert","Ride or Die","Company Property","The Missing Link","Safe Word","Cooties","Bricked Up","Hidden Charges","The Cartel Heist"
   ]},
   {id:4,name:"Vice City, Baby",missions:[
-   "Ocean Beach","Another Life","Company Cars","Lawyer Up","Party Hard","Heavy Lifting","Photo/Shoot","Making Gainz","Watch It","Cash Injections","Amateur Hour","Dirty Work","Too Much Baggage","Adventures in Babysitting","Fresh Evidence","Power Play","Child's Play","Headliners","Close Surveillance","Delivery Method","Team Building","Fully Catered","VCIA Takedown","Sunset"
+   "Ocean Beach","Another Life","Company Cars","Lawyer Up","Party Hard","Heavy Lifting","Photo/Shoot","Making Gainz","Watch It","Cash Injections","Amateur Hour","Dirty Work","Too Much Baggage","Adventures in Babysitting","Fresh Evidence","Power Play","Child's Play","Headliners","Close Surveillance","Delivery Method","Team Building","Fully Catered","VCIA Takedown","Sunset","[REDACTED STORY MISSION]"
   ]},
   {id:5,name:"Top of the World, Ma",missions:[
-   "Bird in the Hand","Taking Liberties","VC Baby","Doggie Bag","Operation Savage Glory","Protective Custody"
+   "Bird in the Hand","Taking Liberties","VC Baby","Doggie Bag","Operation Savage Glory","Protective Custody","[REDACTED FINALE]"
   ]}
  ];
  const list=document.getElementById("missionList"),detail=document.getElementById("missionDetail"),search=document.getElementById("missionSearch"),filter=document.getElementById("chapterFilter");
  if(!list||!detail||!search||!filter)return;
- const all=chapters.flatMap(c=>c.missions.map((name,index)=>({name,chapter:c.id,chapterName:c.name,number:index+1,optional:["Thrillbillies","Twist Wrist, Smash, Grab","Kitty Litter Labs"].includes(name)})));
+ const all=chapters.flatMap(c=>c.missions.map((name,index)=>({name,chapter:c.id,chapterName:c.name,number:index+1,optional:["Thrillbillies","Twist Wrist, Smash, Grab","Kitty Litter Labs"].includes(name),redacted:name.startsWith("[REDACTED")})));
  function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
  function showMission(m){
-  detail.innerHTML="<small>CHAPTER "+m.chapter+" / "+(m.optional?"OPTIONAL MISSION":"STORY MISSION")+"</small><h3>"+esc(m.name)+"</h3><p><b>"+esc(m.chapterName)+"</b><br>This mission is listed in the index. A full step-by-step walkthrough with objectives, map locations and rewards will be added after the details have been reliably cross-checked.</p><span class='guide-state'>WALKTHROUGH IN PREPARATION</span><br><a href='https://www.gamesradar.com/games/grand-theft-auto/gta-6-mission-list/' target='_blank' rel='noopener'>Mission list / source ↗</a>";
+  const summaries={
+   "Prologue":"Lucia meets with her prison counsellor as her release prospects are discussed.",
+   "Gone Fishing":"Jason and Donnie's smuggling run takes them into trouble around the Keys.",
+   "Gear Up":"Jason acquires a longarm before the next job.",
+   "Just a Scratch":"Jason arranges repairs for his damaged vehicle.",
+   "Lab Fees":"Jason collects overdue rent as part of Brian's local operation.",
+   "Unwanted Attention":"Jason and Cal travel to Hamlet and draw unwanted attention.",
+   "Hey Arnold!":"Brian, Jason and Cal pursue a broker.",
+   "Island Dreams":"Jason heads out for a diving trip.",
+   "Feng Shui":"Jason and Cal move furniture.",
+   "Coming Home":"Jason and Lucia reunite.",
+   "Buck Me":"Jason and Lucia deal with a banking job.",
+   "Clear Skies":"Jason and Donnie visit the biker group in Ambrosia.",
+   "Swamped":"Jason and Brian encounter the Kingfishers in the wetlands.",
+   "Don Gone":"A follow-up to the trouble surrounding Donnie and his missing operation.",
+   "Recalibration":"Jason and Lucia spend time with Cal.",
+   "Tourist Trap":"Jason and Lucia take on a pickup job.",
+   "Home Sweet Home":"Lucia returns to the place she is staying.",
+   "Discharge Time":"Lucia checks on Jason.",
+   "What's in the Bag?":"The opening of the Port Gellhorn chapter.",
+   "Ocean Beach":"Jason and Lucia begin setting up their new operation in Vice City.",
+   "First Impressions":"Jason and Lucia meet Raul Bautista.",
+   "Boobie Time":"Jason spends time with Vice City businessman Boobie Ike.",
+   "Headliners":"The Real Dimez perform at VYB."
+  };
+  const synopsis=summaries[m.name]||"This mission is included in the chapter index. A verified objective-by-objective walkthrough is not reproduced here; use the external walkthrough references for current objectives and branching details.";
+  const description=m.redacted?"The mission title is intentionally withheld in public guide lists to avoid story spoilers.":synopsis;
+  detail.innerHTML="<small>CHAPTER "+m.chapter+" / "+(m.redacted?"TITLE WITHHELD":m.optional?"OPTIONAL MISSION":"STORY MISSION")+"</small><h3>"+esc(m.name)+"</h3><p><b>"+esc(m.chapterName)+"</b><br>"+esc(description)+"</p><span class='guide-state'>"+(m.redacted?"SPOILER-PROTECTED ENTRY":"MISSION INDEX · SUMMARY / WALKTHROUGH REFERENCES")+"</span><div class='mission-reference-links'><a href='https://www.powerpyx.com/gta-6-full-walkthrough-all-missions/' target='_blank' rel='noopener'>POWERPYX · FULL WALKTHROUGH ↗</a><a href='https://www.gamesradar.com/games/grand-theft-auto/gta-6-mission-list/' target='_blank' rel='noopener'>GAMESRADAR · CHAPTER LIST ↗</a><a href='https://www.gtabase.com/gta-6/missions/' target='_blank' rel='noopener'>GTABASE · MISSION DATABASE ↗</a></div>";
   list.querySelectorAll(".mission-item").forEach(b=>b.classList.toggle("active",b.dataset.name===m.name));
  }
  function render(){
@@ -225,7 +252,7 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
   if(!items.length){list.innerHTML="<div class='mission-empty'>No missions found. Check the spelling or chapter filter.</div>";return;}
   items.forEach(m=>{
    const b=document.createElement("button");b.type="button";b.className="mission-item";b.dataset.name=m.name;
-   b.innerHTML="<span class='mission-no'>"+String(m.number).padStart(2,"0")+"</span><span><span class='mission-name'>"+esc(m.name)+(m.optional?" · Optional":"")+"</span><span class='mission-chapter'>CHAPTER "+m.chapter+" / "+esc(m.chapterName.toUpperCase())+"</span></span>";
+   b.innerHTML="<span class='mission-no'>"+String(m.number).padStart(2,"0")+"</span><span><span class='mission-name'>"+esc(m.name)+(m.optional?" · Optional":m.redacted?" · Spoiler-protected":"")+"</span><span class='mission-chapter'>CHAPTER "+m.chapter+" / "+esc(m.chapterName.toUpperCase())+"</span></span>";
    b.addEventListener("click",()=>showMission(m));list.append(b);
   });
  }
@@ -1002,4 +1029,38 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
  const search=document.getElementById("serviceHubSearch"),filter=document.getElementById("serviceHubFilter");
  function apply(){const q=search.value.trim().toLowerCase();grid.querySelectorAll(".service-hub-card").forEach(card=>{const matchText=card.textContent.toLowerCase().includes(q);const matchCat=filter.value==="all"||card.dataset.service===filter.value;card.hidden=!(matchText&&matchCat);});}
  search.addEventListener("input",apply);filter.addEventListener("change",apply);
+})();
+
+/* Global search across every populated database and guide */
+(function initGlobalAtlasSearch(){
+ const input=document.getElementById("atlasGlobalSearch"),panel=document.getElementById("atlasSearchResults");
+ if(!input||!panel)return;
+ const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ const stopWords=new Set(["the","and","for","with","from","into","your","this","that","you","are","was","has","have","von","und","der","die","das"]);
+ function collect(){
+  const records=[];
+  document.querySelectorAll("#app > section[id]").forEach(section=>{
+   const sectionTitle=section.querySelector("h2")?.textContent.replace(/\s+/g," ").trim()||section.id;
+   const candidates=section.querySelectorAll("article,.mission-item,.db-card,.secret-card,.trophy-card,.collection-card,.service-card,.business-card,.weapon-card,.vehicle-card,.wildlife-card,.hunting-card,.fish-card,.location-card,.character-card,.faction-card,.region-card,.trip-stop");
+   if(!candidates.length){const text=section.innerText?.replace(/\s+/g," ").trim();if(text)records.push({section:section.id,category:sectionTitle,title:sectionTitle,text:text.slice(0,260)});return;}
+   candidates.forEach(card=>{
+    const text=(card.innerText||card.textContent||"").replace(/\s+/g," ").trim();if(!text||text.length<4)return;
+    const title=card.querySelector("h3,h4,.mission-name,b,strong")?.textContent?.replace(/\s+/g," ").trim()||text.slice(0,85);
+    records.push({section:section.id,category:sectionTitle,title,text:text.slice(0,380)});
+   });
+  });
+  return records;
+ }
+ function render(){
+  const raw=input.value.trim().toLowerCase();
+  if(raw.length<2){panel.hidden=true;panel.innerHTML="";return;}
+  const terms=raw.split(/\s+/).filter(x=>x&&!stopWords.has(x));
+  const matches=collect().map(r=>({...r,score:terms.reduce((n,t)=>n+(r.title.toLowerCase().includes(t)?4:r.text.toLowerCase().includes(t)?1:0),0)})).filter(r=>r.score>=Math.max(1,terms.length)).sort((a,b)=>b.score-a.score).slice(0,12);
+  panel.innerHTML=matches.length?matches.map(r=>'<a class="search-result" href="#'+esc(r.section)+'"><small>'+esc(r.category)+'</small><b>'+esc(r.title)+'</b><span>'+esc(r.text)+'</span></a>').join(""):'<div class="search-result-empty">No matching entries. Try another name or keyword.</div>';
+  panel.hidden=false;
+ }
+ input.addEventListener("input",render);
+ input.addEventListener("keydown",e=>{if(e.key==="Escape"){input.value="";panel.hidden=true;}if(e.key==="Enter"){const first=panel.querySelector("a");if(first)first.click();}});
+ document.addEventListener("click",e=>{if(!e.target.closest(".global-search"))panel.hidden=true;});
+ panel.addEventListener("click",()=>{panel.hidden=true;});
 })();
