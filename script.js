@@ -128,7 +128,8 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
   if(/ambrosia|capri|belpoint|belville|bluegrass|cellerica|sugar refinery|raceway/.test(n))return "Ambrosia";
   if(/mount kalaga|manifest canyon|richard barebone|wild hog|north leonard|south leonard/.test(n))return "Mount Kalaga";
   return "Leonida";
- };\n const relatedFor=(name,type)=>{
+ };
+ const relatedFor=(name,type)=>{
   const n=name.toLowerCase(),links=[];
   const add=(label,href)=>links.push([label,href]);
   const regions=[
