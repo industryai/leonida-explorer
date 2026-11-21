@@ -61,3 +61,25 @@ footer p a{color:#ff83b8}
 .db-footnote a{color:var(--cyan)}
 @media(max-width:850px){.db-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:620px){.db-controls{flex-direction:column}.db-controls select{width:100%}.db-grid{grid-template-columns:1fr}}
+
+/* Mission index and walkthrough status panel */
+.mission-controls{display:flex;gap:10px;margin:0 0 16px}
+.mission-controls input,.mission-controls select{background:#0b1420;color:var(--txt);border:1px solid var(--line);padding:12px;font:inherit;font-size:11px;min-width:0}
+.mission-controls input{flex:1}.mission-controls select{width:min(390px,48%)}
+.spoiler-alert{padding:12px 15px;margin-bottom:15px;border:1px solid #76583a;background:#2a2019;color:#eac59e;font-size:10px;letter-spacing:.04em}
+.mission-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(240px,.75fr);gap:13px;align-items:start}
+.mission-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;max-height:580px;overflow:auto;padding-right:4px}
+.mission-item{display:flex;align-items:center;gap:10px;text-align:left;padding:12px;background:#121c29;border:1px solid var(--line);color:var(--txt);cursor:pointer;min-width:0}
+.mission-item:hover,.mission-item.active{border-color:var(--pink);background:#211b2b}
+.mission-item .mission-no{font:italic 17px Georgia,serif;color:var(--pink);min-width:24px}
+.mission-item .mission-name{font-size:10px;font-weight:650;overflow-wrap:anywhere}
+.mission-item .mission-chapter{display:block;color:#8291a4;font-size:8px;margin-top:3px;letter-spacing:.08em}
+.mission-detail{position:sticky;top:90px;background:linear-gradient(145deg,#192638,#101722);border:1px solid var(--line);padding:20px;min-height:230px}
+.mission-detail>small{color:var(--cyan);font-size:8px;letter-spacing:.17em}
+.mission-detail h3{font:25px Georgia,serif;margin:12px 0 8px}
+.mission-detail p{font-size:10px;color:var(--muted);line-height:1.7}
+.mission-detail .guide-state{display:inline-block;border:1px solid #76583a;color:var(--orange);padding:6px 8px;font-size:8px;letter-spacing:.12em;margin-top:9px}
+.mission-detail a{display:inline-block;color:var(--cyan);font-size:10px;margin-top:14px}
+.mission-empty{grid-column:1/-1;border:1px dashed #42516a;padding:20px;color:var(--muted);font-size:11px}
+@media(max-width:760px){.mission-layout{grid-template-columns:1fr}.mission-detail{position:static;min-height:0}}
+@media(max-width:620px){.mission-controls{flex-direction:column}.mission-controls select{width:100%}.mission-list{grid-template-columns:1fr;max-height:480px}}
