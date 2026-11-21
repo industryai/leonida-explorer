@@ -81,7 +81,7 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
   grid.addEventListener("click",e=>{const b=e.target.closest("[data-vehicle]");if(!b)return;const x=config.items[Number(b.dataset.vehicle)];const panel=document.getElementById("vehicleDetailPanel");if(!panel)return;panel.hidden=false;panel.innerHTML='<button type="button" class="vehicle-detail-close" aria-label="Close details">×</button><small>VEHICLE FILE / '+escapeText(x.status.toUpperCase())+'</small><h3>'+escapeText(x.name)+'</h3><p class="db-maker">MANUFACTURER · '+escapeText(x.maker)+'</p><p><b>CLASS</b> · '+escapeText(x.label)+'</p><p><b>EVIDENCE</b> · '+escapeText(x.source)+'</p><p>'+escapeText(x.detail)+'</p><a class="btn hot" href="'+x.url+'" target="_blank" rel="noopener">FULL EVIDENCE RECORD ↗</a>';panel.scrollIntoView({behavior:"smooth",block:"nearest"});});document.getElementById("vehicleDetailPanel")?.addEventListener("click",e=>{if(e.target.closest(".vehicle-detail-close")){const p=document.getElementById("vehicleDetailPanel");p.hidden=true;p.innerHTML="";}});search.addEventListener("input",render);select.addEventListener("change",render);render();
  }
  mount({grid:"vehicleGrid",search:"vehicleSearch",select:"vehicleType",items:vehicles});
- mount({grid:"weaponGrid",search:"weaponSearch",select:"weaponType",items:weapons});
+
 })();
 /* Searchable index of names printed on Rockstar's Leonida poster map. */
 (function initLocationDirectory(){
@@ -207,5 +207,40 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
   const found=items.filter(x=>(status==="all"||x.status===status)&&(x.name+" "+x.type+" "+x.where+" "+x.detail).toLowerCase().includes(q));
   grid.innerHTML=found.length?found.map((x,i)=>'<article class="secret-card"><div class="secret-card-top"><span>'+esc(x.type)+'</span><em class="'+(x.status==="confirmed"?"verified":"reported")+'">'+(x.status==="confirmed"?"CROSS-CHECKED":"REPORTED")+'</em></div><h3>'+esc(x.name)+'</h3><p class="secret-where">LOCATION · '+esc(x.where)+'</p><p>'+esc(x.detail)+'</p><a href="'+x.url+'" target="_blank" rel="noopener">SOURCE: '+esc(x.source.toUpperCase())+' ↗</a></article>').join(""):'<div class="db-empty">No matching discoveries. Try another search or status.</div>';
  }
+ search.addEventListener("input",render);filter.addEventListener("change",render);render();
+})();
+/* Weapon catalogue transcribed from public recordings of the released game. */
+(function initWeaponDatabase(){
+ const items=[
+ ["Duke 1922","pistol"],["Duval Signature ES9","pistol"],["Fairview Kalinga .50","pistol"],["Girardi ES9","pistol","Ultimate Edition · Jason"],["Girardi ES18","pistol"],["Klose K17","pistol","Ultimate Edition · Lucia"],["Klose K17 MCD","pistol"],["Mahi Nipper .38","pistol"],["Schlamm DRX","pistol"],["Scorpio Nipper .38","pistol"],
+ ["Duke Mustang .357","revolver"],["Hawk & Little .38","revolver"],["Hawk & Little Morgan revolver","revolver","Ultimate Edition · Jason and Lucia"],["Scorpio Akulus","revolver"],["Wortham WCR1","revolver"],
+ ["ADB PD-90","smg"],["BZI Vatra","smg"],["Deever Tech DSG","smg"],["Schlamm DW-9","smg"],["Vom Feuer VF5","smg"],["Vom Feuer VF5C","smg"],["Wortham W-10","smg"],["Zhang Wu Type 9","smg"],
+ ["Fortune & Son Gorse 425","shotgun"],["Fortune & Son Moreland 850","shotgun"],["Girardi AZ1200","shotgun"],["Girardi Super400","shotgun"],["Girardi Verro","shotgun"],["Goodwin Comshot 12","shotgun"],["Kozlov KVGA-12","shotgun"],["Mason & Keen Longshot","shotgun"],["Mason & Keen Shortstraw","shotgun"],["Shrewsbury Drifter","shotgun"],["Shrewsbury Hobo","shotgun"],
+ ["ADB FRA","assault"],["Duke 556","assault"],["Hillinger Heathen","assault"],["Kozlov Hind","assault"],["Kozlov KZ-59","assault"],["Vom Feuer VF-G1","assault"],
+ ["Hawk & Little Mediator","tactical"],["Hillinger M306","tactical"],["Hillinger M306 TMR","tactical"],["Wortham W-14","tactical"],
+ ["Fairview FF-50","sniper"],["Fairview FF-SR","sniper"],["Fortune & Son Laird 350","sniper"],["Shrewsbury SM-69","sniper"],["Shrewsbury SMS-01","sniper"],
+ ["ADB M350","machine"],["Hillinger Boomer","launcher"],
+ ["Baton","melee"],["Brass Knuckles","melee"],["Bushcraft Knife","melee"],["Combat Knife","melee"],["Diving Knife","melee"],["EDC Knife","melee"],["Hunting Knife","melee"],["Survival Knife","melee"],["Switchblade","melee"],
+ ["Flash Grenade","explosive"],["Frag Grenade","explosive"],["Sticky Bomb","explosive"],["Arras Bullhead","longarm"]
+ ].map(([name,type,edition])=>({name,type,edition:edition||"",status:edition?"ROCKSTAR EDITION NAME + IN-GAME":"VERIFIED IN GAME",price:({
+ "Fortune & Son Laird 350":"$950","Shrewsbury SM-69":"$1,850","Shrewsbury SMS-01":"$2,150","Hillinger Boomer":"$12,000","Frag Grenade":"$140","Sticky Bomb":"$185"
+ })[name]||"",store:(["Hillinger Boomer","Fortune & Son Laird 350","Shrewsbury SM-69","Shrewsbury SMS-01"].includes(name)?"Expanded Ammu-Nation":name==="Frag Grenade"||name==="Sticky Bomb"?"Ammu-Nation":"Ammu-Nation / availability varies"),note:"Name read from the released game in a public recording. Damage, range and handling have not been independently measured in this catalogue.",url:"https://gta6db.io/weapons"}));
+ const labels={pistol:"Pistol",revolver:"Revolver",smg:"Submachine gun",shotgun:"Shotgun",assault:"Assault rifle",tactical:"Tactical rifle",sniper:"Sniper rifle",machine:"Machine gun",launcher:"Launcher",melee:"Melee weapon",explosive:"Explosive",longarm:"Longarm"};
+ const grid=document.getElementById("weaponGrid"),search=document.getElementById("weaponSearch"),filter=document.getElementById("weaponType"),panel=document.getElementById("weaponDetailPanel");
+ if(!grid||!search||!filter||!panel)return;
+ const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ function render(){
+  const q=search.value.trim().toLowerCase(),type=filter.value;
+  const found=items.filter(x=>(type==="all"||x.type===type)&&(x.name+" "+labels[x.type]+" "+x.edition+" "+x.status).toLowerCase().includes(q));
+  grid.innerHTML=found.length?found.map(x=>'<article class="db-card weapon-card"><div class="weapon-silhouette"><span>'+esc(labels[x.type].toUpperCase())+'</span><b>'+esc(x.name.split(" ").slice(0,2).join(" ").toUpperCase())+'</b></div><div class="db-card-top"><span class="db-type">'+esc(labels[x.type])+'</span><span class="db-status">'+(x.edition?"ROCKSTAR NAMED":"IN-GAME VERIFIED")+'</span></div><h3>'+esc(x.name)+'</h3><p class="weapon-price">'+(x.price?"SHOP PRICE · "+esc(x.price):"PRICE · NOT VERIFIED")+'</p><button type="button" class="weapon-open" data-weapon="'+items.indexOf(x)+'">VIEW WEAPON FILE +</button></article>').join(""):'<div class="db-empty">No matching weapons. Try another name or category.</div>';
+ }
+ grid.addEventListener("click",e=>{
+  const b=e.target.closest("[data-weapon]");if(!b)return;
+  const x=items[Number(b.dataset.weapon)];
+  panel.hidden=false;
+  panel.innerHTML='<button type="button" class="vehicle-detail-close" aria-label="Close details">×</button><small>WEAPON FILE / '+esc(x.status)+'</small><h3>'+esc(x.name)+'</h3><p><b>CLASS</b> · '+esc(labels[x.type])+'</p><p><b>EDITION</b> · '+esc(x.edition||"No Rockstar edition naming found")+'</p><p><b>SHOP PRICE</b> · '+esc(x.price||"Not verified in the available recording")+'</p><p><b>AVAILABILITY</b> · '+esc(x.store)+'</p><p>'+esc(x.note)+'</p><a class="btn hot" href="'+x.url+'" target="_blank" rel="noopener">OPEN EVIDENCE DATABASE ↗</a>';
+  panel.scrollIntoView({behavior:"smooth",block:"nearest"});
+ });
+ panel.addEventListener("click",e=>{if(e.target.closest(".vehicle-detail-close")){panel.hidden=true;panel.innerHTML="";}});
  search.addEventListener("input",render);filter.addEventListener("change",render);render();
 })();
