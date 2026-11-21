@@ -142,14 +142,37 @@ render();applyTransform();
   ["Bobcat Bight","water"],["Borrachero Sound","water"],["Burial Creek","water"],["Capri Sound","water"],["Catalan Bay","water"],["Cottonmouth Lake","water"],["Draper Bay","water"],["Emerald River","water"],["Gambit Bay","water"],["Gulf of Leonida","water"],["Gullet Marsh","water"],["Lake Leonida","water"],["Lake Tallaloko","water"],["Leonida Bay","water"],["Leonida Straits","water"],["Millport Basin","water"],["Moreau River","water"],["Nehrling River","water"],["Okchiloha Bay","water"],["Partridge Bay","water"],["Pelican River","water"],["Peregrine Bay","water"],["San Malo Bay","water"],["Three Toe Lake","water"],["Tola Bay","water"],["Tortoise Lake","water"],["Wetman Bay","water"]
  ];
  const grid=document.getElementById("locationGrid"),search=document.getElementById("locationSearch"),filter=document.getElementById("locationType");
- if(!grid||!search||!filter)return;
+ const progressCount=document.getElementById("locationProgressCount"),progressFill=document.getElementById("locationProgressFill"),reset=document.getElementById("locationProgressReset");
+ if(!grid||!search||!filter||!progressCount||!progressFill||!reset)return;
  const labels={place:"PLACE / REGION",landmark:"LANDMARK",road:"ROAD",water:"WATER"};
+ const storageKey="vicecitywire-found-locations-v1";
+ let saved={};
+ try{saved=JSON.parse(localStorage.getItem(storageKey)||"{}")||{};}catch(e){saved={};}
+ const keyFor=name=>"loc-"+name.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+ function updateProgress(save=true){
+  const done=entries.filter(([name])=>Boolean(saved[keyFor(name)])).length;
+  progressCount.textContent=done+" / "+entries.length+" locations found";
+  progressFill.style.width=(done/entries.length*100)+"%";
+  if(save){try{localStorage.setItem(storageKey,JSON.stringify(saved));}catch(e){}}
+ }
  function render(){
   const q=search.value.trim().toLowerCase(),kind=filter.value;
-  const found=entries.filter(([name,type])=>(kind==="all"||kind===type)&&name.toLowerCase().includes(q));
-  grid.innerHTML=found.length?found.map(([name,type])=>'<article class="location-card"><small>'+labels[type]+'</small><b>'+name+'</b><span>PRINTED MAP LABEL</span></article>').join(""):'<div class="db-empty">No matching map labels. Try another search or category.</div>';
+  const matches=entries.filter(([name,type])=>(kind==="all"||kind===type)&&name.toLowerCase().includes(q));
+  grid.innerHTML=matches.length?matches.map(([name,type])=>{
+   const key=keyFor(name),done=Boolean(saved[key]);
+   return '<article class="location-card'+(done?' is-found':'')+'"><small>'+labels[type]+'</small><b>'+name+'</b><span>PRINTED MAP LABEL</span><button type="button" class="location-found" data-location="'+key+'" aria-pressed="'+done+'">'+(done?'✓ FOUND':'＋ MARK AS FOUND')+'</button></article>';
+  }).join(""):'<div class="db-empty">No matching map labels. Try another search or category.</div>';
  }
- search.addEventListener("input",render);filter.addEventListener("change",render);render();
+ grid.addEventListener("click",e=>{
+  const button=e.target.closest("[data-location]");
+  if(!button)return;
+  const key=button.dataset.location;
+  saved[key]=!saved[key];
+  updateProgress();render();
+ });
+ search.addEventListener("input",render);filter.addEventListener("change",render);
+ reset.addEventListener("click",()=>{saved={};try{localStorage.removeItem(storageKey);}catch(e){}updateProgress(false);render();});
+ updateProgress(false);render();
 })();
 
 /* GTA VI mission index: titles from current third-party guide lists. */
