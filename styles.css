@@ -231,3 +231,28 @@ footer p a{color:#ff83b8}
 .map-link-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
 .map-link-row .btn{white-space:nowrap}
 @media(max-width:620px){.community-map-frame{height:72vh;min-height:500px}.map-link-row{flex-direction:column}.map-link-row .btn{width:100%;text-align:center}}
+
+/* Full-game 100 percent checklist */
+.completion-summary{display:grid;grid-template-columns:150px 1fr auto;gap:18px;align-items:center;padding:19px;border:1px solid var(--line);background:linear-gradient(110deg,#17283a,#111925);margin-bottom:15px}
+.completion-summary>div:first-child{display:flex;flex-direction:column;gap:3px}
+.completion-summary>div:first-child b{font:36px Georgia,serif;color:var(--cyan)}
+.completion-summary>div:first-child small{font-size:8px;letter-spacing:.12em;color:var(--muted)}
+.completion-summary-track{height:9px;background:#263448;overflow:hidden}
+.completion-summary-track span{display:block;width:0;height:100%;background:linear-gradient(90deg,var(--cyan),var(--pink));transition:width .2s}
+.completion-summary button{background:transparent;border:1px solid #4a586b;color:#c0cbd6;padding:9px 11px;font-size:8px;letter-spacing:.1em;cursor:pointer}
+.completion-groups{display:grid;gap:14px}
+.completion-group{border:1px solid var(--line);background:#101a27;padding:18px}
+.completion-group-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:13px;border-bottom:1px solid #2a394d}
+.completion-group-head small{font-size:8px;letter-spacing:.15em;color:var(--cyan)}
+.completion-group-head h3{font:23px Georgia,serif;margin:5px 0 0}
+.completion-group-head>b{font-size:10px;color:#aab8c7}
+.completion-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:13px}
+.completion-item{display:flex;align-items:flex-start;gap:10px;padding:11px;border:1px solid #27374a;background:#121f2e;cursor:pointer;min-width:0}
+.completion-item input{margin-top:3px;accent-color:var(--cyan);flex:none}
+.completion-item span{display:grid;gap:4px}
+.completion-item b{font-size:10px;color:var(--txt)}
+.completion-item small{font-size:9px;line-height:1.45;color:var(--muted)}
+.completion-item:has(input:checked){border-color:#477a68;background:#142a28}
+.completion-item:has(input:checked) b{color:#8ee0b6}
+@media(max-width:720px){.completion-summary{grid-template-columns:1fr auto}.completion-summary-track{grid-column:1/-1;grid-row:2}.completion-items{grid-template-columns:1fr}}
+@media(max-width:620px){.completion-summary{grid-template-columns:1fr}.completion-summary-track{grid-column:1;grid-row:auto}.completion-summary button{justify-self:start}}
