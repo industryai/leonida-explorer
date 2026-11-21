@@ -717,3 +717,16 @@ footer p a{color:#ff83b8}
 
 /* Mobile PWA uses the same home and expandable menu navigation as the website. */
 .mobile-dock{display:none!important}
+
+
+/* Homepage-first layout: all atlas content is opened through navigation links. */
+#app > section{display:none}
+#app > section#home{display:grid}
+#app > section:target,
+#app > section:has(:target){display:block}
+#app > section#home:target{display:grid}
+#app > section#home{min-height:calc(100vh - 76px);padding-top:55px;padding-bottom:55px}
+#app > section#home .copy>p{max-width:430px}
+@media(max-width:620px){
+ #app > section#home{min-height:calc(100vh - 65px);padding-top:38px;padding-bottom:38px}
+}
