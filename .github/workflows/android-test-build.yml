@@ -59,7 +59,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test -s icon.jpg
+          test -s icon.png
           python - <<'PY'
           from PIL import Image
           from pathlib import Path
@@ -97,7 +97,7 @@ jobs:
           </resources>
           EOF
           test ! -f android/app/src/main/res/drawable-v24/ic_launcher_foreground.xml
-          test -s android/app/src/main/res/drawable-nodpi/ic_launcher_foreground.png
+          test -s android/app/src/main/res/drawable/ic_launcher_foreground.png
 
       - name: Build debug APK
         working-directory: android
