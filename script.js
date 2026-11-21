@@ -1079,3 +1079,29 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
   if(input.value.trim().length<2) input.placeholder="SEARCH ATLAS…";
  });
 })();
+
+/* Interactive Leonida region selector and local discovery progress */
+(function initRegionMapSelector(){
+ const root=document.getElementById("regionExplorer");if(!root)return;
+ const regions={
+  "vice-city":{name:"Vice City",kicker:"01 / EAST COAST",description:"A dense coastal metropolis of beaches, nightlife, neighbourhoods and big-city ambition.",href:"#region-vice-city"},
+  "leonida-keys":{name:"Leonida Keys",kicker:"02 / SOUTHERN ISLANDS",description:"A tropical island chain surrounded by open water, coastal roads and small communities.",href:"#region-leonida-keys"},
+  "grassrivers":{name:"Grassrivers",kicker:"03 / WETLANDS",description:"Subtropical wetlands, waterways, mangroves and wildlife beyond the city.",href:"#region-grassrivers"},
+  "port-gellhorn":{name:"Port Gellhorn",kicker:"04 / WEST COAST",description:"A faded coastal destination with roadside stops and a different pace from Vice City.",href:"#region-port-gellhorn"},
+  "ambrosia":{name:"Ambrosia",kicker:"05 / INDUSTRIAL HEARTLAND",description:"An industrial and working region associated with the Allied Crystal sugar refinery.",href:"#region-ambrosia"},
+  "mount-kalaga":{name:"Mount Kalaga National Park",kicker:"06 / NORTHERN WILDERNESS",description:"Northern wilderness with forests, rivers and outdoor recreation.",href:"#region-mount-kalaga"}
+ };
+ const key="vicecitywire-region-discoveries-v1",buttons=[...root.querySelectorAll("[data-region]")];
+ const name=root.querySelector("#regionMapName"),kicker=root.querySelector("#regionMapKicker"),description=root.querySelector("#regionMapDescription"),link=root.querySelector("#regionMapLink"),check=root.querySelector("#regionExplored"),progress=root.querySelector("#regionProgress");
+ if(!buttons.length||!name||!kicker||!description||!link||!check||!progress)return;
+ let saved={};try{saved=JSON.parse(localStorage.getItem(key)||"{}")||{};}catch(e){}
+ let active="vice-city";
+ function render(){
+  const item=regions[active];name.textContent=item.name;kicker.textContent=item.kicker;description.textContent=item.description;link.href=item.href;check.checked=!!saved[active];
+  buttons.forEach(button=>{const selected=button.dataset.region===active;button.classList.toggle("active",selected);button.classList.toggle("explored",!!saved[button.dataset.region]);button.setAttribute("aria-pressed",String(selected));});
+  progress.textContent=Object.keys(regions).filter(id=>!!saved[id]).length+" / 6 EXPLORED";
+ }
+ buttons.forEach(button=>button.addEventListener("click",()=>{active=button.dataset.region;render();}));
+ check.addEventListener("change",()=>{if(check.checked)saved[active]=true;else delete saved[active];try{localStorage.setItem(key,JSON.stringify(saved));}catch(e){}render();});
+ render();
+})();
