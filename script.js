@@ -1,10 +1,10 @@
 const points=[
  {id:"loc-vice",name:"Vice City",type:"location",x:58,y:42,icon:"⌂",desc:"Schematic example marker for Vice City. Not a verified in-game coordinate."},
  {id:"loc-coast",name:"Küstenstraße",type:"location",x:37,y:68,icon:"⌂",desc:"Demo marker for a region. Not a verified in-game location."},
- {id:"veh-a",name:"Fahrzeug-Spot A",type:"vehicle",x:66,y:58,icon:"▰",desc:"Placeholder for a vehicle location to be verified."},
- {id:"wep-a",name:"Waffenfund A",type:"weapon",x:46,y:34,icon:"✦",desc:"Placeholder for a weapon location to be verified."},
+ {id:"veh-a",name:"Vehicle Spot A",type:"vehicle",x:66,y:58,icon:"▰",desc:"Placeholder for a vehicle location to be verified."},
+ {id:"wep-a",name:"Weapon Location A",type:"weapon",x:46,y:34,icon:"✦",desc:"Placeholder for a weapon location to be verified."},
  {id:"mis-a",name:"Missionsstart A",type:"mission",x:27,y:49,icon:"◆",desc:"Placeholder for a mission marker."},
- {id:"sec-a",name:"Geheimnis A",type:"secret",x:78,y:30,icon:"?",desc:"Placeholder for an Easter egg or hidden location."}
+ {id:"sec-a",name:"Secret A",type:"secret",x:78,y:30,icon:"?",desc:"Placeholder for an Easter egg or hidden location."}
 ];
 let activeType="all",zoom=1,offsetX=0,offsetY=0,drag=null,selectedId=null;
 const map=document.querySelector("#map"),world=document.querySelector("#mapWorld"),pins=document.querySelector("#pins");
@@ -35,9 +35,9 @@ function render(){
 function selectPoint(p){
  selectedId=p.id;
  document.querySelectorAll(".pin").forEach(b=>b.classList.toggle("selected",b.title===p.name));
- detail.innerHTML="<small>"+typeNames[p.type]+" / DEMO-EINTRAG</small><h3>"+safe(p.name)+"</h3><p>"+safe(p.desc)+"</p><span class='detail-status'>NICHT VERIFIZIERT</span>";
+ detail.innerHTML="<small>"+typeNames[p.type]+" / DEMO ENTRY</small><h3>"+safe(p.name)+"</h3><p>"+safe(p.desc)+"</p><span class='detail-status'>NOT VERIFIED</span>";
 }
-function resetDetail(){selectedId=null;detail.innerHTML="<small>ATLAS-EINTRAG</small><h3>Wähle einen Kartenpunkt</h3><p>Beschreibung, Fundhinweise und Quellen erscheinen hier.</p>";}
+function resetDetail(){selectedId=null;detail.innerHTML="<small>ATLAS ENTRY</small><h3>Select a map marker</h3><p>Descriptions, discovery notes and sources will appear here.</p>";}
 function applyTransform(){world.style.transform="translate("+offsetX+"px,"+offsetY+"px) scale("+zoom+")";}
 function setZoom(next){zoom=Math.max(.75,Math.min(2.25,next));applyTransform();}
 document.querySelectorAll("#filters button").forEach(btn=>btn.addEventListener("click",()=>{
@@ -110,8 +110,8 @@ render();applyTransform();
   {name:"'95 Grotti Cheetah",type:"car",label:"Sports car",source:"Ultimate Edition",note:"Listed as an Ultimate Edition exclusive vehicle."},
   {name:"'67 Vapid Dominator Buggy",type:"car",label:"Beach buggy",source:"Ultimate Edition",note:"Listed as an Ultimate Edition exclusive vehicle."},
   {name:"Dinka Enduro",type:"bike",label:"Off-road motorcycle",source:"Ultimate Edition",note:"Listed as an Ultimate Edition exclusive vehicle."},
-  {name:"Shitzu Squalo",type:"boat",label:"Speedboat",source:"Ultimate Edition",note:"Als exklusives Wasserfahrzeug der Ultimate Edition beschrieben."},
-  {name:"Crest Kayak",type:"other",label:"Kayak",source:"Ultimate Edition",note:"Als exklusives Wasserfahrzeug der Ultimate Edition beschrieben."}
+  {name:"Shitzu Squalo",type:"boat",label:"Speedboat",source:"Ultimate Edition",note:"Listed as an exclusive watercraft in the Ultimate Edition."},
+  {name:"Crest Kayak",type:"other",label:"Kayak",source:"Ultimate Edition",note:"Listed as an exclusive watercraft in the Ultimate Edition."}
  ];
  const weapons=[
   {name:"Girardi ES9",type:"pistol",label:"Pistol",source:"Ultimate Edition",note:"Custom variant named in the edition content."},
