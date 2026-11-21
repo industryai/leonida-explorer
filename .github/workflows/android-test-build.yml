@@ -64,7 +64,7 @@ jobs:
           from PIL import Image
           from pathlib import Path
 
-          source = Image.open("icon.jpg").convert("RGB")
+          source = Image.open("icon.png").convert("RGB")
           for density, size in [("mdpi", 48), ("hdpi", 72), ("xhdpi", 96), ("xxhdpi", 144), ("xxxhdpi", 192)]:
               target = Path(f"android/app/src/main/res/mipmap-{density}")
               target.mkdir(parents=True, exist_ok=True)
