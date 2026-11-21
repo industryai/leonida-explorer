@@ -317,3 +317,30 @@ footer p a{color:#ff83b8}
 .wildlife-map-links a:hover{border-color:var(--cyan);color:var(--cyan)}
 @media(max-width:700px){.wildlife-category-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.wildlife-category-heading{flex-direction:column}}
 @media(max-width:620px){.wildlife-map-links{align-items:flex-start;flex-direction:column}.wildlife-map-links a,.wildlife-map-links b{width:100%}}
+
+/* Hunting field dossier */
+.hunting-summary{display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:center;padding:15px;margin-bottom:14px;border:1px solid var(--line);background:#101a27}
+.hunting-summary>div:first-child{display:grid;gap:4px}
+.hunting-summary b{font:23px Georgia,serif;color:var(--cyan)}
+.hunting-summary small{font-size:8px;letter-spacing:.1em;color:var(--muted)}
+.hunting-summary-track{height:7px;background:#263448;overflow:hidden}
+.hunting-summary-track span{display:block;width:0;height:100%;background:linear-gradient(90deg,var(--cyan),var(--pink));transition:width .2s}
+.hunting-summary button{background:transparent;border:1px solid #4a586b;color:#c0cbd6;padding:9px 11px;font-size:8px;letter-spacing:.1em;cursor:pointer}
+.hunting-controls{display:flex;gap:9px;margin:0 0 15px}
+.hunting-controls input,.hunting-controls select{background:#0b1420;color:var(--txt);border:1px solid var(--line);padding:12px 13px;font:inherit;font-size:10px;min-width:0}
+.hunting-controls input{flex:1}
+.hunting-card{padding:0 0 12px;overflow:hidden}
+.hunting-card .db-card-top,.hunting-card h3,.hunting-card p{margin-left:15px;margin-right:15px}
+.hunting-card h3{font:20px Georgia,serif;margin-top:8px}
+.hunting-card p{font-size:9px;line-height:1.5;color:var(--muted);margin-top:6px;margin-bottom:0}
+.hunting-card p b{font-size:8px;letter-spacing:.08em;color:var(--cyan)}
+.hunting-check{display:flex;align-items:center;gap:8px;padding:10px 15px;margin-top:10px;border-top:1px solid #2a394d;font-size:8px;letter-spacing:.1em;color:#b8c7d5;cursor:pointer}
+.hunting-check input{accent-color:var(--cyan)}
+.hunting-decks{margin-top:18px;border:1px solid var(--line);background:linear-gradient(140deg,#172638,#101722);padding:20px}
+.hunting-decks small{font-size:8px;letter-spacing:.15em;color:var(--cyan)}
+.hunting-decks h3{font:24px Georgia,serif;margin:8px 0 12px}
+.hunting-decks p{font-size:10px;line-height:1.65;color:var(--muted);margin:8px 0}
+.hunting-decks p b{color:var(--txt)}
+.hunting-decks span{display:block;margin-top:12px;padding-top:10px;border-top:1px solid #2a394d;font-size:8px;letter-spacing:.1em;color:#d2b58c}
+@media(max-width:850px){.hunting-controls{flex-wrap:wrap}.hunting-controls input{flex-basis:100%}}
+@media(max-width:620px){.hunting-summary{grid-template-columns:1fr}.hunting-controls{flex-direction:column}.hunting-controls select{width:100%}}
