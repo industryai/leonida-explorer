@@ -168,3 +168,24 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
  viewport.addEventListener("dblclick",e=>{const r=viewport.getBoundingClientRect();zoom(scale*1.5,e.clientX-r.left,e.clientY-r.top);});
  img.addEventListener("load",render);render();
 })();
+
+/* Launch-week secrets and Easter eggs: status is based on independent published reports. */
+(function initSecrets(){
+ const items=[
+  {name:"The Literal Easter Egg",type:"Easter egg",where:"Top of Vice City's tallest radio tower",detail:"Climb to the nest at the top of the tower, take a painted egg and throw it from the ledge to trigger a short scene.",status:"confirmed",source:"Windows Central",url:"https://www.windowscentral.com/gaming/gta-6-players-are-ignoring-crime-to-jet-ski-with-dogs-and-redecorate-their-bedrooms-the-funniest-clips-so-far"},
+  {name:"The Skunk Ape",type:"Rare encounter",where:"Gullet Marsh / Cottonmouth Lake swamp area",detail:"Players report a Bigfoot-like creature in the wetlands. Reports differ on the precise encounter point; follow the in-game clues rather than relying on an exact pin.",status:"confirmed",source:"VICEGUIDE launch-day roundup",url:"https://viceguide.de/artikel/gta-6-easter-eggs-im-spiel"},
+  {name:"Cool Dog & Dog Island",type:"Rare encounter",where:"Open water off the coast",detail:"When stranded far offshore, a dog wearing goggles may arrive on a jet ski and take the player to an island inhabited by dogs.",status:"confirmed",source:"Windows Central",url:"https://www.windowscentral.com/gaming/gta-6-players-are-ignoring-crime-to-jet-ski-with-dogs-and-redecorate-their-bedrooms-the-funniest-clips-so-far"},
+  {name:"Dexter's Apartment",type:"Pop-culture reference",where:"Washington Island, Vice City",detail:"A building resembling Dexter Morgan's apartment from the television series Dexter has been spotted. Reports describe it as an exterior reference, not an explorable interior.",status:"reported",source:"VICEGUIDE launch-day roundup",url:"https://viceguide.de/artikel/gta-6-easter-eggs-im-spiel"},
+  {name:"Giant Crab Ambush",type:"Easter egg",where:"Crab research site",detail:"Players have reported a giant-crab encounter at a research location. Exact approach and trigger details are still being cross-checked.",status:"reported",source:"Vice City DB discovery tracker",url:"https://vicecitydb.org/easter-eggs"},
+  {name:"Kraken Sighting",type:"Unverified lead",where:"Open water",detail:"A large sea-creature sighting has circulated in early player footage, but the available reports are not yet strong enough to treat it as confirmed.",status:"reported",source:"Vice City DB discovery tracker",url:"https://vicecitydb.org/easter-eggs"}
+ ];
+ const grid=document.getElementById("secretGrid"),search=document.getElementById("secretSearch"),filter=document.getElementById("secretStatus");
+ if(!grid||!search||!filter)return;
+ const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ function render(){
+  const q=search.value.trim().toLowerCase(),status=filter.value;
+  const found=items.filter(x=>(status==="all"||x.status===status)&&(x.name+" "+x.type+" "+x.where+" "+x.detail).toLowerCase().includes(q));
+  grid.innerHTML=found.length?found.map((x,i)=>'<article class="secret-card"><div class="secret-card-top"><span>'+esc(x.type)+'</span><em class="'+(x.status==="confirmed"?"verified":"reported")+'">'+(x.status==="confirmed"?"CROSS-CHECKED":"REPORTED")+'</em></div><h3>'+esc(x.name)+'</h3><p class="secret-where">LOCATION · '+esc(x.where)+'</p><p>'+esc(x.detail)+'</p><a href="'+x.url+'" target="_blank" rel="noopener">SOURCE: '+esc(x.source.toUpperCase())+' ↗</a></article>').join(""):'<div class="db-empty">No matching discoveries. Try another search or status.</div>';
+ }
+ search.addEventListener("input",render);filter.addEventListener("change",render);render();
+})();
