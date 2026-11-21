@@ -532,3 +532,19 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
  reset.addEventListener("click",()=>{saved={};try{localStorage.removeItem(key);}catch(e){}render();update(false);});
  render();update(false);
 })();
+
+
+/* Collectible card set directory and personal completion tracker */
+(function initCardSetDirectory(){
+ const grid=document.getElementById("cardSetGrid"),search=document.getElementById("cardSetSearch"),status=document.getElementById("cardSetStatus"),count=document.getElementById("cardSetCount"),fill=document.getElementById("cardSetFill"),reset=document.getElementById("cardSetReset");
+ if(!grid||!search||!status||!count||!fill||!reset)return;
+ const sets=[["Vice City Flamingos",24],["Vice City Narcos",24],["Vice City Manatees",24],["Vice City Club de Fútbol",30],["Liberty City Swingers",24],["Liberty City Penetrators",24],["Liberty City Wrath",24],["Los Santos Corkers",24],["Los Santos Panic",24],["Los Santos Pounders",24],["Backyard Wrestling",12],["America's Next Top Hooker",24],["Delights Dancers",18],["Jack of Hearts",36],["Nine1Nine",36],["The Legends of Ratface",36],["Right Wing: America's Hero",36],["ED Comics Universe",36]];
+ const key="vicecitywire-card-sets-v1";let saved={};try{saved=JSON.parse(localStorage.getItem(key)||"{}")||{};}catch(e){}
+ const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ function render(){const q=search.value.trim().toLowerCase(),f=status.value;const list=sets.map((x,i)=>({name:x[0],cards:x[1],i,done:!!saved[i]})).filter(x=>(!q||x.name.toLowerCase().includes(q))&&(f==="all"||(f==="found"&&x.done)||(f==="missing"&&!x.done)));
+ grid.innerHTML=list.length?list.map(x=>'<article class="db-card card-set-card"><div class="db-card-top"><span class="db-type">CARD SET · '+String(x.i+1).padStart(2,"0")+'</span><span class="db-status">'+(x.done?"COMPLETED":"IN PROGRESS")+'</span></div><h3>'+esc(x.name)+'</h3><p>'+x.cards+' cards in this set · fixed standard pickup locations; random cards may also contribute to progress.</p><label class="card-set-check"><input type="checkbox" data-card-set="'+x.i+'" '+(x.done?"checked":"")+'><span>MARK SET COMPLETE</span></label><a href="https://www.pushsquare.com/guides/gta-6-collectible-card-locations" target="_blank" rel="noopener">OPEN CARD LOCATION INDEX ↗</a></article>').join(""):'<div class="db-empty">No matching card sets. Adjust your search or filter.</div>';
+ const done=sets.filter((x,i)=>saved[i]).length;count.textContent=done+" / 18 sets";fill.style.width=(done/18*100)+"%";
+ }
+ grid.addEventListener("change",e=>{if(e.target.matches("[data-card-set]")){saved[e.target.dataset.cardSet]=e.target.checked;try{localStorage.setItem(key,JSON.stringify(saved));}catch(e){}render();}});
+ search.addEventListener("input",render);status.addEventListener("change",render);reset.addEventListener("click",()=>{saved={};try{localStorage.removeItem(key);}catch(e){}render();});render();
+})();
