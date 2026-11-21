@@ -103,3 +103,33 @@ render();applyTransform();
  });
  update(false);
 })();
+/* Searchable starter catalogues. Scope is deliberately limited to sourced edition items. */
+(function initCatalogues(){
+ const vehicles=[
+  {name:"'55 Vapid Stanier",type:"car",label:"Klassische Limousine",source:"Vintage Vice City Pack",note:"Als Vorbestellerbonus mit Garage beschrieben."},
+  {name:"'95 Grotti Cheetah",type:"car",label:"Sportwagen",source:"Ultimate Edition",note:"Als exklusives Fahrzeug der Ultimate Edition beschrieben."},
+  {name:"'67 Vapid Dominator Buggy",type:"car",label:"Beach Buggy",source:"Ultimate Edition",note:"Als exklusives Fahrzeug der Ultimate Edition beschrieben."},
+  {name:"Dinka Enduro",type:"bike",label:"Geländemotorrad",source:"Ultimate Edition",note:"Als exklusives Fahrzeug der Ultimate Edition beschrieben."},
+  {name:"Shitzu Squalo",type:"boat",label:"Speedboat",source:"Ultimate Edition",note:"Als exklusives Wasserfahrzeug der Ultimate Edition beschrieben."},
+  {name:"Crest Kayak",type:"other",label:"Kajak",source:"Ultimate Edition",note:"Als exklusives Wasserfahrzeug der Ultimate Edition beschrieben."}
+ ];
+ const weapons=[
+  {name:"Girardi ES9",type:"pistol",label:"Pistole",source:"Ultimate Edition",note:"Personalisierte Variante in den Editionsinhalten genannt."},
+  {name:"Klose K17",type:"pistol",label:"Pistole",source:"Ultimate Edition",note:"Personalisierte Variante in den Editionsinhalten genannt."},
+  {name:"Hawk & Little Morgan",type:"revolver",label:"Revolver",source:"Ultimate Edition",note:"Revolver-Inhalt der Ultimate Edition."}
+ ];
+ function escapeText(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+ function mount(config){
+  const grid=document.getElementById(config.grid),search=document.getElementById(config.search),select=document.getElementById(config.select);
+  if(!grid||!search||!select)return;
+  function render(){
+   const q=search.value.trim().toLowerCase(),kind=select.value;
+   const items=config.items.filter(x=>(kind==="all"||x.type===kind)&&(x.name+" "+x.label+" "+x.note).toLowerCase().includes(q));
+   if(!items.length){grid.innerHTML='<div class="db-empty">Keine passenden Einträge gefunden. Ändere den Suchbegriff oder den Filter.</div>';return;}
+   grid.innerHTML=items.map(x=>'<article class="db-card"><div class="db-card-top"><span class="db-type">'+escapeText(x.label)+'</span><span class="db-status">QUELLENBASIERT</span></div><h3>'+escapeText(x.name)+'</h3><p>'+escapeText(x.note)+'</p><div class="db-meta">DATENBASIS: '+escapeText(x.source.toUpperCase())+'</div></article>').join("");
+  }
+  search.addEventListener("input",render);select.addEventListener("change",render);render();
+ }
+ mount({grid:"vehicleGrid",search:"vehicleSearch",select:"vehicleType",items:vehicles});
+ mount({grid:"weaponGrid",search:"weaponSearch",select:"weaponType",items:weapons});
+})();
