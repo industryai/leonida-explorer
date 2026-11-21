@@ -41,7 +41,7 @@ jobs:
         uses: android-actions/setup-android@v4
 
       - name: Install image renderer
-        run: sudo apt-get update && sudo apt-get install -y imagemagick
+        run: python -m pip install --user pillow
 
       - name: Install JavaScript dependencies
         run: npm install
@@ -60,18 +60,26 @@ jobs:
         run: |
           set -euo pipefail
           test -s icon.jpg
-          identify icon.jpg
-          for spec in "mdpi:48" "hdpi:72" "xhdpi:96" "xxhdpi:144" "xxxhdpi:192"; do
-            density="${spec%%:*}"
-            size="${spec##*:}"
-            target="android/app/src/main/res/mipmap-${density}"
-            mkdir -p "$target"
-            convert icon.jpg -resize "${size}x${size}" -background '#090d15' -gravity center -extent "${size}x${size}" "$target/ic_launcher.png"
-            cp "$target/ic_launcher.png" "$target/ic_launcher_round.png"
-          done
+          python - <<'PY'
+          from PIL import Image
+          from pathlib import Path
+
+          source = Image.open("icon.jpg").convert("RGB")
+          for density, size in [("mdpi", 48), ("hdpi", 72), ("xhdpi", 96), ("xxhdpi", 144), ("xxxhdpi", 192)]:
+              target = Path(f"android/app/src/main/res/mipmap-{density}")
+              target.mkdir(parents=True, exist_ok=True)
+              icon = source.resize((size, size), Image.Resampling.LANCZOS)
+              icon.save(target / "ic_launcher.png", format="PNG", optimize=True)
+              icon.save(target / "ic_launcher_round.png", format="PNG", optimize=True)
+
+          # Capacitor ships a default foreground drawable. Replace the exact
+          # resource path referenced by the adaptive icon, not drawable-nodpi-v4.
+          foreground = Path("android/app/src/main/res/drawable/ic_launcher_foreground.png")
+          foreground.parent.mkdir(parents=True, exist_ok=True)
+          source.resize((432, 432), Image.Resampling.LANCZOS).save(foreground, format="PNG", optimize=True)
+          PY
           rm -f android/app/src/main/res/drawable-v24/ic_launcher_foreground.xml
-          mkdir -p android/app/src/main/res/drawable-nodpi
-          convert icon.jpg -resize 432x432 -background '#090d15' -gravity center -extent 432x432 android/app/src/main/res/drawable-nodpi/ic_launcher_foreground.png
+          rm -f android/app/src/main/res/drawable-nodpi/ic_launcher_foreground.png
           adaptive="android/app/src/main/res/mipmap-anydpi-v26"
           mkdir -p "$adaptive"
           cat > "$adaptive/ic_launcher.xml" <<'EOF'
