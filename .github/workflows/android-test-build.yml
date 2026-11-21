@@ -7,6 +7,8 @@ on:
       - "index.html"
       - "*.js"
       - "*.css"
+      - "*.svg"
+      - "*.webmanifest"
       - "assets/**"
       - "package.json"
       - "capacitor.config.json"
@@ -37,6 +39,9 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v4
 
+      - name: Install SVG renderer
+        run: sudo apt-get update && sudo apt-get install -y librsvg2-bin
+
       - name: Install JavaScript dependencies
         run: npm install
 
@@ -48,6 +53,37 @@ jobs:
 
       - name: Sync Capacitor assets
         run: npx cap sync android
+
+      - name: Apply VICECITYWIRE launcher icon
+        shell: bash
+        run: |
+          set -euo pipefail
+          for spec in "mdpi:48" "hdpi:72" "xhdpi:96" "xxhdpi:144" "xxxhdpi:192"; do
+            density="${spec%%:*}"
+            size="${spec##*:}"
+            target="android/app/src/main/res/mipmap-${density}"
+            mkdir -p "$target"
+            rsvg-convert -w "$size" -h "$size" icon.svg > "$target/ic_launcher.png"
+            cp "$target/ic_launcher.png" "$target/ic_launcher_round.png"
+          done
+          adaptive="android/app/src/main/res/mipmap-anydpi-v26"
+          mkdir -p "$adaptive"
+          cat > "$adaptive/ic_launcher.xml" <<'EOF'
+          <?xml version="1.0" encoding="utf-8"?>
+          <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+              <background android:drawable="@color/ic_launcher_background"/>
+              <foreground>
+                  <inset android:drawable="@mipmap/ic_launcher" android:inset="0%"/>
+              </foreground>
+          </adaptive-icon>
+          EOF
+          cp "$adaptive/ic_launcher.xml" "$adaptive/ic_launcher_round.xml"
+          mkdir -p android/app/src/main/res/values
+          cat > android/app/src/main/res/values/ic_launcher_background.xml <<'EOF'
+          <resources>
+              <color name="ic_launcher_background">#090d15</color>
+          </resources>
+          EOF
 
       - name: Build debug APK
         working-directory: android
