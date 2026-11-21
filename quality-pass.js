@@ -112,14 +112,14 @@
  
  /* Correct scope labels: these local catalogues are useful subsets, not complete game inventories. */
  const setText=(selector,value)=>{const el=document.querySelector(selector);if(el)el.textContent=value;};
- setText('#vehicles .heading .status',"29 CATALOGUED RECORDS · PARTIAL INDEX");
+ setText('#vehicles .heading .status',"26 CATALOGUED RECORDS · PARTIAL INDEX");
  setText('#weapons .heading .status',"65 INDEX RECORDS · 66 STANDARD ISSUE TARGET");
  setText('#fishing .heading .status',"35 SPECIES · REPORTED AREAS");
  setText('#locations .heading .status',"160 MAP LABELS · 4 TYPES");
  setText('#businesses .heading .status',"60 BUSINESS / PROPERTY ENTRIES");
  setText('#factions .heading .status',"27 GANGS, CREWS & AGENCIES");
  setText('#ammu .heading .status',"24 STORES · 5 COUNTIES");
- setText('#hunting .heading .status',"28 NAMED ANIMALS · 61 LOG SLOTS");
+ setText('#hunting .heading .status',"29 NAMED ANIMALS · 61 LOG SLOTS");
  setText('#collectible-index .heading .status',"18 CARD SETS · 33 UNDERWATER SITES");
  setText('#trophies .heading .status',"55 CONSOLE AWARDS · 1,000G");
  setText('#secrets .heading .status',"11 REPORTED DISCOVERIES");
@@ -127,7 +127,7 @@
  const missionStatus=document.querySelector('#missions .heading .status');if(missionStatus)missionStatus.textContent="91 MAIN STORY MISSIONS · 5 CHAPTERS";
  const missionNote=document.querySelector('#missions .spoiler-alert');if(missionNote)missionNote.textContent="SPOILER WARNING: The index covers 91 main-story missions across five chapters. Optional missions, side tasks and Strangers & Freaks are separate; mission order can vary. Three late-story titles remain spoiler-protected in this index.";
  const completionNote=document.querySelector('#completion .db-footnote');if(completionNote)completionNote.innerHTML='Weighting follows the published in-game split: Main Story 50%, Story Tasks 27%, Exploration & Activities 20%, Discovery 3%. Each checklist row carries its reported contribution. Progress is stored locally in this browser. <a href="https://www.powerpyx.com/gta-6-100-completion-checklist-guide/" target="_blank" rel="noopener">POWERPYX · 100% REQUIREMENTS ↗</a> · <a href="https://www.gtabase.com/articles/gta-6/gta-6-100-completion-guide-interactive-checklist" target="_blank" rel="noopener">GTABASE · WEIGHTED CHECKLIST ↗</a>';
- const vehicleNote=document.querySelector('#vehicles .db-footnote');if(vehicleNote)vehicleNote.textContent="This is a curated index of 29 named vehicle records, not the complete 277 base-model scan list or all 557 vehicle entries reported by current guides. Use the external map and database for the wider catalogue; local records only show names and evidence that have been transcribed here.";
+ const vehicleNote=document.querySelector('#vehicles .db-footnote');if(vehicleNote)vehicleNote.textContent="This is a curated index of 26 named vehicle records, not the complete 277 base-model scan list or all 557 vehicle entries reported by current guides. Use the external map and database for the wider catalogue; local records only show names and evidence that have been transcribed here.";
  const weaponNote=document.querySelector('#weapons .db-footnote');if(weaponNote)weaponNote.textContent="This local index contains 65 named records and is not a complete inventory of every standard-issue weapon or unique variant. The reported 100% requirement is to find 50 of 66 standard-issue weapons (53 guns, 9 melee weapons and 4 explosives). Check the linked current weapon database for additions and availability.";
  const characterNote=document.querySelector('#characters .spoiler-alert');if(characterNote)characterNote.textContent="SCOPE NOTE: This directory contains 28 named character entries: eight Rockstar profile dossiers plus additional people identified in official media and post-release character references. Evidence level is stated per entry; one entry is explicitly marked unconfirmed. Performer credits are shown only where listed in the cited cast reference.";
  const fishingNote=document.querySelector('#fishing .spoiler-alert');if(fishingNote)fishingNote.textContent="This is a 35-species starter index with reported area labels, not a coordinate-accurate hotspot map. Fishing progress is a personal browser checklist and does not sync with the game save.";
