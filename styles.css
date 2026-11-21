@@ -544,3 +544,10 @@ footer p a{color:#ff83b8}
  .top nav#nav .nav-dropdown a{white-space:normal;padding:10px 12px}
  .top .toplink{display:none}
 }
+
+
+/* Official Jason & Lucia hero artwork */
+.poster-official{position:relative;overflow:hidden;min-height:440px;height:clamp(390px,34vw,520px);background:#17172a;border:1px solid #39445a;box-shadow:0 24px 70px #0007}
+.poster-official .hero-character-art{display:block;width:100%;height:100%;min-height:inherit;object-fit:cover;object-position:center 35%}
+.hero-art-credit{position:absolute;right:12px;bottom:12px;padding:7px 10px;background:#080c16c9;border:1px solid #ffffff30;color:#d6deea;font-size:8px;letter-spacing:.14em;backdrop-filter:blur(8px)}
+@media(max-width:760px){.poster-official{min-height:320px;height:62vw}.poster-official .hero-character-art{object-position:center 30%}}
