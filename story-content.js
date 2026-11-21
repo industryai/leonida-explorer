@@ -161,7 +161,7 @@
  ];
  const charGrid=$("characterGrid"),charSearch=$("characterSearch"),charRole=$("characterRole"),charStatus=$("characterStatus");
  if(charGrid&&charSearch&&charRole&&charStatus){
-  const key="vicecitywire-character-review-v1";let saved={};try{saved=JSON.parse(localStorage.getItem(key)||"{}")||{};}catch(_){}
+  const key="vicecitywire-character-review-v2";let saved={};try{const current=localStorage.getItem(key);if(current)saved=JSON.parse(current)||{};else{const legacy=JSON.parse(localStorage.getItem("vicecitywire-character-review-v1")||"{}")||{};saved={0:!!legacy[0],1:!!legacy[1],2:!!legacy[2],3:!!legacy[3],4:!!legacy[4],5:!!legacy[6],6:!!legacy[7],7:!!legacy[5],8:!!legacy[5]};if(Object.values(saved).some(Boolean))localStorage.setItem(key,JSON.stringify(saved));}}catch(_){}
   const render=()=>{
    const q=charSearch.value.toLowerCase().trim(),r=charRole.value,s=charStatus.value;
    const rows=characters.map((x,i)=>({x,i,done:!!saved[i]})).filter(o=>{
