@@ -119,7 +119,16 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
  const progressCount=document.getElementById("locationProgressCount"),progressFill=document.getElementById("locationProgressFill"),reset=document.getElementById("locationProgressReset");
  if(!grid||!search||!filter||!progressCount||!progressFill||!reset)return;
  const labels={place:"PLACE / REGION",landmark:"LANDMARK",road:"ROAD",water:"WATER"};
- const relatedFor=(name,type)=>{
+ const regionFor=name=>{
+  const n=name.toLowerCase();
+  if(/vice city|vice beach|vice-dale|ocean beach|southside|little cuba|washington beach|starfish island|downtown|decor district|leaf links|la perle|vc port|vci airport/.test(n))return "Vice City";
+  if(/key|island|keys|catalan|maroon|abismo|goose|peacock bay|leonida keys|key lento|bobcat|shoeless|permit/.test(n))return "Leonida Keys";
+  if(/grassrivers|swamp|marsh|frogswater|buckskin|gullet/.test(n))return "Grassrivers";
+  if(/port gellhorn|gellhorn|millport|salton|waning sands|hamlet|rockridge/.test(n))return "Port Gellhorn";
+  if(/ambrosia|capri|belpoint|belville|bluegrass|cellerica|sugar refinery|raceway/.test(n))return "Ambrosia";
+  if(/mount kalaga|manifest canyon|richard barebone|wild hog|north leonard|south leonard/.test(n))return "Mount Kalaga";
+  return "Leonida";
+ };\n const relatedFor=(name,type)=>{
   const n=name.toLowerCase(),links=[];
   const add=(label,href)=>links.push([label,href]);
   const regions=[
@@ -161,10 +170,16 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
   const matches=entries.filter(([name,type])=>(kind==="all"||kind===type)&&name.toLowerCase().includes(q));
   grid.innerHTML=matches.length?matches.map(([name,type])=>{
    const key=keyFor(name),done=Boolean(saved[key]);
-   return '<article class="location-card'+(done?' is-found':'')+'"><small>'+labels[type]+'</small><b>'+name+'</b><span>PRINTED MAP LABEL</span><div class="location-related"><small>RELATED ATLAS SECTIONS</small><div>'+relatedFor(name,type).map(([label,href])=>'<a href="'+href+'">'+label+' ↗</a>').join('')+'</div></div><button type="button" class="location-found" data-location="'+key+'" aria-pressed="'+done+'">'+(done?'✓ FOUND':'＋ MARK AS FOUND')+'</button></article>';
+   return '<article class="location-card'+(done?' is-found':'')+'"><small>'+labels[type]+'</small><b>'+name+'</b><span>PRINTED MAP LABEL</span><div class="location-related"><small>RELATED ATLAS SECTIONS</small><div>'+relatedFor(name,type).map(([label,href])=>'<a href="'+href+'">'+label+' ↗</a>').join('')+'</div></div><button type="button" class="location-add-trip" data-add-trip="'+name+'" data-trip-type="'+type+'" data-trip-region="'+regionFor(name)+'">＋ ADD TO TRIP</button><button type="button" class="location-found" data-location="'+key+'" aria-pressed="'+done+'">'+(done?'✓ FOUND':'＋ MARK AS FOUND')+'</button></article>';
   }).join(""):'<div class="db-empty">No matching map labels. Try another search or category.</div>';
  }
  grid.addEventListener("click",e=>{
+  const tripButton=e.target.closest("[data-add-trip]");
+  if(tripButton){
+   window.dispatchEvent(new CustomEvent("vicecitywire:add-trip-stop",{detail:{name:tripButton.dataset.addTrip,type:tripButton.dataset.tripType,region:tripButton.dataset.tripRegion}}));
+   const oldLabel=tripButton.textContent;tripButton.textContent="✓ ADDED";tripButton.disabled=true;
+   window.location.hash="#trip-planner";return;
+  }
   const button=e.target.closest("[data-location]");
   if(!button)return;
   const key=button.dataset.location;
@@ -695,6 +710,14 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
   const visited=state.stops.filter(x=>x.visited).length;summary.textContent=state.stops.length+" stops · "+visited+" visited";save();
  }
  function addStop(n,t,r,nt){if(!n.trim())return;state.stops.push({name:n.trim(),type:t,region:region.value,note:nt.trim(),visited:false});name.value="";note.value="";save();render();}
+ window.addEventListener("vicecitywire:add-trip-stop",event=>{
+  const item=event.detail||{};if(!item.name)return;
+  const chosenRegion=item.region||region.value;
+  state.stops.push({name:item.name,type:item.type||"Map location",region:chosenRegion,note:"Added directly from the Location Directory",visited:false});
+  region.value=chosenRegion;state.region=chosenRegion;
+  state.day=state.day||"Day 1 — "+chosenRegion;day.value=state.day;
+  save();render();
+ });
  add.addEventListener("click",()=>addStop(name.value,type.value,region.value,note.value));
  name.addEventListener("keydown",e=>{if(e.key==="Enter")add.click();});
  day.addEventListener("input",save);region.addEventListener("change",save);
