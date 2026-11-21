@@ -145,3 +145,26 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
  }
  search.addEventListener("input",render);filter.addEventListener("change",render);render();
 })();
+/* Interactive poster map: wheel/pinch zoom, pointer drag and reset */
+(function initLeonidaMap(){
+ const viewport=document.getElementById("mapViewport"),img=document.getElementById("leonidaMap");
+ const label=document.getElementById("mapZoomLabel"),plus=document.getElementById("mapZoomIn"),minus=document.getElementById("mapZoomOut"),reset=document.getElementById("mapReset");
+ if(!viewport||!img||!label||!plus||!minus||!reset)return;
+ let scale=1,x=0,y=0,drag=null;
+ const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
+ function render(){img.style.transform="translate(calc(-50% + "+x+"px),calc(-50% + "+y+"px)) scale("+scale+")";label.textContent=Math.round(scale*100)+"%";}
+ function zoom(next,cx=viewport.clientWidth/2,cy=viewport.clientHeight/2){
+  const old=scale;next=clamp(next,1,5);if(next===old)return;
+  const px=cx-viewport.clientWidth/2-x,py=cy-viewport.clientHeight/2-y;
+  x-=px*(next/old-1);y-=py*(next/old-1);scale=next;render();
+ }
+ plus.addEventListener("click",()=>zoom(scale*1.25));minus.addEventListener("click",()=>zoom(scale/1.25));
+ reset.addEventListener("click",()=>{scale=1;x=0;y=0;render();});
+ viewport.addEventListener("wheel",e=>{e.preventDefault();zoom(scale*(e.deltaY<0?1.12:1/1.12),e.offsetX,e.offsetY);},{passive:false});
+ viewport.addEventListener("pointerdown",e=>{if(e.button!==0)return;drag={id:e.pointerId,x:e.clientX,y:e.clientY,ox:x,oy:y};viewport.setPointerCapture(e.pointerId);});
+ viewport.addEventListener("pointermove",e=>{if(!drag||drag.id!==e.pointerId)return;x=drag.ox+e.clientX-drag.x;y=drag.oy+e.clientY-drag.y;render();});
+ const stop=e=>{if(drag&&drag.id===e.pointerId)drag=null;};
+ viewport.addEventListener("pointerup",stop);viewport.addEventListener("pointercancel",stop);viewport.addEventListener("lostpointercapture",()=>drag=null);
+ viewport.addEventListener("dblclick",e=>{const r=viewport.getBoundingClientRect();zoom(scale*1.5,e.clientX-r.left,e.clientY-r.top);});
+ img.addEventListener("load",render);render();
+})();
