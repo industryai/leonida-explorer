@@ -731,3 +731,53 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
  search.addEventListener("input",render);[kind,evidence,status].forEach(x=>x.addEventListener("change",render));
  reset.addEventListener("click",()=>{saved={};try{localStorage.removeItem(key);}catch(e){}render();});render();
 })();
+
+
+/* Evidence-led character, business and place relationship graph */
+(function initRelationshipGraph(){
+ const svg=document.getElementById("relationshipGraph"),detail=document.getElementById("networkDetail"),count=document.getElementById("networkCount");
+ if(!svg||!detail||!count)return;
+ const nodes=[
+  {id:"jason",name:"Jason Duval",kind:"people",x:150,y:115,desc:"Former Army serviceman working for local drug runners in the Leonida Keys. Brian lets him live at one of his properties in return for local work.",source:"Rockstar character biography"},
+  {id:"lucia",name:"Lucia Caminos",kind:"people",x:150,y:35,desc:"Recently released from Leonida Penitentiary. Rockstar places her partnership with Jason at the centre of the story.",source:"Rockstar character biography"},
+  {id:"cal",name:"Cal Hampton",kind:"people",x:355,y:75,desc:"Jason's friend and a fellow associate of Brian. Cal monitors Coast Guard communications from home.",source:"Rockstar character biography"},
+  {id:"brian",name:"Brian Heder",kind:"people",x:555,y:135,desc:"Veteran Keys drug runner who moves product through his boat yard. He houses Jason and uses him for local shakedowns.",source:"Rockstar character biography"},
+  {id:"lori",name:"Lori Heder",kind:"people",x:735,y:35,desc:"Brian's third wife, mentioned in Rockstar's official biography of Brian.",source:"Rockstar character biography"},
+  {id:"raul",name:"Raul Bautista",kind:"people",x:150,y:360,desc:"Seasoned bank robber recruiting people willing to take risks for high rewards. Rockstar does not name his crew members in the profile.",source:"Rockstar character biography"},
+  {id:"boobie",name:"Boobie Ike",kind:"people",x:790,y:280,desc:"Vice City businessman with interests in real estate, a strip club and a recording studio. His partnership with Dre'Quan is a priority.",source:"Rockstar character biography"},
+  {id:"drequan",name:"Dre'Quan Priest",kind:"people",x:970,y:280,desc:"Aspiring music mogul building Only Raw Records. He has signed Real Dimez.",source:"Rockstar character biography"},
+  {id:"real",name:"Real Dimez",kind:"people",x:1060,y:390,desc:"Rap duo formed by longtime friends Bae-Luxe and Roxy. The duo is signed to Only Raw Records.",source:"Rockstar character biography"},
+  {id:"dwnply",name:"DWNPLY",kind:"people",x:900,y:430,desc:"Local rapper who collaborated with Real Dimez on an early hit single.",source:"Rockstar character biography"},
+  {id:"keys",name:"Leonida Keys",kind:"places",x:405,y:285,desc:"The region where Jason works for local drug runners and Brian operates his boat yard.",source:"Rockstar region and character biographies"},
+  {id:"vice",name:"Vice City",kind:"places",x:790,y:160,desc:"The city where Boobie Ike's business empire and Only Raw Records are based.",source:"Rockstar character biography"},
+  {id:"yard",name:"Brian's boat yard",kind:"business",x:560,y:385,desc:"Brian continues to move product through his boat yard in the Keys.",source:"Rockstar character biography"},
+  {id:"onlyraw",name:"Only Raw Records",kind:"business",x:990,y:170,desc:"Record label developed by Dre'Quan in partnership with Boobie Ike. Real Dimez are signed to the label.",source:"Rockstar character biography"},
+  {id:"studio",name:"Recording studio",kind:"business",x:700,y:405,desc:"Part of Boobie Ike's legitimate business empire; the official biography does not provide a precise map address here.",source:"Rockstar character biography"},
+  {id:"club",name:"Boobie's strip club",kind:"business",x:720,y:330,desc:"A venue in Boobie's business empire where Dre'Quan books acts. Not treated as an exact mapped location.",source:"Rockstar character biography"},
+  {id:"crew",name:"Raul's robbery crew",kind:"business",x:330,y:425,desc:"An unnamed group of people Raul recruits for high-risk bank robberies. Individual members are not confirmed in this profile.",source:"Rockstar character biography"}
+ ];
+ const edges=[
+  ["jason","lucia","story partners"],["jason","cal","friends"],["cal","brian","associates"],["jason","brian","rents from / works for"],["brian","lori","married"],["jason","keys","works in"],["brian","keys","operates in"],["brian","yard","moves product through"],["boobie","drequan","business partners"],["drequan","onlyraw","runs label"],["boobie","onlyraw","business partnership"],["real","onlyraw","signed act"],["dwnply","real","early hit collaboration"],["boobie","vice","business base"],["boobie","studio","owns / operates"],["boobie","club","owns / operates"],["raul","crew","recruits for robberies"]
+ ];
+ const byId=Object.fromEntries(nodes.map(n=>[n.id,n]));let activeFilter="all";
+ const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ function render(){
+  const visible=nodes.filter(n=>activeFilter==="all"||n.kind===activeFilter);
+  const ids=new Set(visible.map(n=>n.id));
+  const shownEdges=edges.filter(e=>ids.has(e[0])&&ids.has(e[1]));
+  count.textContent=visible.length+" NODES · "+shownEdges.length+" CONNECTIONS";
+  const lineSvg=shownEdges.map(e=>{const a=byId[e[0]],b=byId[e[1]],mx=(a.x+b.x)/2,my=(a.y+b.y)/2-9;return '<g class="network-edge"><line x1="'+a.x+'" y1="'+a.y+'" x2="'+b.x+'" y2="'+b.y+'"></line><text x="'+mx+'" y="'+my+'">'+esc(e[2])+'</text></g>';}).join("");
+  const nodeSvg=visible.map(n=>'<g class="network-node '+n.kind+'" data-node="'+n.id+'" tabindex="0" role="button" aria-label="View '+esc(n.name)+'"><circle cx="'+n.x+'" cy="'+n.y+'" r="25"></circle><text x="'+n.x+'" y="'+(n.y+43)+'">'+esc(n.name)+'</text></g>').join("");
+  svg.innerHTML=lineSvg+nodeSvg;
+ }
+ function select(id){
+  const n=byId[id];if(!n)return;
+  const related=edges.filter(e=>e[0]===id||e[1]===id).map(e=>{const other=byId[e[0]===id?e[1]:e[0]];return {name:other.name,relation:e[2]};});
+  detail.innerHTML='<small>'+n.kind.toUpperCase()+' / DOSSIER</small><h3>'+esc(n.name)+'</h3><p>'+esc(n.desc)+'</p><div class="network-related"><b>KNOWN CONNECTIONS</b>'+(related.length?related.map(x=>'<div><span>'+esc(x.relation)+'</span><strong>'+esc(x.name)+'</strong></div>').join(""):'<p>No separately confirmed links are listed.</p>')+'</div><span class="network-evidence">'+esc(n.source)+'</span>';
+  svg.querySelectorAll(".network-node").forEach(el=>el.classList.toggle("selected",el.dataset.node===id));
+ }
+ svg.addEventListener("click",e=>{const g=e.target.closest("[data-node]");if(g)select(g.dataset.node);});
+ svg.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches("[data-node]")){e.preventDefault();select(e.target.dataset.node);}});
+ document.querySelectorAll("[data-network-filter]").forEach(btn=>btn.addEventListener("click",()=>{activeFilter=btn.dataset.networkFilter;document.querySelectorAll("[data-network-filter]").forEach(x=>x.classList.toggle("active",x===btn));render();detail.innerHTML='<small>FILTER ACTIVE</small><h3>'+btn.textContent+'</h3><p>Select a node in the network to inspect its known connections.</p>'; }));
+ render();select("jason");
+})();
