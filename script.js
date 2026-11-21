@@ -1064,3 +1064,17 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
  document.addEventListener("click",e=>{if(!e.target.closest(".global-search"))panel.hidden=true;});
  panel.addEventListener("click",()=>{panel.hidden=true;});
 })();
+/* PWA install support and mobile app shortcuts */
+(function initPWA(){
+ if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(error => console.warn("VICECITYWIRE offline support unavailable:", error)));
+ }
+ const searchButton=document.querySelector("#dockSearch");
+ searchButton?.addEventListener("click",()=>{
+  const input=document.querySelector("#atlasGlobalSearch");
+  if(!input)return;
+  input.focus();
+  input.scrollIntoView({behavior:"smooth",block:"center"});
+  if(input.value.trim().length<2) input.placeholder="SEARCH ATLAS…";
+ });
+})();
