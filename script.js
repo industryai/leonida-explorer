@@ -73,3 +73,33 @@ document.querySelector("#menu").addEventListener("click",()=>document.querySelec
 document.querySelectorAll("#nav a").forEach(a=>a.addEventListener("click",()=>document.querySelector("#nav").classList.remove("open")));
 document.querySelector("#year").textContent=new Date().getFullYear();
 render();applyTransform();
+/* Personal completion tracker: saved in this browser only */
+(function initCompletionTracker(){
+ const checks=[...document.querySelectorAll("[data-progress]")];
+ const fill=document.querySelector("#progressFill");
+ const percent=document.querySelector("#trackerPercent");
+ const count=document.querySelector("#trackerCount");
+ const reset=document.querySelector("#trackerReset");
+ if(!checks.length||!fill||!percent||!count||!reset)return;
+ const storageKey="vicecitywire-completion-v1";
+ let saved={};
+ try{saved=JSON.parse(localStorage.getItem(storageKey)||"{}")||{};}catch(e){saved={};}
+ function update(save=true){
+  const done=checks.filter(c=>c.checked).length;
+  const pct=Math.round(done/checks.length*100);
+  fill.style.width=pct+"%";
+  percent.textContent=pct+"% COMPLETE";
+  count.textContent=done+" / "+checks.length+" Kategorien erledigt";
+  if(save){
+   const state={};checks.forEach(c=>state[c.dataset.progress]=c.checked);
+   try{localStorage.setItem(storageKey,JSON.stringify(state));}catch(e){}
+  }
+ }
+ checks.forEach(c=>{c.checked=Boolean(saved[c.dataset.progress]);c.addEventListener("change",()=>update(true));});
+ reset.addEventListener("click",()=>{
+  checks.forEach(c=>c.checked=false);
+  try{localStorage.removeItem(storageKey);}catch(e){}
+  update(false);
+ });
+ update(false);
+})();
