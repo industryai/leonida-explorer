@@ -106,14 +106,26 @@
  ];
  const factionGrid=$("factionGrid"),factionSearch=$("factionSearch"),factionKind=$("factionKind"),factionEvidence=$("factionEvidence"),factionStatus=$("factionStatus");
  if(factionGrid&&factionSearch&&factionKind&&factionEvidence&&factionStatus){
-  const render=()=>{
-   const q=factionSearch.value.toLowerCase().trim(),kind=factionKind.value;
-   const rows=factions.filter(x=>(kind==="all"||(kind==="law"&&x[1]==="Law enforcement")||(kind==="gang"&&/gang|club|cartel|family/i.test(x[1]))||(kind==="crew"&&/network|crew|group|clan/i.test(x[1])) )&&x.join(" ").toLowerCase().includes(q));
-   factionGrid.innerHTML=rows.map(x=>'<article class="faction-card"><div class="faction-card-top"><span>'+esc(x[1])+'</span><small>DATABASE ENTRY</small></div><h3>'+esc(x[0])+'</h3><p><b>REPORTED AREA</b> · '+esc(x[2])+'</p><p>'+esc(x[3])+'</p></article>').join("")||"<div class='db-empty'>No organisations match this search.</div>";
-   const count=$("factionCount");if(count)count.textContent=rows.length+" / "+factions.length;
+  const evidenceByName={
+   "PTT Youngin$":"official","Brian Heder's operation":"official","Raul Bautista's crew":"official",
+   "Final Chapter MC":"game","San4San":"game","Ambrosia County Sheriff":"game","Ambrosia Police Department":"game","Capri Police Department":"game","Key Lento Police Department":"game","Leonard County Sheriff's Office":"game","Mariana County Sheriff's Office":"game","Leonida Highway Patrol":"game","National Coast Guard":"game","Leonida Department of Corrections":"game","Protection of Animals & Controlled Hunting (POACH)":"game","Port Gellhorn Police Department":"game","Vice Beach Police Department":"game","Vice City Police Department":"game","Vice-Dale Police Department":"game","Waning Sands Police Department":"game"
   };
-  factionSearch.addEventListener("input",render);factionKind.addEventListener("change",render);factionEvidence.addEventListener("change",render);factionStatus.addEventListener("change",render);
-  $("factionReset")?.addEventListener("click",()=>{factionSearch.value="";factionKind.value="all";factionEvidence.value="all";factionStatus.value="all";render();});
+  const reviewKey="vicecitywire-faction-review-v1";let reviewed={};try{reviewed=JSON.parse(localStorage.getItem(reviewKey)||"{}")||{};}catch(_){}
+  const evidenceLabel={official:"ROCKSTAR-STATED",game:"IN-GAME / VISUAL",community:"COMMUNITY CLASSIFICATION"};
+  const render=()=>{
+   const q=factionSearch.value.trim().toLowerCase(),k=factionKind.value,e=factionEvidence.value,s=factionStatus.value;
+   const rows=factions.map((x,i)=>({x,i,evidence:evidenceByName[x[0]]||"community",done:!!reviewed[i]})).filter(o=>{
+    const x=o.x,kindOK=k==="all"||(k==="law"&&x[1]==="Law enforcement")||(k==="gang"&&/gang|club|cartel|family/i.test(x[1]))||(k==="crew"&&/network|crew|group|clan/i.test(x[1]));
+    return kindOK&&(e==="all"||o.evidence===e)&&(s==="all"||(s==="reviewed"&&o.done)||(s==="unreviewed"&&!o.done))&&x.join(" ").toLowerCase().includes(q);
+   });
+   factionGrid.innerHTML=rows.map(o=>{const x=o.x;return '<article class="faction-card"><div class="faction-card-top"><span>'+(x[1]==="Law enforcement"?"LAW ENFORCEMENT":/crew|network|group|clan/i.test(x[1])?"LOCAL CREW":"CRIMINAL GROUP")+'</span><small>'+evidenceLabel[o.evidence]+'</small></div><h3>'+esc(x[0])+'</h3><div class="faction-type">'+esc(x[1])+'</div><div class="faction-area"><small>REPORTED AREA</small><b>'+esc(x[2])+'</b></div><p>'+esc(x[3])+'</p><label class="faction-check"><input type="checkbox" data-story-faction="'+o.i+'" '+(o.done?"checked":"")+'><span>MARK AS REVIEWED</span></label></article>';}).join("")||"<div class='db-empty'>No organisations match these filters.</div>";
+   const done=factions.filter((_,i)=>reviewed[i]).length;
+   const count=$("factionCount"),tracked=$("factionTracked"),fill=$("factionTrackFill");
+   if(count)count.textContent=rows.length+" / "+factions.length;if(tracked)tracked.textContent=done+" / "+factions.length;if(fill)fill.style.width=(done/factions.length*100)+"%";
+  };
+  factionGrid.addEventListener("change",e=>{const box=e.target.closest("[data-story-faction]");if(!box)return;reviewed[box.dataset.storyFaction]=box.checked;try{localStorage.setItem(reviewKey,JSON.stringify(reviewed));}catch(_){}render();});
+  factionSearch.addEventListener("input",render);[factionKind,factionEvidence,factionStatus].forEach(el=>el.addEventListener("change",render));
+  $("factionReset")?.addEventListener("click",()=>{reviewed={};try{localStorage.removeItem(reviewKey);}catch(_){}factionSearch.value="";factionKind.value="all";factionEvidence.value="all";factionStatus.value="all";render();});
   render();
  }
  const network=[
