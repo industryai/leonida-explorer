@@ -791,3 +791,42 @@ footer p a{color:#ff83b8}
 .cheat-sources a{font-size:8px;letter-spacing:.1em;color:var(--cyan);font-weight:800}
 @media(max-width:850px){.cheat-list{grid-template-columns:1fr}.cheat-card-main{grid-template-columns:minmax(0,1fr) minmax(160px,.7fr)}}
 @media(max-width:620px){.cheat-howto{grid-template-columns:1fr}.cheat-howto>p{grid-column:auto}.cheat-toolbar{grid-template-columns:1fr}.cheat-card-main{grid-template-columns:1fr}.cheat-code-area{min-height:90px}.cheat-card-info h3{font-size:19px}}
+
+
+/* Header layout fix: prevent search/navigation collision on laptop and desktop widths. */
+@media (min-width:761px) and (max-width:1500px){
+ .top{
+  display:grid;
+  grid-template-columns:minmax(132px,150px) minmax(135px,165px) minmax(0,1fr) minmax(108px,118px);
+  align-items:center;
+  gap:clamp(10px,1.15vw,16px);
+  padding:0 clamp(18px,2.5vw,34px);
+ }
+ .top .brand{min-width:0}
+ .top .global-search{width:100%;min-width:0;max-width:none}
+ .top nav#nav{
+  width:100%;
+  min-width:0;
+  justify-content:space-between;
+  gap:clamp(1px,.35vw,5px);
+  overflow:visible;
+ }
+ .top nav#nav>a,
+ .top nav#nav .nav-group>summary{
+  min-width:0;
+  padding:9px clamp(3px,.45vw,6px);
+  gap:3px;
+  font-size:clamp(8px,.62vw,9px);
+  letter-spacing:.07em;
+ }
+ .top nav#nav .nav-group{min-width:0;flex:0 1 auto}
+ .top nav#nav .nav-group>summary{white-space:nowrap}
+ .top nav#nav .nav-group>summary:after{flex:none}
+ .top .toplink:not(.atlaslink){display:none}
+ .top .toplink.atlaslink{justify-self:end;white-space:nowrap;padding:10px 9px;font-size:8px}
+}
+@media (min-width:761px) and (max-width:1050px){
+ .top{grid-template-columns:125px 125px minmax(0,1fr) 100px;gap:8px;padding:0 14px}
+ .top nav#nav>a,.top nav#nav .nav-group>summary{font-size:7px;letter-spacing:.045em;padding:8px 2px}
+ .top .toplink.atlaslink{font-size:7px;padding:9px 7px}
+}
