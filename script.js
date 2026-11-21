@@ -462,3 +462,52 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
  grid.addEventListener("change",e=>{const cb=e.target.closest("[data-animal]");if(!cb)return;saved[cb.dataset.animal]=cb.checked;update(true);});
  search.addEventListener("input",render);type.addEventListener("change",render);status.addEventListener("change",render);render();update(false);
 })();
+
+/* Hunting field database and personal log */
+(function initHuntingDatabase(){
+ const animals=[
+ ["American Alligator","Wetland","Shrewsbury SM-69","Grassrivers wetlands"],
+ ["American Black Bear","Forest / Wetland","Shrewsbury SM-69","Northern forest and wetland areas"],
+ ["American Crocodile","Coastal","Shrewsbury SM-69","Coastal areas"],
+ ["American Red Fox","Forest / Westland","Hawk & Little Mediator","Woodland and western countryside"],
+ ["Blue Axanthic Iguana","Coastal / Urban","Wortham W-22","Southern coastal and urban areas"],
+ ["Box Turtle","Coastal / Forest / Urban / Westland","Wortham W-22","Mixed habitats across Leonida"],
+ ["Cane Toad","Coastal / Westland","Wortham W-22","Buckskin swamps and western lowlands"],
+ ["Eastern Cottontail Rabbit","Forest / Wetland","Wortham W-22","Woodland and wetlands"],
+ ["Eastern Diamondback Rattlesnake","Coastal / Forest","Wortham W-22","Coastal scrub and woodland"],
+ ["Eastern Gray Squirrel","Coastal / Forest / Urban / Wetland","Wortham W-22","Mixed habitats"],
+ ["Eastern Spotted Skunk","Forest / Urban / Wetland","Wortham W-22","Woodland and grassy areas; nocturnal"],
+ ["Gray Fox","Forest / Westland","Hawk & Little Mediator","Woodland and western countryside"],
+ ["Green Iguana","Coastal / Urban / Westland","Wortham W-22","Leonida Keys and warmer southern areas"],
+ ["Leonida Bobcat","Forest / Wetland","Hawk & Little Mediator","Woodland and wetland edges"],
+ ["Leonida Cottonmouth","Coastal / Westland","Wortham W-22","Wet coastal lowlands"],
+ ["Leonida Wild Turkey","Forest / Wetland","Wortham W-22","Grassy and forested areas"],
+ ["Leonida Wild White Tom","Forest / Wetland","Wortham W-22","Grassy and forested areas; rare white variant"],
+ ["Mosaic Mottled Duck","Wetland","Wortham W-22","Freshwater wetlands; rare colour variant"],
+ ["Mottled Duck","Wetland","Wortham W-22","Freshwater wetlands"],
+ ["Nile Monitor","Wetland","Wortham W-22","West and East Buckskin Swamp; Pelican Valley"],
+ ["Nine-Banded Armadillo","Forest","Wortham W-22","Rural woodland"],
+ ["Northern Coyote","Forest / Wetland","Hawk & Little Mediator","Woodland and wetlands"],
+ ["Nutria","Wetland","Wortham W-22","Buckskin swamps and Pelican Valley"],
+ ["Piebald Whitetail Buck","Forest / Wetland","Shrewsbury SM-69","Forests and wetlands; rare coat variant"],
+ ["Round-Tailed Muskrat","Westland","Wortham W-22","Western lowlands"],
+ ["Snapping Turtle","Wetland","Wortham W-22","Wetlands and slow-moving waterways"],
+ ["White River Otter","Wetland","Wortham W-22","Rivers and wetlands; rare pale variant"],
+ ["Whitetail Deer","Wetland / Forest","Wortham W-22","Forested areas and near streams"],
+ ["Wild Boar","Forest / Westland","Shrewsbury SM-69","Mount Kalaga woodland; more active at night"]
+ ];
+ const grid=document.getElementById("huntingGrid"),search=document.getElementById("huntingSearch"),habitat=document.getElementById("huntingHabitat"),weapon=document.getElementById("huntingWeapon"),count=document.getElementById("huntingCount"),fill=document.getElementById("huntingFill"),reset=document.getElementById("huntingReset");
+ if(!grid||!search||!habitat||!weapon||!count||!fill||!reset)return;
+ const key="vicecitywire-hunting-log-v1";let saved={};try{saved=JSON.parse(localStorage.getItem(key)||"{}")||{};}catch(e){}
+ const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ function render(){
+  const q=search.value.trim().toLowerCase();
+  const list=animals.map((a,i)=>({name:a[0],habitat:a[1],weapon:a[2],area:a[3],i})).filter(a=>(habitat.value==="all"||a.habitat.includes(habitat.value))&&(weapon.value==="all"||a.weapon===weapon.value)&&(a.name+" "+a.habitat+" "+a.weapon+" "+a.area).toLowerCase().includes(q));
+  grid.innerHTML=list.length?list.map(a=>'<article class="db-card hunting-card"><div class="db-card-top"><span class="db-type">HUNTING LOG</span><span class="db-status">'+(saved[a.i]?"LOGGED":"NOT LOGGED")+'</span></div><h3>'+esc(a.name)+'</h3><p><b>HABITAT</b> · '+esc(a.habitat)+'</p><p><b>REPORTED AREA</b> · '+esc(a.area)+'</p><p><b>WEAPON SUGGESTION</b> · '+esc(a.weapon)+'</p><label class="hunting-check"><input type="checkbox" data-hunt="'+a.i+'" '+(saved[a.i]?"checked":"")+'><span>MARK AS LOGGED</span></label></article>').join(""):'<div class="db-empty">No matching animals. Try another search or filter.</div>';
+ }
+ function update(save=true){const total=Object.values(saved).filter(Boolean).length;count.textContent=total+" / "+animals.length+" logged";fill.style.width=(total/animals.length*100)+"%";if(save)try{localStorage.setItem(key,JSON.stringify(saved));}catch(e){}}
+ grid.addEventListener("change",e=>{const cb=e.target.closest("[data-hunt]");if(!cb)return;saved[cb.dataset.hunt]=cb.checked;update(true);render();});
+ search.addEventListener("input",render);habitat.addEventListener("change",render);weapon.addEventListener("change",render);
+ reset.addEventListener("click",()=>{saved={};try{localStorage.removeItem(key);}catch(e){}render();update(false);});
+ render();update(false);
+})();
