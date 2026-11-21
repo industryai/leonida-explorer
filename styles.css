@@ -639,3 +639,15 @@ footer p a{color:#ff83b8}
 .regional-place-sources a{font-size:8px;letter-spacing:.13em;color:var(--cyan);font-weight:800}
 @media(max-width:850px){.regional-place-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){.regional-place-grid{grid-template-columns:1fr}.regional-place-heading{align-items:flex-start;flex-direction:column}}
+
+
+/* Source-backed regional evidence panels */
+.region-evidence-panel{margin-top:18px;padding:22px 24px;border:1px solid #35465c;background:linear-gradient(115deg,#172638,#101722 78%);position:relative}
+.region-evidence-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.region-evidence-top small{font-size:8px;letter-spacing:.15em;color:var(--cyan);font-weight:800}
+.region-evidence-top span{font-size:7px;letter-spacing:.15em;color:var(--pink)}
+.region-evidence-panel h3{font:25px Georgia,serif;margin:13px 0 8px}
+.region-evidence-panel>p{max-width:950px;margin:0;color:#bdc8d7;font-size:11px;line-height:1.8}
+.region-evidence-links{display:flex;gap:10px 18px;flex-wrap:wrap;margin-top:16px;padding-top:13px;border-top:1px solid #ffffff18}
+.region-evidence-links a{font-size:8px;letter-spacing:.1em;color:var(--cyan);font-weight:800}
+.region-evidence-links a:hover{color:var(--pink)}
