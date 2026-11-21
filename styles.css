@@ -42,3 +42,22 @@ footer p a{color:#ff83b8}
 .tracker-grid b{font-size:11px}.tracker-grid small{font-size:9px;color:var(--muted);margin-top:3px}
 .tracker-note{font-size:9px;color:#8291a4;margin:18px 0 0}
 @media(max-width:620px){.tracker-panel{padding:16px}.tracker-top{align-items:flex-start;flex-direction:column}.tracker-grid{grid-template-columns:1fr}}
+
+/* Searchable vehicle and weapon catalogues */
+.db-controls{display:flex;gap:10px;margin:0 0 17px}
+.db-controls input,.db-controls select{background:#0b1420;color:var(--txt);border:1px solid var(--line);padding:12px 13px;font:inherit;font-size:11px;outline:none}
+.db-controls input{flex:1;min-width:0}.db-controls select{min-width:175px}
+.db-controls input:focus,.db-controls select:focus{border-color:var(--cyan)}
+.db-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.db-card{border:1px solid var(--line);background:linear-gradient(145deg,#192638,#101722);padding:17px;min-height:170px;display:flex;flex-direction:column;gap:9px}
+.db-card-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.db-type{font-size:8px;letter-spacing:.15em;color:var(--cyan);text-transform:uppercase}
+.db-status{font-size:7px;letter-spacing:.08em;color:var(--green);border:1px solid #466a58;padding:4px 6px}
+.db-card h3{font:22px Georgia,serif;margin:5px 0 0}
+.db-card p{font-size:10px;color:var(--muted);margin:0;flex:1}
+.db-meta{font-size:8px;color:#8393a7;letter-spacing:.08em;border-top:1px solid #2a394d;padding-top:10px}
+.db-empty{grid-column:1/-1;padding:25px;border:1px dashed #42516a;color:var(--muted);font-size:11px;text-align:center}
+.db-footnote{font-size:9px;color:#8291a4;margin-top:15px}
+.db-footnote a{color:var(--cyan)}
+@media(max-width:850px){.db-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.db-controls{flex-direction:column}.db-controls select{width:100%}.db-grid{grid-template-columns:1fr}}
