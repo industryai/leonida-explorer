@@ -830,3 +830,16 @@ footer p a{color:#ff83b8}
  .top nav#nav>a,.top nav#nav .nav-group>summary{font-size:7px;letter-spacing:.045em;padding:8px 2px}
  .top .toplink.atlaslink{font-size:7px;padding:9px 7px}
 }
+
+
+/* Match the CHEATS navigation link indicator to the expandable menu groups. */
+.top nav#nav>a[href="#cheats"]::after{
+ content:"";
+ width:6px;
+ height:6px;
+ flex:none;
+ border-right:1px solid var(--pink);
+ border-bottom:1px solid var(--pink);
+ transform:rotate(45deg) translateY(-2px);
+ margin-left:2px;
+}
