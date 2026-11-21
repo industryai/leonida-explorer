@@ -651,3 +651,11 @@ footer p a{color:#ff83b8}
 .region-evidence-links{display:flex;gap:10px 18px;flex-wrap:wrap;margin-top:16px;padding-top:13px;border-top:1px solid #ffffff18}
 .region-evidence-links a{font-size:8px;letter-spacing:.1em;color:var(--cyan);font-weight:800}
 .region-evidence-links a:hover{color:var(--pink)}
+
+
+/* Character dossier cross-navigation */
+.character-dossier-links{margin-top:14px;padding-top:12px;border-top:1px solid #ffffff18}
+.character-dossier-links>small{font-size:8px;letter-spacing:.15em;color:var(--cyan);font-weight:800}
+.character-dossier-links>div{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.character-dossier-links a{display:inline-flex;padding:7px 9px;border:1px solid #33465a;background:#111e2c;color:#b9d5df;font-size:8px;letter-spacing:.06em;line-height:1.35;transition:border-color .18s,color .18s}
+.character-dossier-links a:hover{border-color:var(--pink);color:var(--pink)}
