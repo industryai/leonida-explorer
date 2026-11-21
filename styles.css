@@ -159,6 +159,7 @@ footer p a{color:#ff83b8}
 .map-toolbar #mapReset{font-size:8px;letter-spacing:.1em}
 .map-viewport{height:min(78vw,850px);min-height:500px;overflow:hidden;position:relative;cursor:grab;touch-action:none;background:#06111b;outline:none}
 .map-viewport:active{cursor:grabbing}
+.trip-route-disclaimer{margin:0;padding:9px 12px;background:#111d2b;color:#9aabbc;font-size:8px;line-height:1.5;letter-spacing:.06em;text-align:center}
 .trip-route-overlay{position:absolute;left:50%;top:50%;height:100%;width:auto;max-width:none;pointer-events:none;overflow:visible;transform:translate(-50%,-50%) scale(1);transform-origin:center;z-index:2;opacity:0;transition:opacity .2s}
 .trip-route-overlay.has-route{opacity:1}
 .trip-route-line{fill:none;stroke:#ff6bba;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:5 4;filter:drop-shadow(0 1px 3px #000)}
