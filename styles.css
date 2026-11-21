@@ -389,3 +389,38 @@ footer p a{color:#ff83b8}
 
 /* Leonida trip planner */
 .trip-planner-layout{display:grid;grid-template-columns:1.5fr 1fr;gap:14px;margin-bottom:22px}.trip-builder,.trip-map-panel{border:1px solid var(--line);background:linear-gradient(145deg,#192638,#101722);padding:18px}.trip-builder label{display:grid;gap:7px;font-size:8px;letter-spacing:.1em;color:var(--muted)}.trip-builder input,.trip-builder select{width:100%;min-width:0;background:#0b1420;color:var(--txt);border:1px solid var(--line);padding:11px;font:inherit;font-size:10px}.trip-form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}.trip-stop-label{display:grid;margin-bottom:12px}.trip-add{margin-top:4px;cursor:pointer}.trip-template-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.trip-template-row button,.trip-itinerary-head button{background:transparent;border:1px solid #4a586b;color:#c0cbd6;padding:9px 11px;font-size:8px;letter-spacing:.08em;cursor:pointer}.trip-map-panel small{font-size:8px;letter-spacing:.14em;color:var(--cyan)}.trip-map-panel h3,.trip-itinerary-head h3{font:22px Georgia,serif;margin:9px 0}.trip-map-panel p{font-size:10px;line-height:1.6;color:var(--muted)}.trip-map-panel a{display:block;color:var(--cyan);font-size:9px;letter-spacing:.08em;text-decoration:none;margin-top:14px}.trip-map-panel a:hover{text-decoration:underline}.trip-itinerary-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:18px 0 12px}.trip-itinerary-head h3{margin:0 0 4px}.trip-itinerary-head small{font-size:8px;letter-spacing:.1em;color:var(--muted)}.trip-itinerary-head>div:last-child{display:flex;gap:8px}.trip-stop-list{display:grid;gap:8px}.trip-stop{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;border:1px solid var(--line);background:#101a27;padding:12px}.trip-stop.visited{opacity:.62}.trip-stop-number{font:20px Georgia,serif;color:var(--cyan)}.trip-stop-main{min-width:0}.trip-stop-top{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.trip-stop-top span{font-size:8px;letter-spacing:.1em;color:var(--cyan)}.trip-stop-top b{font:17px Georgia,serif}.trip-stop-main p{font-size:9px;color:var(--muted);margin:5px 0}.trip-stop-main small{font-size:8px;color:#8fa0b4;letter-spacing:.08em}.trip-stop-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end}.trip-stop-actions label{display:flex;align-items:center;gap:5px;font-size:8px;letter-spacing:.08em;color:var(--muted);margin-right:5px}.trip-stop-actions input{accent-color:var(--cyan)}.trip-stop-actions button{background:transparent;border:1px solid #394a60;color:var(--txt);width:27px;height:27px;cursor:pointer}.trip-stop-actions button:disabled{opacity:.25;cursor:default}@media(max-width:850px){.trip-planner-layout{grid-template-columns:1fr}.trip-stop{grid-template-columns:34px 1fr}.trip-stop-actions{grid-column:2;justify-content:flex-start}}@media(max-width:620px){.trip-form-row{grid-template-columns:1fr}.trip-itinerary-head{align-items:flex-start;flex-direction:column}.trip-stop{grid-template-columns:28px 1fr}.trip-stop-actions{grid-column:1/-1}.trip-itinerary-head>div:last-child{flex-wrap:wrap}}
+
+ 
+/* Character dossier database */
+.character-summary{display:grid;grid-template-columns:auto auto 1fr auto;gap:15px;align-items:center;padding:14px 16px;margin:0 0 14px;border:1px solid var(--line);background:#101a27}
+.character-summary>div:not(.character-summary-track){display:grid;gap:4px}
+.character-summary b{font:20px Georgia,serif;color:var(--cyan)}
+.character-summary small{font-size:8px;letter-spacing:.1em;color:var(--muted)}
+.character-summary-track{height:7px;background:#263448;overflow:hidden}
+.character-summary-track span{display:block;width:0;height:100%;background:linear-gradient(90deg,var(--cyan),var(--pink));transition:width .2s}
+.character-summary button{background:transparent;border:1px solid #4a586b;color:#c0cbd6;padding:9px 11px;font-size:8px;letter-spacing:.1em;cursor:pointer}
+.character-controls{display:flex;gap:9px;margin:0 0 15px}
+.character-controls input,.character-controls select{background:#0b1420;color:var(--txt);border:1px solid var(--line);padding:12px 13px;font:inherit;font-size:10px;min-width:0}
+.character-controls input{flex:1}
+.character-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
+.character-card{display:flex;flex-direction:column;min-height:270px;padding:16px;border:1px solid var(--line);background:linear-gradient(145deg,#192638,#101722)}
+.character-card-top{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.character-card-top span{font-size:8px;letter-spacing:.1em;color:var(--cyan)}
+.character-card-top small{font-size:8px;color:#aebccc}
+.character-card h3{font:22px Georgia,serif;margin:10px 0}
+.character-card>p{font-size:10px;line-height:1.65;color:var(--muted);margin:0 0 12px;flex:1}
+.character-facts{display:grid;gap:9px;padding-top:10px;border-top:1px solid #2a394d}
+.character-facts>div{display:grid;gap:4px}
+.character-facts small{font-size:8px;letter-spacing:.1em;color:var(--cyan)}
+.character-facts b{font-size:9px;line-height:1.5;font-weight:500;color:#d6e0e9}
+.character-check{display:flex;align-items:center;gap:8px;padding-top:11px;margin-top:10px;border-top:1px solid #2a394d;font-size:8px;letter-spacing:.1em;color:#b8c7d5;cursor:pointer}
+.character-check input{accent-color:var(--cyan)}
+.character-source-panel{padding:17px;margin-top:18px;border:1px solid var(--line);background:#101a27}
+.character-source-panel>b{font-size:8px;letter-spacing:.14em;color:var(--cyan)}
+.character-source-panel p{font-size:10px;line-height:1.65;color:var(--muted);margin:9px 0}
+.character-source-panel>div{display:flex;gap:16px;flex-wrap:wrap}
+.character-source-panel a{font-size:8px;letter-spacing:.1em;color:var(--cyan);text-decoration:none}
+.character-source-panel a:hover{text-decoration:underline}
+@media(max-width:900px){.character-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:720px){.character-summary{grid-template-columns:1fr 1fr}.character-summary-track{grid-column:1/-1;grid-row:2}.character-summary button{justify-self:start}.character-controls{flex-wrap:wrap}.character-controls input{flex-basis:100%}}
+@media(max-width:620px){.character-grid{grid-template-columns:1fr}.character-controls{flex-direction:column}.character-controls select{width:100%}.character-summary{grid-template-columns:1fr}.character-summary-track{grid-column:1;grid-row:auto}}
