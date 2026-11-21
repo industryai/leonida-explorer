@@ -16,6 +16,9 @@ An independent, English-language static fan website for Grand Theft Auto VI.
 ## VICECITYWIRE on YouTube
 The site links to the VICECITYWIRE YouTube channel: https://www.youtube.com/@GrandTheftAddiction
 
+## Leonida location directory
+The site includes a searchable index of names printed on Rockstar's official Leonida poster map, grouped as places/regions, landmarks, roads and water. The official GTA VI site is linked as the primary map source; a third-party interactive viewer is linked separately for convenience. Printed map labels do not establish mission triggers, collectible locations, vehicle spawns, weapon pickups, interiors or exact in-game coordinates.
+
 ## Data and verification policy
 The current map canvas is a schematic prototype. Demo markers are not verified in-game locations. Region names in the directory are based on publicly named GTA VI regions; the site does not claim exact region borders or coordinates. Mission, vehicle and weapon entries are starter indexes and should be expanded only with reliable, attributable sources. Do not present estimates, reconstructions or community submissions as official Rockstar data.
 
