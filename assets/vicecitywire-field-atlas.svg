@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1200">
+<defs>
+ <linearGradient id="sea" x2="0" y2="1"><stop stop-color="#12384b"/><stop offset="1" stop-color="#071b2b"/></linearGradient>
+ <linearGradient id="land" x2="1" y2="1"><stop stop-color="#263e42"/><stop offset=".55" stop-color="#304b40"/><stop offset="1" stop-color="#263a37"/></linearGradient>
+ <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M100 0H0V100" fill="none" stroke="#b9d4c8" stroke-width="1" opacity=".18"/></pattern>
+ <pattern id="marsh" width="34" height="24" patternUnits="userSpaceOnUse"><path d="M0 15q8-10 16 0t18 0" fill="none" stroke="#87a77b" stroke-width="2" opacity=".4"/></pattern>
+</defs>
+<rect width="1800" height="1200" fill="url(#sea)"/>
+<path d="M140 0H1370q-40 90 30 160t-20 130q-90 85-40 170t-30 145q-70 85 10 175t-55 180q-55 95 20 160H0V260q130-70 140-260Z" fill="url(#land)" stroke="#a7c6a9" stroke-width="8"/>
+<path d="M0 190q250 80 420 20t280 20q170 80 330 20t330 30" fill="none" stroke="#91b7a0" stroke-width="34" opacity=".25"/>
+<path d="M100 0q-15 210 110 320t-15 230q-100 140 30 290t-10 260" fill="none" stroke="#5aa0a0" stroke-width="30" opacity=".65"/>
+<path d="M220 0q-15 210 110 320t-15 230q-100 140 30 290t-10 260" fill="none" stroke="#c0d7ad" stroke-width="4" stroke-dasharray="18 18"/>
+<path d="M0 420q240-65 430 20t400-10q190-65 350 25t220 0" fill="none" stroke="#c0a779" stroke-width="13" stroke-dasharray="26 14"/>
+<path d="M0 720q220-40 430 45t420-10q180-60 380 30" fill="none" stroke="#c0a779" stroke-width="11" stroke-dasharray="22 14"/>
+<path d="M0 950q230-90 450 0t430-20q210-75 440 25" fill="none" stroke="#c0a779" stroke-width="10" stroke-dasharray="20 14"/>
+<path d="M760 0q-60 180 20 330t-30 300q-70 150 25 330t-20 240" fill="none" stroke="#d2b68c" stroke-width="8" stroke-dasharray="18 12"/>
+<path d="M0 180H1400V1120H0Z" fill="url(#grid)"/>
+<path d="M0 600q170-120 320-40t300-10q150-90 300 0t300-20" fill="none" stroke="url(#marsh)" stroke-width="1"/>
+<g fill="#f4d29a" stroke="#162b35" stroke-width="5">
+ <circle cx="1030" cy="220" r="17"/><circle cx="470" cy="420" r="17"/><circle cx="720" cy="700" r="17"/><circle cx="340" cy="880" r="17"/><circle cx="1110" cy="850" r="17"/><circle cx="1500" cy="540" r="17"/>
+</g>
+<g font-family="Arial,sans-serif" fill="#edf0d6" font-weight="700" letter-spacing="4">
+ <text x="870" y="170" font-size="43">VICE CITY</text>
+ <text x="210" y="380" font-size="32">PORT GELLHORN</text>
+ <text x="570" y="660" font-size="34">GRASSRIVERS</text>
+ <text x="160" y="850" font-size="31">AMBROSIA</text>
+ <text x="920" y="940" font-size="31">LEONIDA KEYS</text>
+ <text x="1360" y="490" font-size="29">MOUNT KALAGA</text>
+</g>
+<g font-family="Arial,sans-serif" fill="#c6d6c5" font-size="16" letter-spacing="4">
+ <text x="80" y="70">VICECITYWIRE / FIELD ATLAS</text>
+ <text x="80" y="112">ORIGINAL SCHEMATIC · NOT A GAME MAP</text>
+ <text x="1440" y="1120">N / ↑</text>
+</g>
+<path d="M1500 1030h160" stroke="#f4d29a" stroke-width="5"/><path d="M1500 1018v24m160-24v24" stroke="#f4d29a" stroke-width="5"/>
+<text x="1500" y="1070" fill="#f4d29a" font-family="Arial,sans-serif" font-size="16" letter-spacing="3">SCHEMATIC ONLY</text>
+</svg>

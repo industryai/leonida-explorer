@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+<defs>
+ <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#17213c"/><stop offset=".48" stop-color="#a64f55"/><stop offset=".76" stop-color="#ef9865"/><stop offset="1" stop-color="#f4c58a"/></linearGradient>
+ <linearGradient id="water" x2="0" y2="1"><stop stop-color="#246879"/><stop offset="1" stop-color="#071d31"/></linearGradient>
+ <linearGradient id="glass" x2="0" y2="1"><stop stop-color="#3e7e91"/><stop offset="1" stop-color="#101d31"/></linearGradient>
+ <filter id="glow"><feGaussianBlur stdDeviation="22"/></filter>
+</defs>
+<rect width="1600" height="900" fill="url(#sky)"/>
+<circle cx="1190" cy="310" r="120" fill="#ffd18e" opacity=".72" filter="url(#glow)"/><circle cx="1190" cy="310" r="76" fill="#ffdba4" opacity=".85"/>
+<path d="M0 520 Q260 470 470 510 T900 495 T1600 500 V900 H0Z" fill="#26354a" opacity=".65"/>
+<g fill="#111d30">
+ <path d="M0 510h90v-95h62v95h40V380h80v130h40V445h72v65h34v-145h90v145h34V405h90v105h44V350h72v160h38V430h80v80h38V370h75v140h45V410h80v100h35V340h88v170h42V405h75v105h42V375h80v135h35V430h95v470H0Z"/>
+</g>
+<g fill="url(#glass)" opacity=".9">
+ <path d="M115 445h55v60h-55zM295 405h62v100h-62zM505 390h68v115h-68zM700 395h52v110h-52zM855 380h64v120h-64zM1035 400h60v105h-60zM1260 365h70v140h-70zM1430 405h72v100h-72z"/>
+</g>
+<g fill="#f7c58a" opacity=".65">
+ <path d="M128 460h8v12h-8zm22 0h8v12h-8zm165-38h8v12h-8zm22 0h8v12h-8zm183-12h8v12h-8zm25 0h8v12h-8zm170 12h8v12h-8zm22 0h8v12h-8zm160-16h8v12h-8zm25 0h8v12h-8zm220-17h8v12h-8zm24 0h8v12h-8z"/>
+</g>
+<path d="M0 600 Q210 570 420 620 T830 605 T1240 620 T1600 585 V900H0Z" fill="url(#water)"/>
+<path d="M0 650 Q260 620 470 665 T900 655 T1600 640" fill="none" stroke="#f8c28b" stroke-width="4" opacity=".5"/>
+<g stroke="#f6c58c" opacity=".28" fill="none"><path d="M0 700q300-45 600 0t600 0t400 0M0 770q300-45 600 0t600 0t400 0M0 835q300-45 600 0t600 0t400 0" stroke-width="2"/></g>
+<path d="M0 900V790q150-65 300 0t300 0q150-65 300 0t300 0q150-65 300 0t100 0v110Z" fill="#071321" opacity=".7"/>
+<g fill="#f4b86f"><circle cx="210" cy="760" r="3"/><circle cx="450" cy="800" r="3"/><circle cx="760" cy="770" r="3"/><circle cx="1030" cy="810" r="3"/><circle cx="1370" cy="770" r="3"/></g>
+<text x="80" y="110" fill="#fff2db" font-family="Arial,sans-serif" font-size="23" letter-spacing="10" opacity=".78">VICECITYWIRE / COASTAL NIGHTFALL</text>
+<text x="80" y="155" fill="#fff2db" font-family="Arial,sans-serif" font-size="13" letter-spacing="6" opacity=".65">AN ORIGINAL LEONIDA-INSPIRED VISUAL</text>
+</svg>
