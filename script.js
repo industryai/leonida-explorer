@@ -290,3 +290,69 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
  panel.addEventListener("click",e=>{if(e.target.closest(".vehicle-detail-close")){panel.hidden=true;panel.innerHTML="";}});
  search.addEventListener("input",render);county.addEventListener("change",render);level.addEventListener("change",render);render();
 })();
+
+/* 100% completion checklist based on the published in-game requirements guide. */
+(function initFullCompletionChecklist(){
+ const root=document.getElementById("completionGroups"),fill=document.getElementById("completionFill"),pct=document.getElementById("completionPercent"),reset=document.getElementById("completionReset");
+ if(!root||!fill||!pct||!reset)return;
+ const groups=[
+  {id:"story",title:"STORY & TASKS",weight:45,items:[
+   ["Story Completion","Complete the main story through the end credits."],
+   ["100 Optional Tasks","Complete at least 100 optional tasks."],
+   ["Gang Operations","Clear all 39 of 39 gang operations."],
+   ["Bank Jobs","Fully complete all 22 bank jobs."],
+   ["Payday Loan Jobs","Fully complete all 7 payday loan jobs."],
+   ["Smash ’N’ Grabs","Fully complete at least 34 of 35 smash-and-grab jobs."],
+   ["Stick Ups","Complete at least 50 of 91 stick ups."],
+   ["Narcotics Fenced","Fence $100,000 worth of narcotics."],
+   ["Jewelry Fenced","Fence $100,000 worth of jewelry."],
+   ["Marked Bills Fenced","Fence $250,000 worth of marked bills."],
+   ["Vaults","Hit all 8 of 8 vaults."],
+   ["Vehicles Fenced","Fence $200,000 worth of vehicles."]
+  ]},
+  {id:"explore",title:"EXPLORATION & ACTIVITIES",weight:45,items:[
+   ["Kenton Sets","Complete at least 5 of 7 Kenton treasure sets."],
+   ["Collectible Card Sets","Find at least 15 of 18 complete card sets."],
+   ["WAiNK Locations","Scan 100 WAiNK locations."],
+   ["Underwater Discoveries","Find all 33 underwater discoveries."],
+   ["Magazines, Books & Comics","Find at least 30 of 34 unique items."],
+   ["Meditation Spots","Complete at least 15 of 18 meditation spots."],
+   ["Cocaine Flamingos","Destroy at least 100 of 125 flamingos."],
+   ["Unique Playlists","Complete both 2 of 2 unique playlists."],
+   ["Discovered Styles","Discover at least 70 of 79 styles."],
+   ["Unique Races","Win at least 30 of 40 unique races."],
+   ["Race Challenge Gold Medals","Earn at least 10 of 13 gold medals."],
+   ["Shooting Range Gold Medals","Earn all 42 of 42 gold medals."],
+   ["Video Games","Play all 4 of 4 video games."],
+   ["Pool Opponents","Defeat at least 5 of 7 pool opponents."],
+   ["Mini Golf","Play at 2 of 3 mini golf locations."],
+   ["Basketball Hoops","Score at 90 of 100 different basketball hoops."],
+   ["Drone Time Trials","Complete all 42 of 42 drone time trials."],
+   ["Stunts","Complete at least 300 of 397 stunts."],
+   ["Challenges","Complete at least 70 of 80 challenges."],
+   ["Bret’s Target Decks","Complete all 15 of 15 target decks."]
+  ]},
+  {id:"discovery",title:"DISCOVERY",weight:10,items:[
+   ["Base Model Vehicles","Scan at least 200 of 277 base model vehicles."],
+   ["Standard Issue Weapons","Find at least 50 of 66 standard issue weapons."],
+   ["Animals Studied","Study at least 100 of 255 animals."]
+  ]}
+ ];
+ const key="vicecitywire-100-percent-v1";
+ let saved={};try{saved=JSON.parse(localStorage.getItem(key)||"{}")||{};}catch(e){}
+ const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ root.innerHTML=groups.map(g=>'<section class="completion-group" data-group="'+g.id+'"><div class="completion-group-head"><div><small>'+g.weight+'% OF TOTAL</small><h3>'+g.title+'</h3></div><b data-group-count="'+g.id+'">0 / '+g.items.length+'</b></div><div class="completion-items">'+g.items.map((it,i)=>'<label class="completion-item"><input type="checkbox" data-completion="'+g.id+'-'+i+'" '+(saved[g.id+"-"+i]?"checked":"")+'><span><b>'+esc(it[0])+'</b><small>'+esc(it[1])+'</small></span></label>').join("")+'</div></section>').join("");
+ function update(save=true){
+  let total=0;
+  groups.forEach(g=>{
+   const checks=[...root.querySelectorAll('[data-completion^="'+g.id+'-"]')],done=checks.filter(x=>x.checked).length;
+   total+=g.weight*(done/g.items.length);
+   const counter=root.querySelector('[data-group-count="'+g.id+'"]');if(counter)counter.textContent=done+" / "+g.items.length;
+  });
+  const value=Math.round(total);pct.textContent=value+"%";fill.style.width=value+"%";
+  if(save){saved={};root.querySelectorAll("[data-completion]").forEach(x=>saved[x.dataset.completion]=x.checked);try{localStorage.setItem(key,JSON.stringify(saved));}catch(e){}}
+ }
+ root.addEventListener("change",e=>{if(e.target.matches("[data-completion]"))update(true);});
+ reset.addEventListener("click",()=>{root.querySelectorAll("[data-completion]").forEach(x=>x.checked=false);saved={};try{localStorage.removeItem(key);}catch(e){}update(false);});
+ update(false);
+})();
