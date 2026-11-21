@@ -106,6 +106,13 @@ footer p a{color:#ff83b8}
 .location-controls input{flex:1;min-width:0}
 .location-controls select{min-width:190px}
 .location-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+
+.location-related{width:100%;margin:8px 0 10px;padding-top:9px;border-top:1px solid #ffffff18}
+.location-related>small{display:block;font-size:7px;letter-spacing:.13em;color:var(--cyan);font-weight:800;margin-bottom:7px}
+.location-related>div{display:flex;flex-wrap:wrap;gap:5px}
+.location-related a{display:inline-flex;padding:6px 7px;border:1px solid #33465a;background:#111e2c;color:#b9d5df;font-size:7px;letter-spacing:.04em;line-height:1.3;text-decoration:none}
+.location-related a:hover{border-color:var(--pink);color:var(--pink)}
+.location-card{align-content:start}
 .location-card{display:flex;flex-direction:column;gap:7px;padding:14px;border:1px solid var(--line);background:#111b28;min-height:90px}
 .location-card small{font-size:8px;letter-spacing:.13em;color:var(--cyan)}
 .location-card b{font:17px Georgia,serif}
