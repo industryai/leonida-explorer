@@ -551,3 +551,41 @@ footer p a{color:#ff83b8}
 .poster-official .hero-character-art{display:block;width:100%;height:100%;min-height:inherit;object-fit:cover;object-position:center 35%}
 .hero-art-credit{position:absolute;right:12px;bottom:12px;padding:7px 10px;background:#080c16c9;border:1px solid #ffffff30;color:#d6deea;font-size:8px;letter-spacing:.14em;backdrop-filter:blur(8px)}
 @media(max-width:760px){.poster-official{min-height:320px;height:62vw}.poster-official .hero-character-art{object-position:center 30%}}
+
+
+/* Cinematic full-bleed homepage hero — inspired by the VICECITYWIRE concept */
+.hero#home{position:relative;isolation:isolate;display:flex;align-items:center;min-height:clamp(610px,calc(100vh - 92px),850px);padding:76px 5.5% 66px;overflow:hidden;background:#090d18}
+.hero#home .poster-official{position:absolute;z-index:0;top:0;right:0;bottom:0;width:76%;height:100%;min-height:0;border:0;box-shadow:none;background:#17172a}
+.hero#home .poster-official .hero-character-art{width:100%;height:100%;min-height:0;object-fit:cover;object-position:center 34%}
+.hero#home .poster-official:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#090d18 0%,rgba(9,13,24,.96) 7%,rgba(9,13,24,.76) 27%,rgba(9,13,24,.12) 62%,rgba(9,13,24,.04) 100%),linear-gradient(0deg,rgba(9,13,24,.32),transparent 30%,rgba(9,13,24,.08))}
+.hero#home .hero-art-credit{z-index:2;right:18px;bottom:16px;font-size:8px;opacity:.85}
+.hero#home .copy{position:relative;z-index:2;width:min(54%,700px);max-width:700px}
+.hero#home .eyebrow{font-size:10px;letter-spacing:.17em}
+.hero#home h1{font-size:clamp(64px,7.1vw,112px);line-height:.91;letter-spacing:-.065em;margin:32px 0 34px}
+.hero#home h1 em{display:inline-block;color:#ff5fa8;font-size:1.02em}
+.hero#home .copy>p{max-width:600px;font-size:clamp(14px,1.15vw,17px);line-height:1.75;color:#d1d8e3}
+.hero#home .actions{gap:16px;margin-top:34px;flex-wrap:wrap}
+.hero#home .actions .btn{display:inline-flex;align-items:center;justify-content:center;min-height:54px;padding:0 21px;font-size:10px;font-weight:800;letter-spacing:.09em}
+.hero#home .actions .btn.hot{background:#5be0d7;border-color:#5be0d7;color:#071219}
+.hero#home .actions .btn:not(.hot){background:#080d18a8;border-color:#d7e1ee;color:#f3f5f8}
+.hero#home .actions .btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.hero#home .stats{gap:clamp(14px,2.5vw,36px);margin-top:70px;font-size:9px;color:#aab6c8}
+.hero#home .stats b{color:#ff5fa8;font-size:10px}
+@media(max-width:900px){
+ .hero#home{min-height:650px;padding:65px 5% 54px}
+ .hero#home .poster-official{width:88%}
+ .hero#home .poster-official:after{background:linear-gradient(90deg,#090d18 0%,rgba(9,13,24,.88) 22%,rgba(9,13,24,.36) 66%,rgba(9,13,24,.12)),linear-gradient(0deg,rgba(9,13,24,.48),transparent 40%)}
+ .hero#home .copy{width:min(68%,650px)}
+ .hero#home h1{font-size:clamp(58px,9vw,88px)}
+}
+@media(max-width:600px){
+ .hero#home{min-height:690px;align-items:flex-start;padding:66px 6% 42px}
+ .hero#home .poster-official{width:100%;height:100%}
+ .hero#home .poster-official .hero-character-art{object-position:59% center}
+ .hero#home .poster-official:after{background:linear-gradient(90deg,rgba(9,13,24,.93),rgba(9,13,24,.5) 72%,rgba(9,13,24,.25)),linear-gradient(0deg,#090d18 0%,transparent 50%)}
+ .hero#home .copy{width:100%;max-width:520px}
+ .hero#home h1{font-size:clamp(55px,14vw,76px);margin:30px 0 24px}
+ .hero#home .copy>p{font-size:14px;max-width:420px}
+ .hero#home .stats{margin-top:48px;gap:13px;flex-wrap:wrap;font-size:8px}
+ .hero#home .hero-art-credit{font-size:7px}
+}
