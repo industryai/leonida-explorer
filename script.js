@@ -1,15 +1,15 @@
 const points=[
- {id:"loc-vice",name:"Vice City",type:"location",x:58,y:42,icon:"⌂",desc:"Schematischer Beispielmarker für Vice City. Keine bestätigten Ingame-Koordinaten."},
- {id:"loc-coast",name:"Küstenstraße",type:"location",x:37,y:68,icon:"⌂",desc:"Demo-Punkt für ein Gebiet. Kein bestätigter Ingame-Fundort."},
- {id:"veh-a",name:"Fahrzeug-Spot A",type:"vehicle",x:66,y:58,icon:"▰",desc:"Platzhalter für einen später verifizierten Fahrzeugfund."},
- {id:"wep-a",name:"Waffenfund A",type:"weapon",x:46,y:34,icon:"✦",desc:"Platzhalter für einen später verifizierten Waffenfund."},
- {id:"mis-a",name:"Missionsstart A",type:"mission",x:27,y:49,icon:"◆",desc:"Platzhalter für einen Missionsmarker."},
- {id:"sec-a",name:"Geheimnis A",type:"secret",x:78,y:30,icon:"?",desc:"Platzhalter für ein Easter Egg oder eine versteckte Location."}
+ {id:"loc-vice",name:"Vice City",type:"location",x:58,y:42,icon:"⌂",desc:"Schematic example marker for Vice City. Not a verified in-game coordinate."},
+ {id:"loc-coast",name:"Küstenstraße",type:"location",x:37,y:68,icon:"⌂",desc:"Demo marker for a region. Not a verified in-game location."},
+ {id:"veh-a",name:"Fahrzeug-Spot A",type:"vehicle",x:66,y:58,icon:"▰",desc:"Placeholder for a vehicle location to be verified."},
+ {id:"wep-a",name:"Waffenfund A",type:"weapon",x:46,y:34,icon:"✦",desc:"Placeholder for a weapon location to be verified."},
+ {id:"mis-a",name:"Missionsstart A",type:"mission",x:27,y:49,icon:"◆",desc:"Placeholder for a mission marker."},
+ {id:"sec-a",name:"Geheimnis A",type:"secret",x:78,y:30,icon:"?",desc:"Placeholder for an Easter egg or hidden location."}
 ];
 let activeType="all",zoom=1,offsetX=0,offsetY=0,drag=null,selectedId=null;
 const map=document.querySelector("#map"),world=document.querySelector("#mapWorld"),pins=document.querySelector("#pins");
 const search=document.querySelector("#search"),detail=document.querySelector("#detail");
-const typeNames={location:"ORT",vehicle:"FAHRZEUG",weapon:"WAFFE",mission:"MISSION",secret:"GEHEIMNIS"};
+const typeNames={location:"LOCATION",vehicle:"VEHICLE",weapon:"WEAPON",mission:"MISSION",secret:"SECRET"};
 function safe(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 function render(){
  const q=search.value.trim().toLowerCase();
@@ -23,7 +23,7 @@ function render(){
   b.addEventListener("click",()=>selectPoint(p));
   pins.append(b);
  });
- document.querySelector("#count").textContent=visible.length+" von "+points.length+" Demo-Einträgen angezeigt";
+ document.querySelector("#count").textContent=visible.length+" of "+points.length+" demo entries shown";
  document.querySelectorAll("#filters button").forEach(btn=>{
   const t=btn.dataset.type;
   let count=t==="all"?points.length:points.filter(p=>p.type===t).length;
@@ -89,7 +89,7 @@ render();applyTransform();
   const pct=Math.round(done/checks.length*100);
   fill.style.width=pct+"%";
   percent.textContent=pct+"% COMPLETE";
-  count.textContent=done+" / "+checks.length+" Kategorien erledigt";
+  count.textContent=done+" / "+checks.length+" categories completed";
   if(save){
    const state={};checks.forEach(c=>state[c.dataset.progress]=c.checked);
    try{localStorage.setItem(storageKey,JSON.stringify(state));}catch(e){}
@@ -106,17 +106,17 @@ render();applyTransform();
 /* Searchable starter catalogues. Scope is deliberately limited to sourced edition items. */
 (function initCatalogues(){
  const vehicles=[
-  {name:"'55 Vapid Stanier",type:"car",label:"Klassische Limousine",source:"Vintage Vice City Pack",note:"Als Vorbestellerbonus mit Garage beschrieben."},
-  {name:"'95 Grotti Cheetah",type:"car",label:"Sportwagen",source:"Ultimate Edition",note:"Als exklusives Fahrzeug der Ultimate Edition beschrieben."},
-  {name:"'67 Vapid Dominator Buggy",type:"car",label:"Beach Buggy",source:"Ultimate Edition",note:"Als exklusives Fahrzeug der Ultimate Edition beschrieben."},
-  {name:"Dinka Enduro",type:"bike",label:"Geländemotorrad",source:"Ultimate Edition",note:"Als exklusives Fahrzeug der Ultimate Edition beschrieben."},
+  {name:"'55 Vapid Stanier",type:"car",label:"Classic sedan",source:"Vintage Vice City Pack",note:"Listed as a pre-order bonus with a garage."},
+  {name:"'95 Grotti Cheetah",type:"car",label:"Sports car",source:"Ultimate Edition",note:"Listed as an Ultimate Edition exclusive vehicle."},
+  {name:"'67 Vapid Dominator Buggy",type:"car",label:"Beach buggy",source:"Ultimate Edition",note:"Listed as an Ultimate Edition exclusive vehicle."},
+  {name:"Dinka Enduro",type:"bike",label:"Off-road motorcycle",source:"Ultimate Edition",note:"Listed as an Ultimate Edition exclusive vehicle."},
   {name:"Shitzu Squalo",type:"boat",label:"Speedboat",source:"Ultimate Edition",note:"Als exklusives Wasserfahrzeug der Ultimate Edition beschrieben."},
-  {name:"Crest Kayak",type:"other",label:"Kajak",source:"Ultimate Edition",note:"Als exklusives Wasserfahrzeug der Ultimate Edition beschrieben."}
+  {name:"Crest Kayak",type:"other",label:"Kayak",source:"Ultimate Edition",note:"Als exklusives Wasserfahrzeug der Ultimate Edition beschrieben."}
  ];
  const weapons=[
-  {name:"Girardi ES9",type:"pistol",label:"Pistole",source:"Ultimate Edition",note:"Personalisierte Variante in den Editionsinhalten genannt."},
-  {name:"Klose K17",type:"pistol",label:"Pistole",source:"Ultimate Edition",note:"Personalisierte Variante in den Editionsinhalten genannt."},
-  {name:"Hawk & Little Morgan",type:"revolver",label:"Revolver",source:"Ultimate Edition",note:"Revolver-Inhalt der Ultimate Edition."}
+  {name:"Girardi ES9",type:"pistol",label:"Pistol",source:"Ultimate Edition",note:"Custom variant named in the edition content."},
+  {name:"Klose K17",type:"pistol",label:"Pistol",source:"Ultimate Edition",note:"Custom variant named in the edition content."},
+  {name:"Hawk & Little Morgan",type:"revolver",label:"Revolver",source:"Ultimate Edition",note:"Revolver item included in the Ultimate Edition."}
  ];
  function escapeText(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
  function mount(config){
@@ -125,7 +125,7 @@ render();applyTransform();
   function render(){
    const q=search.value.trim().toLowerCase(),kind=select.value;
    const items=config.items.filter(x=>(kind==="all"||x.type===kind)&&(x.name+" "+x.label+" "+x.note).toLowerCase().includes(q));
-   if(!items.length){grid.innerHTML='<div class="db-empty">Keine passenden Einträge gefunden. Ändere den Suchbegriff oder den Filter.</div>';return;}
+   if(!items.length){grid.innerHTML='<div class="db-empty">No matching entries. Try another search term or filter.</div>';return;}
    grid.innerHTML=items.map(x=>'<article class="db-card"><div class="db-card-top"><span class="db-type">'+escapeText(x.label)+'</span><span class="db-status">QUELLENBASIERT</span></div><h3>'+escapeText(x.name)+'</h3><p>'+escapeText(x.note)+'</p><div class="db-meta">DATENBASIS: '+escapeText(x.source.toUpperCase())+'</div></article>').join("");
   }
   search.addEventListener("input",render);select.addEventListener("change",render);render();
@@ -157,14 +157,14 @@ render();applyTransform();
  const all=chapters.flatMap(c=>c.missions.map((name,index)=>({name,chapter:c.id,chapterName:c.name,number:index+1,optional:["Thrillbillies","Twist Wrist, Smash, Grab","Kitty Litter Labs"].includes(name)})));
  function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
  function showMission(m){
-  detail.innerHTML="<small>CHAPTER "+m.chapter+" / "+(m.optional?"OPTIONAL MISSION":"STORY MISSION")+"</small><h3>"+esc(m.name)+"</h3><p><b>"+esc(m.chapterName)+"</b><br>Diese Mission ist im Missionsindex erfasst. Ein vollständiger Schritt-für-Schritt-Walkthrough mit Zielen, Kartenpositionen und Belohnungen wird ergänzt, sobald die Details zuverlässig gegengeprüft sind.</p><span class='guide-state'>WALKTHROUGH IN VORBEREITUNG</span><br><a href='https://www.gamesradar.com/games/grand-theft-auto/gta-6-mission-list/' target='_blank' rel='noopener'>Missionsübersicht / Quelle ↗</a>";
+  detail.innerHTML="<small>CHAPTER "+m.chapter+" / "+(m.optional?"OPTIONAL MISSION":"STORY MISSION")+"</small><h3>"+esc(m.name)+"</h3><p><b>"+esc(m.chapterName)+"</b><br>This mission is listed in the index. A full step-by-step walkthrough with objectives, map locations and rewards will be added after the details have been reliably cross-checked.</p><span class='guide-state'>WALKTHROUGH IN PREPARATION</span><br><a href='https://www.gamesradar.com/games/grand-theft-auto/gta-6-mission-list/' target='_blank' rel='noopener'>Mission list / source ↗</a>";
   list.querySelectorAll(".mission-item").forEach(b=>b.classList.toggle("active",b.dataset.name===m.name));
  }
  function render(){
   const q=search.value.trim().toLowerCase(),chapter=filter.value;
   const items=all.filter(m=>(chapter==="all"||String(m.chapter)===chapter)&&m.name.toLowerCase().includes(q));
   list.innerHTML="";
-  if(!items.length){list.innerHTML="<div class='mission-empty'>Keine Mission gefunden. Prüfe Schreibweise oder Kapitel-Filter.</div>";return;}
+  if(!items.length){list.innerHTML="<div class='mission-empty'>No missions found. Check the spelling or chapter filter.</div>";return;}
   items.forEach(m=>{
    const b=document.createElement("button");b.type="button";b.className="mission-item";b.dataset.name=m.name;
    b.innerHTML="<span class='mission-no'>"+String(m.number).padStart(2,"0")+"</span><span><span class='mission-name'>"+esc(m.name)+(m.optional?" · Optional":"")+"</span><span class='mission-chapter'>CHAPTER "+m.chapter+" / "+esc(m.chapterName.toUpperCase())+"</span></span>";
