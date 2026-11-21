@@ -119,6 +119,33 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
  const progressCount=document.getElementById("locationProgressCount"),progressFill=document.getElementById("locationProgressFill"),reset=document.getElementById("locationProgressReset");
  if(!grid||!search||!filter||!progressCount||!progressFill||!reset)return;
  const labels={place:"PLACE / REGION",landmark:"LANDMARK",road:"ROAD",water:"WATER"};
+ const relatedFor=(name,type)=>{
+  const n=name.toLowerCase(),links=[];
+  const add=(label,href)=>links.push([label,href]);
+  const regions=[
+   [/vice city|vice beach|vice-dale|ocean beach|southside|little cuba|washington beach|starfish island|downtown|decor district|leaf links|la perle|vc port|vci airport/,"VICE CITY","#region-vice-city"],
+   [/key|island|keys|catalan|maroon|abismo|goose|peacock bay|leonida keys|key lento|bobcat|shoeless|permit/,"LEONIDA KEYS","#region-leonida-keys"],
+   [/grassrivers|swamp|marsh|frogswater|buckskin|gullet/,"GRASSRIVERS","#region-grassrivers"],
+   [/port gellhorn|gellhorn|millport|salton|waning sands|hamlet|rockridge/,"PORT GELLHORN","#region-port-gellhorn"],
+   [/ambrosia|capri|belpoint|belville|bluegrass|cellerica|sugar refinery|raceway/,"AMBROSIA","#region-ambrosia"],
+   [/mount kalaga|manifest canyon|richard barebone|wild hog|north leonard|south leonard/,"MOUNT KALAGA","#region-mount-kalaga"]
+  ];
+  const region=regions.find(([re])=>re.test(n));
+  if(region)add("REGION · "+region[1],region[2]);
+  if(type==="landmark"){
+   if(/prison|correctional/.test(n))add("LAW ENFORCEMENT & FACTIONS","#factions");
+   if(/raceway|speedway|arena|mud club|airport|air station|airfield/.test(n))add("VEHICLES DATABASE","#vehicles");
+   if(/mall|flea market|orchard|dairy|farms|resort|country club|rv park|estates|mine|quarry|power station|data center|refinery/.test(n))add("BUSINESSES & PROPERTY","#businesses");
+  }
+  if(type==="water"){add("FISHING DATABASE","#fishing");add("WILDLIFE DATABASE","#wildlife");}
+  if(type==="road"){add("TRIP PLANNER","#trip-planner");add("MAP LOCATIONS","#locations");}
+  if(type==="place"){add("MAP LOCATIONS","#locations");if(region)add("TRIP PLANNER","#trip-planner");}
+  if(/vice city|southside|little cuba|la perle|vice beach/.test(n)){add("CHARACTERS","#characters");add("FACTIONS & LAW ENFORCEMENT","#factions");add("BUSINESSES & PROPERTY","#businesses");}
+  if(/key|island|keys|catalan|maroon|abismo|goose|peacock bay|leonida keys/.test(n)){add("FISHING DATABASE","#fishing");add("WILDLIFE DATABASE","#wildlife");}
+  if(/grassrivers|swamp|marsh|mount kalaga|wild hog|manifest canyon/.test(n))add("WILDLIFE & HUNTING","#hunting");
+  if(/port gellhorn|ambrosia|hamlet|capri|waning sands/.test(n)){add("FACTIONS & LAW ENFORCEMENT","#factions");add("BUSINESSES & PROPERTY","#businesses");}
+  const seen=new Set();return links.filter(([label,href])=>{if(seen.has(href))return false;seen.add(href);return true;}).slice(0,4);
+ };
  const storageKey="vicecitywire-found-locations-v1";
  let saved={};
  try{saved=JSON.parse(localStorage.getItem(storageKey)||"{}")||{};}catch(e){saved={};}
@@ -134,7 +161,7 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
   const matches=entries.filter(([name,type])=>(kind==="all"||kind===type)&&name.toLowerCase().includes(q));
   grid.innerHTML=matches.length?matches.map(([name,type])=>{
    const key=keyFor(name),done=Boolean(saved[key]);
-   return '<article class="location-card'+(done?' is-found':'')+'"><small>'+labels[type]+'</small><b>'+name+'</b><span>PRINTED MAP LABEL</span><button type="button" class="location-found" data-location="'+key+'" aria-pressed="'+done+'">'+(done?'✓ FOUND':'＋ MARK AS FOUND')+'</button></article>';
+   return '<article class="location-card'+(done?' is-found':'')+'"><small>'+labels[type]+'</small><b>'+name+'</b><span>PRINTED MAP LABEL</span><div class="location-related"><small>RELATED ATLAS SECTIONS</small><div>'+relatedFor(name,type).map(([label,href])=>'<a href="'+href+'">'+label+' ↗</a>').join('')+'</div></div><button type="button" class="location-found" data-location="'+key+'" aria-pressed="'+done+'">'+(done?'✓ FOUND':'＋ MARK AS FOUND')+'</button></article>';
   }).join(""):'<div class="db-empty">No matching map labels. Try another search or category.</div>';
  }
  grid.addEventListener("click",e=>{
