@@ -298,3 +298,22 @@ footer p a{color:#ff83b8}
 .wildlife-check{display:flex;align-items:center;gap:9px;padding:10px 15px;margin-top:4px;border-top:1px solid #2a394d;font-size:8px;letter-spacing:.1em;color:#b8c7d5;cursor:pointer}
 .wildlife-check input{accent-color:var(--cyan)}
 @media(max-width:620px){.wildlife-progress{grid-template-columns:1fr}.wildlife-progress-track{grid-column:1}}
+
+
+/* Wildlife category coverage and habitat shortcuts */
+.wildlife-category-panel{padding:18px;margin:0 0 14px;border:1px solid var(--line);background:linear-gradient(120deg,#172638,#101722)}
+.wildlife-category-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:13px}
+.wildlife-category-heading small{font-size:8px;letter-spacing:.15em;color:var(--cyan)}
+.wildlife-category-heading h3{font:23px Georgia,serif;margin:6px 0}
+.wildlife-category-heading p{font-size:10px;color:var(--muted);margin:0}
+.wildlife-category-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.wildlife-category-grid>div{display:flex;flex-direction:column;gap:5px;padding:12px;border:1px solid #2c3d51;background:#111d2b}
+.wildlife-category-grid b{font:25px Georgia,serif;color:var(--cyan)}
+.wildlife-category-grid span{font-size:8px;letter-spacing:.1em;color:#b8c7d5}
+.wildlife-category-panel>.db-footnote{margin:13px 0 0;font-size:9px;line-height:1.6}
+.wildlife-map-links{display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:12px 14px;margin:0 0 15px;border:1px solid var(--line);background:#101a27}
+.wildlife-map-links b{font-size:8px;letter-spacing:.13em;color:var(--cyan);margin-right:5px}
+.wildlife-map-links a{font-size:8px;letter-spacing:.08em;color:#e4edf4;border:1px solid #40516a;padding:8px 10px;text-decoration:none}
+.wildlife-map-links a:hover{border-color:var(--cyan);color:var(--cyan)}
+@media(max-width:700px){.wildlife-category-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.wildlife-category-heading{flex-direction:column}}
+@media(max-width:620px){.wildlife-map-links{align-items:flex-start;flex-direction:column}.wildlife-map-links a,.wildlife-map-links b{width:100%}}
