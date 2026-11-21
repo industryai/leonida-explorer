@@ -196,3 +196,15 @@ footer p a{color:#ff83b8}
 .vehicle-detail-panel p{font-size:11px;line-height:1.65;color:var(--muted);max-width:760px}
 .vehicle-detail-panel p b{color:var(--txt);font-size:9px;letter-spacing:.08em}
 .vehicle-detail-close{position:absolute;right:12px;top:10px;border:1px solid #40516a;background:#142233;color:var(--txt);font-size:20px;width:34px;height:34px;cursor:pointer}
+
+.weapon-card{padding:0;overflow:hidden}
+.weapon-silhouette{height:105px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;background:linear-gradient(135deg,#1a2a3a,#0b111a);border-bottom:1px solid var(--line)}
+.weapon-silhouette span{font-size:8px;letter-spacing:.18em;color:var(--cyan)}
+.weapon-silhouette b{font:20px Georgia,serif;color:#d9e3eb;letter-spacing:.04em}
+.weapon-card .db-card-top,.weapon-card h3,.weapon-card .weapon-price,.weapon-card .weapon-open{margin-left:15px;margin-right:15px}
+.weapon-card h3{font:19px Georgia,serif;margin-top:3px}
+.weapon-price{font-size:9px;color:var(--muted);margin-bottom:0}
+.weapon-open{background:#142638;color:var(--cyan);border:1px solid #40516a;padding:9px;text-align:left;font:inherit;font-size:8px;letter-spacing:.1em;cursor:pointer}
+.weapon-open:hover{border-color:var(--cyan)}
+.weapon-card .db-status{max-width:57%;font-size:6px}
+.weapon-detail-panel{margin-top:18px}
