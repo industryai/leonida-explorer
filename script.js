@@ -683,3 +683,51 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
  [search].forEach(x=>x.addEventListener("input",render));[role,status].forEach(x=>x.addEventListener("change",render));
  reset.addEventListener("click",()=>{saved={};try{localStorage.removeItem(key);}catch(e){}render();});render();
 })();
+
+
+/* Leonida gangs, crews and law-enforcement directory */
+(function initFactionDatabase(){
+ const grid=document.getElementById("factionGrid"),search=document.getElementById("factionSearch"),kind=document.getElementById("factionKind"),evidence=document.getElementById("factionEvidence"),status=document.getElementById("factionStatus"),count=document.getElementById("factionCount"),tracked=document.getElementById("factionTracked"),fill=document.getElementById("factionTrackFill"),reset=document.getElementById("factionReset");
+ if(!grid||!search||!kind||!evidence||!status||!count||!tracked||!fill||!reset)return;
+ const rows=[
+ {name:"PTT Youngin$",kind:"gang",type:"Southside street gang",area:"Southside, Vice City",evidence:"official",basis:"Rockstar explicitly describes them as one of Southside Vice City's loudest gangs; Ultimate Edition content includes a raid on their Illegal Goods Store.",source:"Rockstar character / edition material"},
+ {name:"Final Chapter MC",kind:"gang",type:"Outlaw motorcycle club",area:"Ambrosia",evidence:"game",basis:"Rockstar describes a local biker gang in Ambrosia. The name Final Chapter MC is read from club patches in official imagery and catalogued by community databases.",source:"Rockstar region text + screenshot identification"},
+ {name:"San4San",kind:"gang",type:"Haitian street gang (community classification)",area:"Vice City · La Perle (reported)",evidence:"game",basis:"The name is visible in game material. The Haitian classification and base are community-database descriptions, not a published Rockstar gang biography.",source:"In-game name + GTABase / GTATracker classification"},
+ {name:"Guardia Brothers",kind:"gang",type:"Cuban crime family (community classification)",area:"Little Cuba, Vice City (reported)",evidence:"community",basis:"Listed as a criminal family by GTATracker. Treat the organisation type and reported base as database classification, not Rockstar-authored lore.",source:"GTATracker community database"},
+ {name:"M7",kind:"gang",type:"Salvadoran street gang (community classification)",area:"Hamlet (reported)",evidence:"community",basis:"Listed as a Salvadoran street gang by GTATracker. The group's wider story role and leadership are not established here.",source:"GTATracker community database"},
+ {name:"Kolt & Associates",kind:"gang",type:"Gulf Coast criminal clan (community classification)",area:"Port Gellhorn (reported)",evidence:"community",basis:"Listed as a criminal clan by GTATracker. Do not assume the name describes a conventional corporation or a full territory boundary.",source:"GTATracker community database"},
+ {name:"Kingfishers",kind:"gang",type:"Swamp smuggling gang (community classification)",area:"Grassrivers (reported)",evidence:"community",basis:"Listed as a smuggling gang by GTATracker and associated with the Grassrivers area. Exact leadership and boundaries are not asserted.",source:"GTATracker community database"},
+ {name:"La Polilla Negra",kind:"gang",type:"Colombian drug cartel (community classification)",area:"North-west of the Grassrivers (reported)",evidence:"community",basis:"Listed as a drug cartel by GTATracker. Its classification and operating area are attributed to that database.",source:"GTATracker community database"},
+ {name:"Brian Heder's operation",kind:"crew",type:"Keys drug-running network",area:"Leonida Keys",evidence:"official",basis:"Rockstar describes Brian as a drug runner moving product through his boat yard. Jason works for local drug runners and helps Brian with local shakedowns.",source:"Rockstar character biography"},
+ {name:"Raul Bautista's crew",kind:"crew",type:"Bank-robbery crew",area:"Vice City / Leonida (exact base not stated)",evidence:"official",basis:"Rockstar describes Raul as a seasoned bank robber recruiting people for high-risk scores. The crew has no official group name in the biography.",source:"Rockstar character biography"},
+ {name:"Devil's Dozen",kind:"crew",type:"Criminal group",area:"Hangar / mission-linked (reported)",evidence:"community",basis:"Listed by GTATracker as a criminal group associated with Donnie's contacts in the Clear Skies mission.",source:"GTATracker mission-linked listing"},
+ {name:"Aviators Crew",kind:"crew",type:"Local crew",area:"Key Lento (reported)",evidence:"community",basis:"Listed by GTATracker as a local crew encountered by Jason in Key Lento.",source:"GTATracker mission-linked listing"},
+ {name:"Ambrosia County Sheriff",kind:"law",type:"County law enforcement",area:"Ambrosia County",evidence:"game",basis:"Listed as a law-enforcement agency in the post-release faction database.",source:"GTATracker database"},
+ {name:"Ambrosia Police Department",kind:"law",type:"Town police department",area:"Ambrosia",evidence:"game",basis:"Listed as a local police department in the post-release faction database.",source:"GTATracker database"},
+ {name:"Capri Police Department",kind:"law",type:"City police department",area:"Capri",evidence:"game",basis:"Listed as a city police department in the post-release faction database.",source:"GTATracker database"},
+ {name:"Key Lento Police Department",kind:"law",type:"Local police department",area:"Key Lento",evidence:"game",basis:"Listed as a local police department in the post-release faction database.",source:"GTATracker database"},
+ {name:"Leonard County Sheriff's Office",kind:"law",type:"County law enforcement",area:"Leonard County",evidence:"game",basis:"Listed as a sheriff's office in the post-release faction database.",source:"GTATracker database"},
+ {name:"Mariana County Sheriff's Office",kind:"law",type:"County law enforcement",area:"Mariana County",evidence:"game",basis:"Listed as a sheriff's office in the post-release faction database.",source:"GTATracker database"},
+ {name:"Leonida Highway Patrol",kind:"law",type:"State highway patrol",area:"Leonida",evidence:"game",basis:"Listed as a state highway patrol agency in the post-release faction database.",source:"GTABase / GTATracker"},
+ {name:"National Coast Guard",kind:"law",type:"Coast guard service",area:"Leonida coastal waters",evidence:"game",basis:"Listed as a coast guard service in the post-release faction database.",source:"GTATracker database"},
+ {name:"Leonida Department of Corrections",kind:"law",type:"State prison authority",area:"Leonida",evidence:"game",basis:"Listed as a state prison authority in the post-release faction database.",source:"GTATracker database"},
+ {name:"Protection of Animals & Controlled Hunting (POACH)",kind:"law",type:"Wildlife / hunting enforcement",area:"Leonida wilderness",evidence:"game",basis:"Listed as a law-enforcement agency in the post-release faction database.",source:"GTABase / GTATracker"},
+ {name:"Port Gellhorn Police Department",kind:"law",type:"Local police department",area:"Port Gellhorn",evidence:"game",basis:"Listed as a local police department in the post-release faction database.",source:"GTABase / GTATracker"},
+ {name:"Vice Beach Police Department",kind:"law",type:"Local police department",area:"Vice Beach",evidence:"game",basis:"Listed as a local police department in the post-release faction database.",source:"GTABase / GTATracker"},
+ {name:"Vice City Police Department",kind:"law",type:"City police department",area:"Vice City",evidence:"game",basis:"Listed as a city police department in the post-release faction database.",source:"GTABase / GTATracker"},
+ {name:"Vice-Dale Police Department",kind:"law",type:"Local police department",area:"Vice-Dale",evidence:"game",basis:"Listed as a local police department in the post-release faction database.",source:"GTABase / GTATracker"},
+ {name:"Waning Sands Police Department",kind:"law",type:"City police department",area:"Waning Sands",evidence:"game",basis:"Listed as a city police department in the post-release faction database.",source:"GTATracker database"}
+ ];
+ const key="vicecitywire-faction-review-v1";let saved={};try{saved=JSON.parse(localStorage.getItem(key)||"{}")||{};}catch(e){}
+ const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ const labels={official:"ROCKSTAR-STATED",game:"IN-GAME / VISUAL",community:"COMMUNITY CLASSIFICATION"};
+ function render(){
+  const q=search.value.trim().toLowerCase(),k=kind.value,e=evidence.value,s=status.value;
+  const list=rows.map((x,i)=>({...x,i,done:!!saved[i]})).filter(x=>(k==="all"||x.kind===k)&&(e==="all"||x.evidence===e)&&(s==="all"||(s==="reviewed"&&x.done)||(s==="unreviewed"&&!x.done))&&[x.name,x.type,x.area,x.basis,x.source].join(" ").toLowerCase().includes(q));
+  grid.innerHTML=list.length?list.map(x=>'<article class="faction-card"><div class="faction-card-top"><span class="faction-kind">'+(x.kind==="law"?"LAW ENFORCEMENT":x.kind==="crew"?"LOCAL CREW":"CRIMINAL GROUP")+'</span><span class="faction-evidence evidence-'+x.evidence+'">'+labels[x.evidence]+'</span></div><h3>'+esc(x.name)+'</h3><div class="faction-type">'+esc(x.type)+'</div><div class="faction-area"><small>REPORTED AREA</small><b>'+esc(x.area)+'</b></div><p>'+esc(x.basis)+'</p><div class="faction-source">SOURCE: '+esc(x.source)+'</div><label class="faction-check"><input type="checkbox" data-faction="'+x.i+'" '+(x.done?'checked':'')+'><span>MARK AS REVIEWED</span></label></article>').join(""):'<div class="db-empty">No matching factions. Adjust your search or filters.</div>';
+  const done=rows.reduce((n,x,i)=>n+(saved[i]?1:0),0);count.textContent=list.length+" / "+rows.length;tracked.textContent=done+" / "+rows.length;fill.style.width=(done/rows.length*100)+"%";
+ }
+ grid.addEventListener("change",e=>{if(e.target.matches("[data-faction]")){saved[e.target.dataset.faction]=e.target.checked;try{localStorage.setItem(key,JSON.stringify(saved));}catch(e){}render();}});
+ search.addEventListener("input",render);[kind,evidence,status].forEach(x=>x.addEventListener("change",render));
+ reset.addEventListener("click",()=>{saved={};try{localStorage.removeItem(key);}catch(e){}render();});render();
+})();
