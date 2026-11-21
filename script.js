@@ -237,8 +237,42 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
  const label=document.getElementById("mapZoomLabel"),plus=document.getElementById("mapZoomIn"),minus=document.getElementById("mapZoomOut"),reset=document.getElementById("mapReset");
  if(!viewport||!img||!label||!plus||!minus||!reset)return;
  let scale=1,x=0,y=0,drag=null;
+ const NS="http://www.w3.org/2000/svg",routeKey="vicecitywire-trip-planner-v1";
+ const overlay=document.createElementNS(NS,"svg");
+ overlay.setAttribute("id","tripRouteOverlay");overlay.setAttribute("viewBox","0 0 374 500");overlay.setAttribute("aria-label","Approximate regional trip overview");
+ overlay.classList.add("trip-route-overlay");viewport.appendChild(overlay);
+ const regionPoints={
+  "Vice City":[270,292],"Leonida Keys":[185,430],"Grassrivers":[112,205],
+  "Port Gellhorn":[76,176],"Ambrosia":[190,248],"Mount Kalaga":[185,76],
+  "Other / statewide":[185,250],"Leonida":[185,250]
+ };
+ function drawTripRoute(){
+  let trip={stops:[]};try{trip=JSON.parse(localStorage.getItem(routeKey)||"{}")||trip;}catch(e){}
+  overlay.replaceChildren();const stops=Array.isArray(trip.stops)?trip.stops:[];
+  if(!stops.length){overlay.classList.remove("has-route");return;}
+  const counts={};const points=stops.map((stop,index)=>{
+   const region=stop.region||"Other / statewide",base=regionPoints[region]||regionPoints["Other / statewide"];
+   const offset=counts[region]||0;counts[region]=offset+1;
+   const angle=offset*2.399,spread=Math.min(17,5+offset*3);
+   return {x:base[0]+Math.cos(angle)*spread,y:base[1]+Math.sin(angle)*spread,index,stop};
+  });
+  const path=document.createElementNS(NS,"polyline");
+  path.setAttribute("points",points.map(p=>p.x+","+p.y).join(" "));
+  path.setAttribute("class","trip-route-line");overlay.appendChild(path);
+  points.forEach(p=>{
+   const group=document.createElementNS(NS,"g");group.setAttribute("class","trip-route-pin"+(p.stop.visited?" visited":""));
+   const circle=document.createElementNS(NS,"circle");circle.setAttribute("cx",p.x);circle.setAttribute("cy",p.y);circle.setAttribute("r","10");group.appendChild(circle);
+   const label=document.createElementNS(NS,"text");label.setAttribute("x",p.x);label.setAttribute("y",p.y+3.5);label.textContent=String(p.index+1);group.appendChild(label);
+   const title=document.createElementNS(NS,"title");title.textContent=(p.index+1)+". "+p.stop.name+" · "+(p.stop.region||"Leonida");group.appendChild(title);
+   overlay.appendChild(group);
+  });
+  overlay.classList.add("has-route");
+ }
+ window.addEventListener("vicecitywire:trip-updated",drawTripRoute);
+ window.addEventListener("storage",e=>{if(e.key===routeKey)drawTripRoute();});
+ drawTripRoute();
  const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
- function render(){img.style.transform="translate(calc(-50% + "+x+"px),calc(-50% + "+y+"px)) scale("+scale+")";label.textContent=Math.round(scale*100)+"%";}
+ function render(){img.style.transform="translate(calc(-50% + "+x+"px),calc(-50% + "+y+"px)) scale("+scale+")";label.textContent=Math.round(scale*100)+"%";overlay.style.transform="translate(calc(-50% + "+x+"px),calc(-50% + "+y+"px)) scale("+scale+")";}
  function zoom(next,cx=viewport.clientWidth/2,cy=viewport.clientHeight/2){
   const old=scale;next=clamp(next,1,5);if(next===old)return;
   const px=cx-viewport.clientWidth/2-x,py=cy-viewport.clientHeight/2-y;
@@ -707,7 +741,7 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
  function save(){state.day=day.value;state.region=region.value;try{localStorage.setItem(key,JSON.stringify(state));}catch(e){}}
  function render(){
   list.innerHTML=state.stops.length?state.stops.map((x,i)=>'<article class="trip-stop '+(x.visited?"visited":"")+'"><div class="trip-stop-number">'+String(i+1).padStart(2,"0")+'</div><div class="trip-stop-main"><div class="trip-stop-top"><span>'+esc(x.type)+'</span><b>'+esc(x.name)+'</b></div><p>'+esc(x.note||"No note added")+'</p><small>'+esc(x.region)+'</small></div><div class="trip-stop-actions"><label><input type="checkbox" data-visit="'+i+'" '+(x.visited?"checked":"")+'> VISITED</label><button type="button" data-up="'+i+'" '+(i===0?"disabled":"")+' aria-label="Move stop up">↑</button><button type="button" data-down="'+i+'" '+(i===state.stops.length-1?"disabled":"")+' aria-label="Move stop down">↓</button><button type="button" data-remove="'+i+'" aria-label="Remove stop">×</button></div></article>').join(""):'<div class="db-empty">No stops added yet. Add your first destination above or load a starter route.</div>';
-  const visited=state.stops.filter(x=>x.visited).length;summary.textContent=state.stops.length+" stops · "+visited+" visited";save();
+  const visited=state.stops.filter(x=>x.visited).length;summary.textContent=state.stops.length+" stops · "+visited+" visited";save();window.dispatchEvent(new Event("vicecitywire:trip-updated"));
  }
  function addStop(n,t,r,nt){if(!n.trim())return;state.stops.push({name:n.trim(),type:t,region:region.value,note:nt.trim(),visited:false});name.value="";note.value="";save();render();}
  window.addEventListener("vicecitywire:add-trip-stop",event=>{
