@@ -26,3 +26,19 @@ footer p a{color:#ff83b8}
 .filter-count{float:right;margin-left:auto;color:#91a1b5;font-size:9px;padding-left:8px}
 .detail-status{display:inline-block;margin-top:10px;color:var(--orange);font-size:8px;letter-spacing:.14em;border:1px solid #76583a;padding:5px 7px}
 .map-help{font-size:9px;color:#8293a8;margin:8px 0 0}
+
+/* Personal completion tracker */
+.tracker-panel{border:1px solid var(--line);background:linear-gradient(135deg,#151f2d,#0e1621);padding:24px}
+.tracker-top{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.tracker-top b,.tracker-top small{display:block}
+.tracker-top b{font-size:13px}.tracker-top small{font-size:9px;color:var(--muted);margin-top:4px}
+.tracker-top button{background:transparent;border:1px solid #4a586b;color:#c0cbd6;padding:9px 11px;font-size:8px;letter-spacing:.12em;cursor:pointer}
+.progress-track{height:8px;background:#263448;margin:20px 0 22px;overflow:hidden}
+.progress-track span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--pink));transition:width .25s}
+.tracker-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.tracker-grid label{display:flex;align-items:center;gap:12px;padding:13px;border:1px solid #2a394d;background:#101a27;cursor:pointer}
+.tracker-grid input{accent-color:var(--cyan);width:16px;height:16px}
+.tracker-grid b,.tracker-grid small{display:block}
+.tracker-grid b{font-size:11px}.tracker-grid small{font-size:9px;color:var(--muted);margin-top:3px}
+.tracker-note{font-size:9px;color:#8291a4;margin:18px 0 0}
+@media(max-width:620px){.tracker-panel{padding:16px}.tracker-top{align-items:flex-start;flex-direction:column}.tracker-grid{grid-template-columns:1fr}}
