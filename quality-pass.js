@@ -96,7 +96,7 @@
    ["Bret’s Target Decks","HUNTING",15,"decks","Complete all 15 target decks in Bret’s hunting questline.","https://www.powerpyx.com/gta-6-100-completion-checklist-guide/"],
    ["Animals Studied","WILDLIFE",100,"animals","Study at least 100 of the 255 animal-log entries. Studying is separate from hunting.","https://www.powerpyx.com/gta-6-all-animals-locations/"]
   ];
-  const key="vicecitywire-collection-log-v2";let saved={};try{saved=JSON.parse(localStorage.getItem(key)||"{}")||{};}catch(_){}
+  const key="vicecitywire-collection-log-v2";let saved={};try{const current=localStorage.getItem(key);saved=current?(JSON.parse(current)||{}):(JSON.parse(localStorage.getItem("vicecitywire-collection-log-v1")||"{}")||{});if(!current&&Object.keys(saved).length)localStorage.setItem(key,JSON.stringify(saved));}catch(_){}
   grid.innerHTML=data.map((x,i)=>'<article class="collection-card"><div class="collection-card-top"><span>'+esc(x[1])+'</span><small>TARGET · '+x[2]+'</small></div><h3>'+esc(x[0])+'</h3><p>'+esc(x[4])+'</p><div class="collection-entry"><label for="collection-v2-'+i+'">YOUR PROGRESS</label><div><input id="collection-v2-'+i+'" type="number" min="0" max="'+x[2]+'" step="1" value="'+Math.min(x[2],Math.max(0,Number(saved[i])||0))+'" data-collection-v2="'+i+'"><span>/ '+x[2]+' '+esc(x[3])+'</span></div></div><div class="collection-track"><span data-collection-v2-fill="'+i+'"></span></div><a href="'+x[5]+'" target="_blank" rel="noopener">OPEN GUIDE ↗</a></article>').join("");
   function update(save){
    let completed=0;
