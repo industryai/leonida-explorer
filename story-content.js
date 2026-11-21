@@ -270,9 +270,12 @@
  const networkDetail=$("networkDetail"),networkCount=$("networkCount"),graph=$("relationshipGraph");
  if(networkDetail&&networkCount&&graph){
   const names=[...new Set(network.flatMap(x=>x.slice(0,2)))];
+  const businessNames=new Set(["Only Raw Records","Brian's Boat Works & Marina","Megamundo","Thrillbilly Mud Club","Phil's Ammu-Nation","Classic Car Collection"]);
+  const placeNames=new Set(["Leonida Keys","Mount Kalaga National Park","Pelican Valley","McKittrick Farm","Port Gellhorn","Ambrosia","Key Lento","Vice City"]);
+  const nodeType=name=>businessNames.has(name)?"business":placeNames.has(name)?"places":"people";
   const positions=Object.fromEntries(names.map((name,i)=>[name,{x:95+(i%5)*225,y:55+Math.floor(i/5)*115}]));
   const lines=network.map(edge=>{const a=positions[edge[0]],b=positions[edge[1]],mx=(a.x+b.x)/2,my=(a.y+b.y)/2-8;return '<g class="network-edge"><line x1="'+a.x+'" y1="'+a.y+'" x2="'+b.x+'" y2="'+b.y+'"></line><text x="'+mx+'" y="'+my+'">'+esc(edge[2])+'</text></g>';}).join("");
-  const nodeMarkup=names.map(name=>{const p=positions[name];return '<g class="network-node people" data-story-node="'+esc(name)+'" tabindex="0" role="button"><circle cx="'+p.x+'" cy="'+p.y+'" r="28"></circle><text x="'+p.x+'" y="'+(p.y+46)+'">'+esc(name)+'</text></g>';}).join("");
+  const nodeMarkup=names.map(name=>{const p=positions[name];return '<g class="network-node '+nodeType(name)+'" data-story-node="'+esc(name)+'" tabindex="0" role="button"><circle cx="'+p.x+'" cy="'+p.y+'" r="28"></circle><text x="'+p.x+'" y="'+(p.y+46)+'">'+esc(name)+'</text></g>';}).join("");
   graph.innerHTML=lines+nodeMarkup;
   networkCount.textContent=names.length+" NODES · "+network.length+" CONNECTIONS";
   const select=name=>{
