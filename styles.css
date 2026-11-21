@@ -730,3 +730,18 @@ footer p a{color:#ff83b8}
 @media(max-width:620px){
  #app > section#home{min-height:calc(100vh - 65px);padding-top:38px;padding-bottom:38px}
 }
+
+
+/* STORY content fallback and readable dossier layouts */
+.story-fallback-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.story-fallback-card{padding:20px;border:1px solid var(--line);background:linear-gradient(145deg,#172638,#101722)}
+.story-fallback-card h3{font:23px Georgia,serif;margin:8px 0}
+.story-fallback-card p{font-size:11px;line-height:1.7;color:var(--muted)}
+.story-fallback-card small{font-size:8px;letter-spacing:.14em;color:var(--cyan)}
+.story-fallback-card .story-meta{padding-top:10px;border-top:1px solid #ffffff18;color:#aebaca;font-size:9px}
+.story-fallback-card button{margin-top:12px;background:#152638;color:var(--cyan);border:1px solid #40566c;padding:9px 11px;font-size:9px;letter-spacing:.1em;cursor:pointer}
+.story-fallback-detail{margin-top:14px;padding:20px;border:1px solid #52667b;background:#0e1825}
+.story-fallback-detail h3{font:26px Georgia,serif;margin:8px 0}
+.story-fallback-detail p{font-size:12px;line-height:1.75;color:#c0cad6}
+.story-fallback-detail a{display:inline-block;margin:8px 10px 0 0;color:var(--cyan);font-size:9px}
+@media(max-width:620px){.story-fallback-grid{grid-template-columns:1fr}}
