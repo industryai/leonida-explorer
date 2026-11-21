@@ -115,9 +115,9 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
   ["County Route 62","road"],["Interstate 97","road"],["Interstate 297","road"],["Interstate 397","road"],["Interstate 404","road"],["State Route 1A","road"],["U.S. 35","road"],["U.S. 82","road"],["U.S. 183","road"],["U.S. 628","road"],
   ["Bobcat Bight","water"],["Borrachero Sound","water"],["Burial Creek","water"],["Capri Sound","water"],["Catalan Bay","water"],["Cottonmouth Lake","water"],["Draper Bay","water"],["Emerald River","water"],["Gambit Bay","water"],["Gulf of Leonida","water"],["Gullet Marsh","water"],["Lake Leonida","water"],["Lake Tallaloko","water"],["Leonida Bay","water"],["Leonida Straits","water"],["Millport Basin","water"],["Moreau River","water"],["Nehrling River","water"],["Okchiloha Bay","water"],["Partridge Bay","water"],["Pelican River","water"],["Peregrine Bay","water"],["San Malo Bay","water"],["Three Toe Lake","water"],["Tola Bay","water"],["Tortoise Lake","water"],["Wetman Bay","water"]
  ];
- const grid=document.getElementById("locationGrid"),search=document.getElementById("locationSearch"),filter=document.getElementById("locationType");
+ const grid=document.getElementById("locationGrid"),search=document.getElementById("locationSearch"),filter=document.getElementById("locationType"),regionFilter=document.getElementById("locationRegion");
  const progressCount=document.getElementById("locationProgressCount"),progressFill=document.getElementById("locationProgressFill"),reset=document.getElementById("locationProgressReset");
- if(!grid||!search||!filter||!progressCount||!progressFill||!reset)return;
+ if(!grid||!search||!filter||!regionFilter||!progressCount||!progressFill||!reset)return;
  const labels={place:"PLACE / REGION",landmark:"LANDMARK",road:"ROAD",water:"WATER"};
  const regionFor=name=>{
   const n=name.toLowerCase();
@@ -167,8 +167,8 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
   if(save){try{localStorage.setItem(storageKey,JSON.stringify(saved));}catch(e){}}
  }
  function render(){
-  const q=search.value.trim().toLowerCase(),kind=filter.value;
-  const matches=entries.filter(([name,type])=>(kind==="all"||kind===type)&&name.toLowerCase().includes(q));
+  const q=search.value.trim().toLowerCase(),kind=filter.value,region=regionFilter.value;
+  const matches=entries.filter(([name,type])=>{const assigned=regionFor(name);return (kind==="all"||kind===type)&&(region==="all"||(region==="Leonida (unassigned)"?assigned==="Leonida":assigned===region))&&name.toLowerCase().includes(q);});
   grid.innerHTML=matches.length?matches.map(([name,type])=>{
    const key=keyFor(name),done=Boolean(saved[key]);
    return '<article class="location-card'+(done?' is-found':'')+'"><small>'+labels[type]+'</small><b>'+name+'</b><span>PRINTED MAP LABEL</span><div class="location-related"><small>RELATED ATLAS SECTIONS</small><div>'+relatedFor(name,type).map(([label,href])=>'<a href="'+href+'">'+label+' ↗</a>').join('')+'</div></div><button type="button" class="location-add-trip" data-add-trip="'+name+'" data-trip-type="'+type+'" data-trip-region="'+regionFor(name)+'">＋ ADD TO TRIP</button><button type="button" class="location-found" data-location="'+key+'" aria-pressed="'+done+'">'+(done?'✓ FOUND':'＋ MARK AS FOUND')+'</button></article>';
@@ -187,7 +187,7 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
   saved[key]=!saved[key];
   updateProgress();render();
  });
- search.addEventListener("input",render);filter.addEventListener("change",render);
+ search.addEventListener("input",render);filter.addEventListener("change",render);regionFilter.addEventListener("change",render);
  reset.addEventListener("click",()=>{saved={};try{localStorage.removeItem(storageKey);}catch(e){}updateProgress(false);render();});
  updateProgress(false);render();
 })();
