@@ -83,3 +83,13 @@ footer p a{color:#ff83b8}
 .mission-empty{grid-column:1/-1;border:1px dashed #42516a;padding:20px;color:var(--muted);font-size:11px}
 @media(max-width:760px){.mission-layout{grid-template-columns:1fr}.mission-detail{position:static;min-height:0}}
 @media(max-width:620px){.mission-controls{flex-direction:column}.mission-controls select{width:100%}.mission-list{grid-template-columns:1fr;max-height:480px}}
+
+/* Region directory */
+.region-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.region-card{min-height:190px;padding:20px;border:1px solid var(--line);background:linear-gradient(145deg,#1b293a,#101722);display:flex;flex-direction:column}
+.region-card>small{font-size:8px;letter-spacing:.16em;color:var(--cyan)}
+.region-card h3{font:25px Georgia,serif;margin:22px 0 8px}
+.region-card p{font-size:10px;color:var(--muted);flex:1}
+.region-card>span{font-size:7px;letter-spacing:.13em;color:var(--green);border-top:1px solid #2a394d;padding-top:10px}
+@media(max-width:850px){.region-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.top nav{gap:14px}}
+@media(max-width:620px){.region-grid{grid-template-columns:1fr}.top nav{gap:0}}
