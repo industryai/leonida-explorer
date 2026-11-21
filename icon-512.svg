@@ -1,6 +1,41 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-<rect width="512" height="512" rx="112" fill="#090d15"/>
-<path d="M78 350V162h54l124 119V162h58v188h-52L136 228v122z" fill="#f1f2ed"/>
-<path d="M326 162h108v48h-50v28h45v45h-45v67h-58z" fill="#ff6cae"/>
-<path d="M78 390h356" stroke="#67e5dc" stroke-width="12" stroke-linecap="round"/>
+<defs>
+ <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#160c42"/><stop offset=".52" stop-color="#fa347e"/><stop offset="1" stop-color="#ffb15e"/></linearGradient>
+ <linearGradient id="sea" x2="0" y2="1"><stop stop-color="#14245b"/><stop offset="1" stop-color="#050b20"/></linearGradient>
+ <linearGradient id="neon" x2="0" y2="1"><stop stop-color="#ff28d7"/><stop offset="1" stop-color="#45f5ff"/></linearGradient>
+ <filter id="glow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+ <clipPath id="round"><circle cx="256" cy="256" r="239"/></clipPath>
+</defs>
+<g clip-path="url(#round)">
+ <rect width="512" height="512" fill="#07091a"/>
+ <rect y="20" width="512" height="290" fill="url(#sky)"/>
+ <circle cx="257" cy="197" r="91" fill="#ffb6d7" opacity=".23"/>
+ <path d="M0 264h512v248H0z" fill="url(#sea)"/>
+ <g fill="#17153f" stroke="#ff68c9" stroke-width="2" opacity=".96">
+  <path d="M0 278v-67h28v67m8 0v-94h36v94m8 0v-55h29v55m9 0v-122h39v122m8 0v-78h31v78m12 0v-145h34v145m9 0v-89h27v89m10 0v-119h36v119m10 0v-75h28v75m8 0v-105h38v105m9 0v-65h28v65m10 0v-135h36v135m10 0v-83h27v83m10 0v-112h31v112"/>
+  <path d="M0 285h512" stroke="#fff" stroke-width="3"/>
+ </g>
+ <g fill="none" stroke="#ff4ad5" stroke-width="5" filter="url(#glow)"><circle cx="398" cy="244" r="39"/><circle cx="398" cy="244" r="29"/><path d="M398 205v78m-39-39h78m-66-27 54 54m0-54-54 54"/></g>
+ <g fill="#071023" stroke="#40eaff" stroke-width="4" filter="url(#glow)">
+  <path d="M44 301q20-50 39-73 15 24 29 73m-66-26h70M95 298q18-44 35-61 16 20 29 61m-64-22h65"/>
+ </g>
+ <g fill="#10142b" stroke="#ffb1d8" stroke-width="2">
+  <path d="M156 233q-10-64 18-91 25-24 54-3 21 18 14 62l-5 50z"/>
+  <path d="M234 229q-7-69 24-94 32-25 61 2 18 19 10 92l-7 26h-81z"/>
+ </g>
+ <path d="M159 195q10-65 51-65 35 0 42 43-24-15-44-12-21 2-49 34" fill="#101020"/>
+ <path d="M239 173q17-43 49-37 29 5 38 37-24-17-44-13-23 1-43 13" fill="#11101e"/>
+ <path d="M172 245q24-31 53-19 27 10 34 48l-8 42h-96z" fill="#f39ac2"/>
+ <path d="M252 246q26-31 57-15 27 15 34 52l-8 34h-94z" fill="#1e8ba6"/>
+ <path d="M0 337h512" stroke="#ff4cdb" stroke-width="4" filter="url(#glow)"/>
+ <path d="M0 375h512m0 22H0m0 22h512" stroke="#1a4f89" stroke-width="2" opacity=".8"/>
+ <g fill="#ff69cb" opacity=".9"><path d="M0 350h512v3H0z"/><path d="M35 368h440v2H35z"/></g>
+ <text x="256" y="367" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-size="61" font-weight="900" letter-spacing="-3" fill="#fff" stroke="#10152e" stroke-width="5" paint-order="stroke">VICECITY</text>
+ <text x="256" y="420" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-size="65" font-weight="900" letter-spacing="2" fill="#ff36c8" stroke="#190b34" stroke-width="5" paint-order="stroke">WIRE</text>
+ <path d="M80 435h352" stroke="#4df4ff" stroke-width="7" filter="url(#glow)"/>
+ <g transform="translate(0 4)" fill="none" stroke="#ff43d5" stroke-width="5" filter="url(#glow)"><path d="M195 459q61-22 122 0l-12 28H207z"/><path d="M216 462v-9m80 9v-9"/></g>
+ <path d="M0 495q70-44 145 0t145 0 222 0v17H0z" fill="#09132b"/>
+</g>
+<circle cx="256" cy="256" r="239" fill="none" stroke="#ff38d1" stroke-width="10" filter="url(#glow)"/>
+<circle cx="256" cy="256" r="230" fill="none" stroke="#42f5ff" stroke-width="5"/>
 </svg>
