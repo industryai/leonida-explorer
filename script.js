@@ -781,3 +781,77 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
  document.querySelectorAll("[data-network-filter]").forEach(btn=>btn.addEventListener("click",()=>{activeFilter=btn.dataset.networkFilter;document.querySelectorAll("[data-network-filter]").forEach(x=>x.classList.toggle("active",x===btn));render();detail.innerHTML='<small>FILTER ACTIVE</small><h3>'+btn.textContent+'</h3><p>Select a node in the network to inspect its known connections.</p>'; }));
  render();select("jason");
 })();
+
+
+/* Business and property directory */
+(function initBusinessDirectory(){
+ const grid=document.getElementById("businessDirectoryGrid");if(!grid)return;
+ const entries=[
+  {n:"Only Raw Records",t:"Record label",r:"Vice City",k:"business",e:"Rockstar material",d:"Record label partnership between Boobie Ike and Dre'Quan Priest. Real Dimez are signed to the label."},
+  {n:"Brian's Boat Works & Marina",t:"Boat yard / marina",r:"Leonida Keys",k:"business",e:"Rockstar material",d:"Brian Heder owns a boat yard in the Leonida Keys. The named sign appears in Rockstar-published imagery."},
+  {n:"Jack of Hearts",t:"Strip club",r:"Vice City",k:"business",e:"Rockstar material",d:"Named in Boobie Ike's profile and visible in Rockstar imagery. The exact ownership link is not explicitly stated in the profile."},
+  {n:"Rideout Customs",t:"Vehicle mod shop",r:"Unknown / not specified",k:"business",e:"Rockstar material",d:"Mod shop included in the Ultimate Edition. Listed as an edition location, not a property to own."},
+  {n:"Sara's Unisex Salon",t:"Salon",r:"Unknown / not specified",k:"business",e:"Rockstar material",d:"Ultimate Edition salon offering grooming and appearance options for Jason and Lucia."},
+  {n:"Stock 305",t:"Clothing store",r:"Stockyard",k:"business",e:"Rockstar material",d:"Clothing store included in the Ultimate Edition."},
+  {n:"Electric Fang Tattoo",t:"Tattoo parlour",r:"Stockyard",k:"business",e:"Rockstar material",d:"Ultimate Edition tattoo parlour with a collection designed by artist collective FAILE."},
+  {n:"One-Eyed Willie's",t:"Vehicle mod shop",r:"Lake Leonida",k:"business",e:"Rockstar material",d:"Ultimate Edition mod shop offering off-road modifications and hand-painted art."},
+  {n:"PTT Youngin$ Compound",t:"Gang compound / illegal goods",r:"Southside Vice City",k:"business",e:"Rockstar material",d:"Compound associated with the PTT Youngin$ gang; Ultimate Edition access includes a raid for special items."},
+  {n:"Megamundo",t:"Media company",r:"Vice City",k:"business",e:"Rockstar material",d:"Spanish-language media company; its first American headquarters opening is shown in published footage."},
+  {n:"Effluvia",t:"Rooftop bar",r:"Vice City",k:"business",e:"Rockstar material",d:"Rooftop bar shown during a night out in Rockstar's extended look."},
+  {n:"Delights Cabaret",t:"Strip club",r:"Port Gellhorn",k:"business",e:"Rockstar material",d:"Named venue visible on a lit sign in Rockstar's Port Gellhorn imagery."},
+  {n:"Xero",t:"Gas station chain",r:"Ambrosia",k:"business",e:"Rockstar material",d:"Gas station branding, prices and a food mart appear in Rockstar's Ambrosia screenshot."},
+  {n:"Conch King Seafood Kitchen",t:"Seafood restaurant",r:"Unknown / not specified",k:"business",e:"Rockstar material",d:"Restaurant sign appears above a nighttime car meet in Rockstar imagery."},
+  {n:"NINE1NINE",t:"Nightclub",r:"Vice City",k:"business",e:"Rockstar material",d:"Vice City club referenced by its banner in Trailer 1 and illuminated terrace in Trailer 2."},
+  {n:"We Have Shoes",t:"Shoe store",r:"Unknown / not specified",k:"business",e:"Rockstar material",d:"Roadside shoe-store sign visible in Trailer 1; exact district not specified."},
+  {n:"Phil's Ammu-Nation",t:"Gun store",r:"Unknown / not specified",k:"business",e:"Rockstar material",d:"Ammu-Nation storefront and television advertisement appear in Trailer 2."},
+  {n:"Watkins Auto Parts",t:"Auto parts store",r:"Unknown / not specified",k:"business",e:"Rockstar material",d:"Named auto-parts sign visible in Trailer 2."},
+  {n:"Crossroad Park Minimall",t:"Retail centre",r:"Unknown / not specified",k:"business",e:"Rockstar material",d:"Shopping-centre sign appears during a motorcycle chase in Trailer 2."},
+  {n:"Leonida Marine Center",t:"Marine store",r:"Unknown / not specified",k:"business",e:"Rockstar material",d:"Name printed on a shirt outside a marine-related store in Trailer 2."},
+  {n:"Peewees",t:"Restaurant",r:"Unknown / not specified",k:"business",e:"Rockstar material",d:"Mentioned in a Weazel News story about a dine-and-dash incident in Trailer 1."},
+  {n:"Thrillbilly Mud Club",t:"Off-road club",r:"Unknown / not specified",k:"business",e:"Rockstar material",d:"Off-road mud-party venue shown in Trailer 1."},
+  {n:"Sinfrontera National Bank",t:"Bank",r:"Unknown / not specified",k:"business",e:"Rockstar material",d:"Bank name appears on a security lockdown screen during a robbery sequence in Trailer 2."},
+  {n:"Seven Seas Seafood",t:"Seafood restaurant",r:"Vice City",k:"business",e:"Rockstar material",d:"Named seafood sign appears in the Launch Trailer."},
+  {n:"W. Blanco's Cuban Foods",t:"Food store",r:"Unknown / not specified",k:"business",e:"Rockstar material",d:"Named Cuban-foods storefront appears in An Extended Look."},
+  {n:"City Picnic Market",t:"Market",r:"Vice City",k:"business",e:"Rockstar material",d:"Market sign is visible at Thompson Avenue in An Extended Look."},
+  {n:"Zeke's Gadgets",t:"Electronics / repair shop",r:"Vice City",k:"business",e:"Rockstar material",d:"Strip-mall gadget shop with repair signage shown in An Extended Look."},
+  {n:"Diamond Dawgs",t:"Jewellery store",r:"Vice City",k:"business",e:"Rockstar material",d:"Jewellery and watch storefront visible in An Extended Look."},
+  {n:"Video Forever",t:"Video store",r:"Vice City",k:"business",e:"Rockstar material",d:"Video shop with closing signs, shown beside Zeke's Gadgets."},
+  {n:"Hobbs Milford",t:"Retail / commercial building",r:"Vice City",k:"business",e:"Rockstar material",d:"Business name appears on a curved white corner building in An Extended Look."},
+  {n:"Lombank",t:"Bank",r:"Vice City",k:"business",e:"Rockstar material",d:"Bank branch signage appears in An Extended Look."},
+  {n:"Fleeca",t:"Bank",r:"Vice City",k:"business",e:"Rockstar material",d:"Fleeca branch appears in Rockstar's Launch Gallery and branded material."},
+  {n:"Jacob's Tavern",t:"Bar",r:"Unknown / not specified",k:"business",e:"Rockstar material",d:"Tavern name is visible on a sign in an image shared with Edge; town not identified."},
+  {n:"The Rusty Anchor",t:"Beach bar",r:"Leonida Keys",k:"business",e:"Rockstar material",d:"Beach bar named on its sign in Rockstar's Leonida Keys screenshot."},
+  {n:"Ricardo's Tires",t:"Tyre shop / gas station",r:"Vice City",k:"business",e:"Rockstar material",d:"Tyre shop and gas-station branding visible in Rockstar's Vice City 22 screenshot."},
+  {n:"RCS Trade Paints",t:"Paint supplier",r:"Vice City",k:"business",e:"Rockstar material",d:"Paint-supplier name appears on a building near Ricardo's Tires."},
+  {n:"Avenue Contractors",t:"Contractor",r:"Vice City",k:"business",e:"Rockstar material",d:"Contractor signs visible on a building beside a canal in Rockstar's Vice City 17 screenshot."},
+  {n:"The Atoll Bar and Grill",t:"Bar & grill",r:"Unknown / not specified",k:"business",e:"Rockstar material",d:"Named sign appears beside a hotel pool in Rockstar's Vice City 26 screenshot."},
+  {n:"Coastal Auto Care",t:"Auto repair shop",r:"Leonida Keys",k:"business",e:"Rockstar material",d:"Auto-care garage named in a weather forecast segment about heavy rain in the Keys."},
+  {n:"Paradiso",t:"Venue",r:"Unknown / not specified",k:"business",e:"Rockstar material",d:"Pink neon venue sign appears in a screenshot published with reviews."},
+  {n:"Wyman's World Auto Salvage Co.",t:"Auto salvage yard",r:"Unknown / not specified",k:"business",e:"Rockstar material",d:"Salvage-yard name is printed on Wyman's shirt in Rockstar's Classic Car Collection screenshot."},
+  {n:"Mitchell Auto Center",t:"Buyable garage · 1 vehicle",r:"Kelly County",k:"buyable",e:"Guide-reported",d:"Listed for $4,000 on Historic Route 628. Reported as purchasable after the Vice City Real Estate app unlocks."},
+  {n:"Persistence Road Garage",t:"Buyable garage · 1 vehicle",r:"Unknown / not specified",k:"buyable",e:"Guide-reported",d:"Listed for $7,600 in Belville, Leonard County."},
+  {n:"7th Avenue Garage",t:"Buyable garage · 1 vehicle",r:"Vice City",k:"buyable",e:"Guide-reported",d:"Listed for $12,000 in Salton, Vice City."},
+  {n:"Store n' Bolt",t:"Buyable garage · 1 vehicle",r:"Ambrosia",k:"buyable",e:"Guide-reported",d:"Listed for $16,800 in Ambrosia, Kelly County."},
+  {n:"Wyatt Motors",t:"Buyable garage · 1 vehicle",r:"Ambrosia",k:"buyable",e:"Guide-reported",d:"Listed for $21,600 near Allied Crystal, Ambrosia."},
+  {n:"Vela Rota Driver Garage",t:"Buyable garage · 1 vehicle",r:"Unknown / not specified",k:"buyable",e:"Guide-reported",d:"Listed for $24,000 on Capri, Mariana County."},
+  {n:"Bonita Court Garage",t:"Buyable garage · 1 vehicle",r:"Vice City",k:"buyable",e:"Guide-reported",d:"Listed for $34,000 in Vice Beach."},
+  {n:"Atlantic Court Garage",t:"Buyable garage · 1 vehicle",r:"Vice City",k:"buyable",e:"Guide-reported",d:"Listed for $40,000 in Ocean Beach, Vice Beach."},
+  {n:"Leonida Keys Safehouse",t:"Story safehouse",r:"Leonida Keys",k:"story",e:"Guide-reported",d:"Jason's first home on Key Lento; available from Chapter 1 through Brian. Not for sale."},
+  {n:"Starlet Motel Safehouse",t:"Story safehouse",r:"Port Gellhorn",k:"story",e:"Guide-reported",d:"Story safehouse at the start of Chapter 2. Rent payments are not a property purchase."},
+  {n:"Bayside Safehouse",t:"Story safehouse",r:"Vice City",k:"story",e:"Guide-reported",d:"Reported safehouse on Catalan Boulevard, Bayside; unlocks in Chapter 3."},
+  {n:"Ocean Beach Safehouse",t:"Story safehouse",r:"Vice City",k:"story",e:"Guide-reported",d:"Reported safehouse in Ocean Beach, Vice Beach; unlocks in Chapter 4."},
+  {n:"Port Gellhorn Station Garage",t:"Story garage",r:"Port Gellhorn",k:"story",e:"Guide-reported",d:"One-vehicle story garage reported after the Chapter 2 mission Daily Driver."},
+  {n:"Thompson Court Garage",t:"Story garage",r:"Vice City",k:"story",e:"Guide-reported",d:"Two-vehicle garage in Ocean Beach, reported after the Chapter 4 mission Company Cars."},
+  {n:"NE 15th Street Garage",t:"Story garage",r:"Stockyard",k:"story",e:"Guide-reported",d:"Two-vehicle story garage reported after the Chapter 5 mission Operation Savage Glory."},
+  {n:"Pegassi Residences Garage",t:"Story garage",r:"Vice City",k:"story",e:"Guide-reported",d:"Three-vehicle story garage at Tequesta Retreat, reported after the Chapter 5 mission Operation Savage Glory."},
+  {n:"Paradise Garage",t:"Ultimate Edition garage",r:"Watson Bay",k:"edition",e:"Rockstar material",d:"Ultimate Edition garage with a weapon locker and a place to stash stolen goods for fencing."},
+  {n:"Shore Court Garage",t:"Pre-order bonus garage",r:"Vice City",k:"edition",e:"Rockstar material",d:"Personal garage near Ocean Beach, included with the Vintage Vice City pre-order bonus."},
+  {n:"Crosstown Garage",t:"GTA+ garage",r:"Vice City",k:"edition",e:"Guide-reported",d:"Crosstown garage associated with GTA+ from Chapter 3 in community property guides; access conditions should be checked in-game."}
+ ];
+ const key="vcw_business_reviewed_v1";let reviewed=new Set();try{reviewed=new Set(JSON.parse(localStorage.getItem(key)||"[]"));}catch(e){}
+ const $=id=>document.getElementById(id),search=$("businessSearch"),kind=$("businessKind"),region=$("businessRegion"),status=$("businessStatus");
+ const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ function save(){try{localStorage.setItem(key,JSON.stringify([...reviewed]));}catch(e){}}
+ function render(){const q=search.value.trim().toLowerCase();const list=entries.filter(x=>(kind.value==="all"||x.k===kind.value)&&(region.value==="all"||x.r===region.value)&&(status.value==="all"||(status.value==="reviewed"?reviewed.has(x.n):!reviewed.has(x.n)))&&(!q||[x.n,x.t,x.r,x.d,x.e].join(" ").toLowerCase().includes(q)));$("businessCount").textContent=list.length+" / "+entries.length;$("businessReviewed").textContent=reviewed.size+" / "+entries.length;$("businessTrackFill").style.width=(reviewed.size/entries.length*100)+"%";grid.innerHTML=list.map(x=>'<article class="business-directory-card"><div class="business-card-top"><span>'+esc(x.t.toUpperCase())+'</span><small class="'+(x.e==="Guide-reported"?"business-evidence-guide":"business-evidence-rockstar")+'">'+esc(x.e)+'</small></div><h3>'+esc(x.n)+'</h3><div class="business-card-region"><small>AREA / REGION</small><b>'+esc(x.r)+'</b></div><p>'+esc(x.d)+'</p><label class="business-review-check"><input type="checkbox" data-business="'+esc(x.n)+'" '+(reviewed.has(x.n)?"checked":"")+'> MARK AS REVIEWED</label></article>').join("")||'<p class="business-empty">No matching entries. Try a different search or filter.</p>';grid.querySelectorAll("[data-business]").forEach(box=>box.addEventListener("change",()=>{box.checked?reviewed.add(box.dataset.business):reviewed.delete(box.dataset.business);save();render();}));}
+ [search,kind,region,status].forEach(el=>el.addEventListener(el===search?"input":"change",render));$("businessReset").addEventListener("click",()=>{if(!confirm("Reset all reviewed business and property entries?"))return;reviewed.clear();save();render();});render();
+})();
