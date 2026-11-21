@@ -13,6 +13,9 @@ Eigenständiger statischer Website-Prototyp für ein deutschsprachiges GTA-VI-Fa
 3. Branch `main`, Ordner `/(root)` auswählen und speichern.
 4. Nach dem Deployment erscheint die Website unter `https://industryai.github.io/leonida-explorer/`.
 
+## VICECITYWIRE / YouTube
+Der Website-Auftritt verlinkt den VICECITYWIRE-Kanal: https://www.youtube.com/@GrandTheftAddiction. Website und Kanal können so als gemeinsame Marke wachsen.
+
 ## Datenstatus
 Die Karte ist eine schematische Konzeptkarte mit Demo-Markern, keine echte GTA-VI-Spielkarte. Die Marker sind keine bestätigten Fundorte. Konkrete Missionen, Fundorte und Spieldaten werden erst nach verlässlicher Verifizierung eingetragen.
 
