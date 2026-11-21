@@ -465,3 +465,18 @@ footer p a{color:#ff83b8}
 
 /* Shops and services quick-access hub */
 .service-hub-controls{display:flex;gap:9px;margin:0 0 15px}.service-hub-controls input,.service-hub-controls select{background:#0b1420;color:var(--txt);border:1px solid var(--line);padding:12px 13px;font:inherit;font-size:10px;min-width:0}.service-hub-controls input{flex:1}.service-hub-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}.service-hub-card{display:flex;flex-direction:column;min-height:205px;padding:17px;border:1px solid var(--line);background:linear-gradient(145deg,#192638,#101722)}.service-hub-card[hidden]{display:none}.service-hub-icon{display:inline-flex;align-self:flex-start;padding:6px 8px;border:1px solid #477a68;color:var(--cyan);font-size:7px;letter-spacing:.12em}.service-hub-card h3{font:21px Georgia,serif;margin:13px 0 7px}.service-hub-card p{font-size:10px;line-height:1.6;color:var(--muted);margin:0 0 16px;flex:1}.service-hub-links{display:grid;gap:9px;padding-top:11px;border-top:1px solid #2a394d}.service-hub-links a{font-size:8px;letter-spacing:.1em;color:var(--cyan);text-decoration:none}.service-hub-links a:hover{text-decoration:underline}.service-hub-map-panel{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:18px;padding:18px;border:1px solid var(--line);background:#101a27}.service-hub-map-panel>div{flex:1 1 100%;margin-bottom:5px}.service-hub-map-panel small{font-size:8px;letter-spacing:.14em;color:var(--cyan)}.service-hub-map-panel h3{font:22px Georgia,serif;margin:7px 0}.service-hub-map-panel p{font-size:10px;line-height:1.6;color:var(--muted);max-width:680px;margin:0}.service-hub-map-panel .btn{font-size:8px;padding:10px 12px}@media(max-width:900px){.service-hub-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:720px){.service-hub-controls{flex-wrap:wrap}.service-hub-controls input{flex-basis:100%}}@media(max-width:620px){.service-hub-grid{grid-template-columns:1fr}.service-hub-controls{flex-direction:column}.service-hub-controls select{width:100%}.service-hub-map-panel{align-items:stretch;flex-direction:column}.service-hub-map-panel .btn{width:100%;text-align:center}}
+
+
+/* External community map launcher — replaces providers that block iframe embedding */
+.community-map-launcher{display:grid;grid-template-columns:1fr;gap:22px;padding:clamp(22px,4vw,42px);border:1px solid var(--line,#29313d);background:linear-gradient(135deg,rgba(17,25,36,.98),rgba(9,13,20,.98));}
+.map-launcher-copy small,.provider-tag{font-size:.68rem;letter-spacing:.16em;color:var(--accent,#f04b75);font-weight:700}
+.map-launcher-copy h3{font-size:clamp(1.35rem,3vw,2rem);margin:9px 0}
+.map-launcher-copy p{max-width:720px;color:var(--muted,#aab2bf);line-height:1.7}
+.map-provider-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.map-provider-card{display:flex;flex-direction:column;gap:11px;min-height:175px;padding:22px;text-decoration:none!important;color:inherit!important;border:1px solid var(--line,#29313d);background:rgba(255,255,255,.025);transition:border-color .2s,transform .2s}
+.map-provider-card:hover{border-color:var(--accent,#f04b75);transform:translateY(-2px)}
+.map-provider-card strong{font-size:1.25rem;color:var(--text,#f4f5f7)}
+.map-provider-card>span:not(.provider-tag){font-size:.9rem;line-height:1.5;color:var(--muted,#aab2bf)}
+.map-provider-card b{margin-top:auto;font-size:.72rem;letter-spacing:.12em;color:var(--accent,#f04b75)}
+.map-launcher-note{font-size:.78rem;line-height:1.6;color:var(--muted,#aab2bf);margin:0}
+@media(max-width:640px){.map-provider-grid{grid-template-columns:1fr}.map-provider-card{min-height:145px}}
