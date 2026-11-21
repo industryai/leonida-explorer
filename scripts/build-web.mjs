@@ -5,6 +5,7 @@ const root = process.cwd();
 const out = resolve(root, "www");
 const files = [
   "index.html",
+  "privacy.html",
   "styles.css",
   "script.js",
   "story-content.js",
