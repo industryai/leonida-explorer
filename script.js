@@ -1,78 +1,8 @@
-const points=[
- {id:"loc-vice",name:"Vice City",type:"location",x:58,y:42,icon:"⌂",desc:"Schematic example marker for Vice City. Not a verified in-game coordinate."},
- {id:"loc-coast",name:"Coastal Road",type:"location",x:37,y:68,icon:"⌂",desc:"Demo marker for a region. Not a verified in-game location."},
- {id:"veh-a",name:"Vehicle Spot A",type:"vehicle",x:66,y:58,icon:"▰",desc:"Placeholder for a vehicle location to be verified."},
- {id:"wep-a",name:"Weapon Location A",type:"weapon",x:46,y:34,icon:"✦",desc:"Placeholder for a weapon location to be verified."},
- {id:"mis-a",name:"Mission Start A",type:"mission",x:27,y:49,icon:"◆",desc:"Placeholder for a mission marker."},
- {id:"sec-a",name:"Secret A",type:"secret",x:78,y:30,icon:"?",desc:"Placeholder for an Easter egg or hidden location."}
-];
-let activeType="all",zoom=1,offsetX=0,offsetY=0,drag=null,selectedId=null;
-const map=document.querySelector("#map"),world=document.querySelector("#mapWorld"),pins=document.querySelector("#pins");
-const search=document.querySelector("#search"),detail=document.querySelector("#detail");
-const typeNames={location:"LOCATION",vehicle:"VEHICLE",weapon:"WEAPON",mission:"MISSION",secret:"SECRET"};
-function safe(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
-function render(){
- const q=search.value.trim().toLowerCase();
- const visible=points.filter(p=>(activeType==="all"||p.type===activeType)&&(p.name+" "+p.desc).toLowerCase().includes(q));
- pins.innerHTML="";
- visible.forEach(p=>{
-  const b=document.createElement("button");
-  b.type="button";b.className="pin "+p.type+(selectedId===p.id?" selected":"");
-  b.style.left=p.x+"%";b.style.top=p.y+"%";b.textContent=p.icon;b.title=p.name;
-  b.setAttribute("aria-label",p.name);
-  b.addEventListener("click",()=>selectPoint(p));
-  pins.append(b);
- });
- document.querySelector("#count").textContent=visible.length+" of "+points.length+" demo entries shown";
- document.querySelectorAll("#filters button").forEach(btn=>{
-  const t=btn.dataset.type;
-  let count=t==="all"?points.length:points.filter(p=>p.type===t).length;
-  let badge=btn.querySelector(".filter-count");
-  if(!badge){badge=document.createElement("span");badge.className="filter-count";btn.append(badge);}
-  badge.textContent=count;
- });
-}
-function selectPoint(p){
- selectedId=p.id;
- document.querySelectorAll(".pin").forEach(b=>b.classList.toggle("selected",b.title===p.name));
- detail.innerHTML="<small>"+typeNames[p.type]+" / DEMO ENTRY</small><h3>"+safe(p.name)+"</h3><p>"+safe(p.desc)+"</p><span class='detail-status'>NOT VERIFIED</span>";
-}
-function resetDetail(){selectedId=null;detail.innerHTML="<small>ATLAS ENTRY</small><h3>Select a map marker</h3><p>Descriptions, discovery notes and sources will appear here.</p>";}
-function applyTransform(){world.style.transform="translate("+offsetX+"px,"+offsetY+"px) scale("+zoom+")";}
-function setZoom(next){zoom=Math.max(.75,Math.min(2.25,next));applyTransform();}
-document.querySelectorAll("#filters button").forEach(btn=>btn.addEventListener("click",()=>{
- activeType=btn.dataset.type;
- document.querySelectorAll("#filters button").forEach(b=>b.classList.toggle("active",b===btn));
- resetDetail();render();
-}));
-search.addEventListener("input",()=>{selectedId=null;render();});
-document.querySelector("#reset").addEventListener("click",()=>{
- activeType="all";search.value="";
- document.querySelectorAll("#filters button").forEach(b=>b.classList.toggle("active",b.dataset.type==="all"));
- resetDetail();render();
-});
-document.querySelector("#plus").addEventListener("click",()=>setZoom(zoom+.15));
-document.querySelector("#minus").addEventListener("click",()=>setZoom(zoom-.15));
-document.querySelector("#center").addEventListener("click",()=>{zoom=1;offsetX=0;offsetY=0;applyTransform();});
-map.addEventListener("pointerdown",e=>{
- if(e.target.closest(".pin"))return;
- if(e.pointerType==="mouse"&&e.button!==0)return;
- drag={x:e.clientX,y:e.clientY,ox:offsetX,oy:offsetY,moved:false};
- map.classList.add("dragging");map.setPointerCapture(e.pointerId);
-});
-map.addEventListener("pointermove",e=>{
- if(!drag)return;
- const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
- if(Math.abs(dx)+Math.abs(dy)>3)drag.moved=true;
- offsetX=drag.ox+dx;offsetY=drag.oy+dy;applyTransform();
-});
-function stopDrag(){drag=null;map.classList.remove("dragging");}
-map.addEventListener("pointerup",stopDrag);map.addEventListener("pointercancel",stopDrag);
-map.addEventListener("wheel",e=>{e.preventDefault();setZoom(zoom+(e.deltaY<0?.08:-.08));},{passive:false});
-document.querySelector("#menu").addEventListener("click",()=>document.querySelector("#nav").classList.toggle("open"));
-document.querySelectorAll("#nav a").forEach(a=>a.addEventListener("click",()=>document.querySelector("#nav").classList.remove("open")));
-document.querySelector("#year").textContent=new Date().getFullYear();
-render();applyTransform();
+/* Global navigation and footer */
+document.querySelector("#menu")?.addEventListener("click",()=>document.querySelector("#nav")?.classList.toggle("open"));
+document.querySelectorAll("#nav a").forEach(a=>a.addEventListener("click",()=>document.querySelector("#nav")?.classList.remove("open")));
+const year=document.querySelector("#year");if(year)year.textContent=new Date().getFullYear();
+
 /* Personal completion tracker: saved in this browser only */
 (function initCompletionTracker(){
  const checks=[...document.querySelectorAll("[data-progress]")];
