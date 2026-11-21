@@ -159,6 +159,12 @@ footer p a{color:#ff83b8}
 .map-toolbar #mapReset{font-size:8px;letter-spacing:.1em}
 .map-viewport{height:min(78vw,850px);min-height:500px;overflow:hidden;position:relative;cursor:grab;touch-action:none;background:#06111b;outline:none}
 .map-viewport:active{cursor:grabbing}
+.trip-route-overlay{position:absolute;left:50%;top:50%;height:100%;width:auto;max-width:none;pointer-events:none;overflow:visible;transform:translate(-50%,-50%) scale(1);transform-origin:center;z-index:2;opacity:0;transition:opacity .2s}
+.trip-route-overlay.has-route{opacity:1}
+.trip-route-line{fill:none;stroke:#ff6bba;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:5 4;filter:drop-shadow(0 1px 3px #000)}
+.trip-route-pin circle{fill:#102c3a;stroke:#80eee0;stroke-width:2.5;filter:drop-shadow(0 1px 4px #000)}
+.trip-route-pin text{font:700 9px Arial,sans-serif;fill:#fff;text-anchor:middle;pointer-events:none}
+.trip-route-pin.visited circle{fill:#236b5c;stroke:#b4ffe8}
 .map-viewport img{position:absolute;max-width:none;width:auto;height:100%;max-height:none;left:50%;top:50%;transform:translate(-50%,-50%) scale(1);transform-origin:center;user-select:none;-webkit-user-drag:none;pointer-events:none}
 .map-hint{margin:0;padding:9px 12px;text-align:center;font-size:8px;letter-spacing:.13em;color:var(--muted);background:#111d2b}
 @media(max-width:620px){.map-viewport{height:72vh;min-height:420px}.map-toolbar{padding:8px}.map-toolbar>div{gap:4px}.map-toolbar button,.map-fullscreen{min-width:30px;padding:0 7px}}
