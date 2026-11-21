@@ -170,3 +170,8 @@ footer p a{color:#ff83b8}
 .secret-card a:hover{text-decoration:underline}
 @media(max-width:850px){.secret-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:620px){.secret-controls{flex-direction:column}.secret-controls select{width:100%}.secret-grid{grid-template-columns:1fr}}
+
+.db-card .db-maker{font-size:8px!important;letter-spacing:.08em;color:var(--cyan)!important;margin:0!important}
+.db-card .db-meta a{display:inline-block;color:var(--cyan);margin-top:7px;text-decoration:none}
+.db-card .db-meta a:hover{text-decoration:underline}
+.db-status{max-width:58%;text-align:right;line-height:1.4}
