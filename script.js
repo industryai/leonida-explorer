@@ -126,7 +126,7 @@ render();applyTransform();
    const q=search.value.trim().toLowerCase(),kind=select.value;
    const items=config.items.filter(x=>(kind==="all"||x.type===kind)&&(x.name+" "+x.label+" "+x.note).toLowerCase().includes(q));
    if(!items.length){grid.innerHTML='<div class="db-empty">No matching entries. Try another search term or filter.</div>';return;}
-   grid.innerHTML=items.map(x=>'<article class="db-card"><div class="db-card-top"><span class="db-type">'+escapeText(x.label)+'</span><span class="db-status">SOURCE-BASED</span></div><h3>'+escapeText(x.name)+'</h3><p>'+escapeText(x.note)+'</p><div class="db-meta">DATENBASIS: '+escapeText(x.source.toUpperCase())+'</div></article>').join("");
+   grid.innerHTML=items.map(x=>'<article class="db-card"><div class="db-card-top"><span class="db-type">'+escapeText(x.label)+'</span><span class="db-status">SOURCE-BASED</span></div><h3>'+escapeText(x.name)+'</h3><p>'+escapeText(x.note)+'</p><div class="db-meta">DATA SOURCE: '+escapeText(x.source.toUpperCase())+'</div></article>').join("");
   }
   search.addEventListener("input",render);select.addEventListener("change",render);render();
  }
