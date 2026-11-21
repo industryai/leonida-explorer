@@ -175,3 +175,24 @@ footer p a{color:#ff83b8}
 .db-card .db-meta a{display:inline-block;color:var(--cyan);margin-top:7px;text-decoration:none}
 .db-card .db-meta a:hover{text-decoration:underline}
 .db-status{max-width:58%;text-align:right;line-height:1.4}
+
+.vehicle-card{padding:0;overflow:hidden}
+.vehicle-card .db-card-top,.vehicle-card h3,.vehicle-card .db-maker,.vehicle-card>p,.vehicle-card .vehicle-detail-btn,.vehicle-card .db-meta{margin-left:16px;margin-right:16px}
+.vehicle-card h3{margin-top:4px}
+.vehicle-thumb{display:block;width:100%;aspect-ratio:16/9;background:#0a111b;overflow:hidden}
+.vehicle-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .25s}
+.vehicle-thumb:hover img{transform:scale(1.04)}
+.vehicle-no-image{aspect-ratio:16/9;background:linear-gradient(135deg,#192638,#0b111a);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;color:#8393a7}
+.vehicle-no-image span{font-size:8px;letter-spacing:.25em;color:var(--cyan)}
+.vehicle-no-image b{font:20px Georgia,serif;color:#d9e3eb}
+.vehicle-no-image small{font-size:7px;letter-spacing:.12em}
+.vehicle-detail-btn{background:#142638;color:var(--cyan);border:1px solid #40516a;padding:10px;text-align:left;font:inherit;font-size:8px;letter-spacing:.1em;cursor:pointer}
+.vehicle-detail-btn:hover{border-color:var(--cyan)}
+.vehicle-card .db-meta{margin-top:0}
+.vehicle-detail-panel{position:relative;margin-top:18px;padding:22px;border:1px solid var(--cyan);background:linear-gradient(145deg,#192638,#101722)}
+.vehicle-detail-panel[hidden]{display:none}
+.vehicle-detail-panel>small{font-size:8px;letter-spacing:.14em;color:var(--cyan)}
+.vehicle-detail-panel h3{font:27px Georgia,serif;margin:10px 0}
+.vehicle-detail-panel p{font-size:11px;line-height:1.65;color:var(--muted);max-width:760px}
+.vehicle-detail-panel p b{color:var(--txt);font-size:9px;letter-spacing:.08em}
+.vehicle-detail-close{position:absolute;right:12px;top:10px;border:1px solid #40516a;background:#142233;color:var(--txt);font-size:20px;width:34px;height:34px;cursor:pointer}
