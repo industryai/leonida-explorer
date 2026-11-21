@@ -556,3 +556,77 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
  grid.addEventListener("change",e=>{if(e.target.matches("[data-card-set]")){saved[e.target.dataset.cardSet]=e.target.checked;try{localStorage.setItem(key,JSON.stringify(saved));}catch(e){}render();}});
  search.addEventListener("input",render);status.addEventListener("change",render);reset.addEventListener("click",()=>{saved={};try{localStorage.removeItem(key);}catch(e){}render();});render();
 })();
+
+/* Full GTA VI trophy and achievement tracker */
+(function initTrophyTracker(){
+ const grid=document.getElementById("trophyGrid"),search=document.getElementById("trophySearch"),grade=document.getElementById("trophyGrade"),category=document.getElementById("trophyCategory"),status=document.getElementById("trophyStatus"),count=document.getElementById("trophyCount"),fill=document.getElementById("trophyFill"),score=document.getElementById("trophyScore"),reset=document.getElementById("trophyReset");
+ if(!grid||!search||!grade||!category||!status||!count||!fill||!score||!reset)return;
+ const rows=[
+ ["Vice Got a Price!","Platinum",0,"Unlock every other trophy. Congratulations! You're a Leonida Legend.","Hidden / Misc.",false],
+ ["Just Like Paradise","Bronze",5,"Complete Gone Fishing.","Story",true],
+ ["Paradise Lost","Bronze",20,"Complete Chapter 1.","Story",true],
+ ["T**s Ass Drug Money","Bronze",20,"Complete Chapter 2.","Story",true],
+ ["Vice City, Baby!","Bronze",20,"Complete Chapter 3.","Story",true],
+ ["Top Of The World, Ma","Bronze",20,"Complete Chapter 4.","Story",true],
+ ["You Gotta Know When to Get Off","Gold",50,"Complete the final mission.","Story",true],
+ ["Trust","Bronze",10,"Complete Breakfast Run.","Story",true],
+ ["Break the Bank","Bronze",25,"Complete The Cartel Heist.","Story",true],
+ ["Family Matters","Bronze",15,"Complete Child's Play.","Story",true],
+ ["DWNFALL","Bronze",15,"Complete Headliners.","Story",true],
+ ["Hi-Jacked","Bronze",25,"Complete VCIA Takedown.","Story",true],
+ ["Snow Storm","Bronze",25,"Complete Operation Savage Glory.","Story",true],
+ ["A Long Road","Gold",100,"Attain 100% completion.","Activities",false],
+ ["Cunning Stunts","Silver",40,"Complete 250 stunts.","Activities",false],
+ ["Master of None","Bronze",20,"Try each type of activity once. (9 total)","Activities",false],
+ ["The Shootist","Silver",40,"Earn a gold medal in all 42 Shooting Range challenges.","Activities",false],
+ ["Top Fun","Bronze",15,"Win a Top Fun Drone Race at every location. (14 total)","Activities",false],
+ ["Earn Cash, Not Kudos","Bronze",20,"Win 20 different races.","Activities",false],
+ ["Baited My Tackle","Bronze",10,"Beat Cal in a fishing challenge.","Activities",false],
+ ["Stick Fiddler","Bronze",10,"Complete an arcade game.","Activities",false],
+ ["Road to Rehabilitation","Bronze",15,"Complete the final mission for Andy.","Story",false],
+ ["This Was No Boat Accident","Bronze",15,"Complete the final mission for Kenton.","Story",false],
+ ["The Lone Rider","Bronze",15,"Complete the final mission for Billy.","Story",false],
+ ["Strangers & Freaks","Silver",30,"Complete 8 mission strands for strangers across Leonida.","Story",false],
+ ["Supply & Demand","Bronze",20,"Complete the final mission for Randy.","Story",false],
+ ["Spin On This!","Bronze",15,"Complete the final mission for Tyrone.","Story",false],
+ ["Positive Mental Attitude","Bronze",10,"Meditate at every spot across Leonida. (18 total)","Activities",false],
+ ["Fair Game","Bronze",15,"Hunt a unique GTA VI animal for Bret.","Activities",false],
+ ["Don't Touch My Deck","Silver",30,"Complete 3 Collectible Card sets.","Collectibles",false],
+ ["You WAiNKer!","Silver",30,"WAiNK it at 100 locations.","Collectibles",false],
+ ["One Last Thing","Bronze",5,"Complete 50 Challenges.","Activities",false],
+ ["Hot Together","Bronze",20,"Lose a 4-star Wanted Level with your partner and escape the heat.","Combat & Crime",false],
+ ["Retail Therapy","Bronze",20,"Rob 3 shops back-to-back with your partner without losing your Wanted Level.","Combat & Crime",false],
+ ["Whip It Good","Bronze",20,"Discover 100 vehicles.","Exploration",false],
+ ["Gunslinger","Bronze",10,"Take down 5 enemies in a single use of Combat Focus.","Combat & Crime",false],
+ ["Catch Me If You Can","Bronze",10,"Make an unscheduled departure at VCIA.","Hidden / Misc.",false],
+ ["Challenging Tank","Bronze",10,"Kinda hot in these Rhinos.","Combat & Crime",false],
+ ["Sneakthief","Bronze",10,"Rob a jewelry store without being detected.","Combat & Crime",false],
+ ["Maximum Withdrawal","Silver",40,"Rob 5 Bank Vaults and escape.","Combat & Crime",false],
+ ["A Classic Blitz Play","Bronze",10,"Rob an Armored Truck and escape.","Combat & Crime",false],
+ ["The Goodtime State","Bronze",20,"Explore all of Leonida.","Exploration",false],
+ ["Pest Control","Bronze",20,"Rob an Illegal Operation belonging to each gang. (9 total)","Combat & Crime",false],
+ ["In The Beginning…","Bronze",5,"Enjoy a cocktail with a view on Ocean Beach.","Hidden / Misc.",false],
+ ["Capital Offense","Bronze",5,"Smash your way out of a vehicle showroom in classic style.","Hidden / Misc.",false],
+ ["Let's Go Bowling","Bronze",5,"Follow-through at the Kolt & Associates' bowling alley.","Hidden / Misc.",false],
+ ["Personal Best","Bronze",5,"A partnership with mass appeal.","Hidden / Misc.",true],
+ ["Actions Speak Louder","Bronze",5,"Choices made (for better or worse). (500 total)","Hidden / Misc.",true],
+ ["Bad Luck, I Guess","Bronze",5,"Second time's the charm.","Hidden / Misc.",true],
+ ["The Truth Is Out There","Bronze",5,"What the hell just happened?","Hidden / Misc.",true],
+ ["Ten Pin","Bronze",5,"Bowl 'em over with a melee drive-by.","Combat & Crime",false],
+ ["Dime on the Dollar","Bronze",20,"Earn $250,000 laundering Marked Bills through your contacts.","Activities",false],
+ ["Treat Yo Self","Bronze",15,"Spend $100,000 across all shops.","Activities",false],
+ ["Little Boxes","Bronze",15,"Purchase all garage properties. (8 total)","Exploration",false],
+ ["On the Spot","Bronze",15,"Register 10 vehicles to the Scooter Bros app.","Activities",false]
+ ];
+ const key="vicecitywire-trophy-log-v1";let saved={};try{saved=JSON.parse(localStorage.getItem(key)||"{}")||{};}catch(e){}
+ const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ function render(){
+  const q=search.value.trim().toLowerCase(),g=grade.value,c=category.value,s=status.value;
+  const list=rows.map((x,i)=>({...x,i,earned:!!saved[i]})).filter(x=>(g==="all"||x[1]===g)&&(c==="all"||x[4]===c)&&(s==="all"||(s==="earned"&&x.earned)||(s==="missing"&&!x.earned))&&(x.slice(0,5).join(" ").toLowerCase().includes(q)));
+  grid.innerHTML=list.length?list.map(x=>'<article class="db-card trophy-card"><div class="db-card-top"><span class="db-type">'+esc(x[4])+'</span><span class="trophy-grade grade-'+x[1].toLowerCase()+'">'+esc(x[1].toUpperCase())+'</span></div><h3>'+esc(x[0])+'</h3><p>'+esc(x[3])+'</p><div class="trophy-meta">'+(x[2]?x[2]+'G':'PLATINUM / 0G')+(x[5]?' · HIDDEN TROPHY':'')+'</div><label class="trophy-check"><input type="checkbox" data-trophy="'+x.i+'" '+(x.earned?'checked':'')+'><span>MARK AS UNLOCKED</span></label></article>').join(""):'<div class="db-empty">No matching trophies. Adjust your search or filters.</div>';
+  const earned=rows.reduce((n,x,i)=>n+(saved[i]?1:0),0),points=rows.reduce((n,x,i)=>n+(saved[i]?x[2]:0),0);count.textContent=earned+" / "+rows.length+" unlocked";fill.style.width=(earned/rows.length*100)+"%";score.textContent=points+" / 1,000G";
+ }
+ grid.addEventListener("change",e=>{if(e.target.matches("[data-trophy]")){saved[e.target.dataset.trophy]=e.target.checked;try{localStorage.setItem(key,JSON.stringify(saved));}catch(e){}render();}});
+ [search,grade,category,status].forEach(x=>x.addEventListener(x===search?"input":"change",render));
+ reset.addEventListener("click",()=>{saved={};try{localStorage.removeItem(key);}catch(e){}render();});render();
+})();
