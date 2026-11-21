@@ -1,9 +1,9 @@
 const points=[
  {id:"loc-vice",name:"Vice City",type:"location",x:58,y:42,icon:"⌂",desc:"Schematic example marker for Vice City. Not a verified in-game coordinate."},
- {id:"loc-coast",name:"Küstenstraße",type:"location",x:37,y:68,icon:"⌂",desc:"Demo marker for a region. Not a verified in-game location."},
+ {id:"loc-coast",name:"Coastal Road",type:"location",x:37,y:68,icon:"⌂",desc:"Demo marker for a region. Not a verified in-game location."},
  {id:"veh-a",name:"Vehicle Spot A",type:"vehicle",x:66,y:58,icon:"▰",desc:"Placeholder for a vehicle location to be verified."},
  {id:"wep-a",name:"Weapon Location A",type:"weapon",x:46,y:34,icon:"✦",desc:"Placeholder for a weapon location to be verified."},
- {id:"mis-a",name:"Missionsstart A",type:"mission",x:27,y:49,icon:"◆",desc:"Placeholder for a mission marker."},
+ {id:"mis-a",name:"Mission Start A",type:"mission",x:27,y:49,icon:"◆",desc:"Placeholder for a mission marker."},
  {id:"sec-a",name:"Secret A",type:"secret",x:78,y:30,icon:"?",desc:"Placeholder for an Easter egg or hidden location."}
 ];
 let activeType="all",zoom=1,offsetX=0,offsetY=0,drag=null,selectedId=null;
@@ -126,13 +126,29 @@ render();applyTransform();
    const q=search.value.trim().toLowerCase(),kind=select.value;
    const items=config.items.filter(x=>(kind==="all"||x.type===kind)&&(x.name+" "+x.label+" "+x.note).toLowerCase().includes(q));
    if(!items.length){grid.innerHTML='<div class="db-empty">No matching entries. Try another search term or filter.</div>';return;}
-   grid.innerHTML=items.map(x=>'<article class="db-card"><div class="db-card-top"><span class="db-type">'+escapeText(x.label)+'</span><span class="db-status">QUELLENBASIERT</span></div><h3>'+escapeText(x.name)+'</h3><p>'+escapeText(x.note)+'</p><div class="db-meta">DATENBASIS: '+escapeText(x.source.toUpperCase())+'</div></article>').join("");
+   grid.innerHTML=items.map(x=>'<article class="db-card"><div class="db-card-top"><span class="db-type">'+escapeText(x.label)+'</span><span class="db-status">SOURCE-BASED</span></div><h3>'+escapeText(x.name)+'</h3><p>'+escapeText(x.note)+'</p><div class="db-meta">DATENBASIS: '+escapeText(x.source.toUpperCase())+'</div></article>').join("");
   }
   search.addEventListener("input",render);select.addEventListener("change",render);render();
  }
  mount({grid:"vehicleGrid",search:"vehicleSearch",select:"vehicleType",items:vehicles});
  mount({grid:"weaponGrid",search:"weaponSearch",select:"weaponType",items:weapons});
 })();
+/* Searchable index of names printed on Rockstar's Leonida poster map. */
+(function initLocationDirectory(){
+ const entries=[
+  ["Vice City","place"],["Leonida Keys","place"],["Grassrivers","place"],["Port Gellhorn","place"],["Ambrosia","place"],["Mount Kalaga National Park","place"],["Ocean Beach","place"],["Little Cuba","place"],["Southside Vice City","place"],["Washington Beach","place"],["Watson Bay","place"],["Gellhorn","place"],["Key Lento","place"],["Starfish Island","place"],["Vespucci Island","place"],["Stockyard","place"],["Abismo Key","place"],["Bayside","place"],["Bluegrass","place"],["Crosstown","place"],["Allied Crystal sugar refinery","landmark"],["Tisha-Wocka flea market","landmark"],["VC Port","landmark"],["Leonida State Prison","landmark"],["Henry J Edwards Airport","landmark"],["Gellhorn Raceway","landmark"],["Boone Speedway","landmark"],["Vice City Oceanarium","landmark"],["Interstate 97","road"],["Interstate 297","road"],["Interstate 397","road"],["Interstate 404","road"],["U.S. 35","road"],["U.S. 82","road"],["U.S. 183","road"],["U.S. 628","road"],["County Route 62","road"],["Lake Leonida","water"],["Gambit Bay","water"],["Gulf of Leonida","water"],["Leonida Bay","water"],["Emerald River","water"],["Moreau River","water"],["Cottonmouth Lake","water"],["Wetman Bay","water"]
+ ];
+ const grid=document.getElementById("locationGrid"),search=document.getElementById("locationSearch"),filter=document.getElementById("locationType");
+ if(!grid||!search||!filter)return;
+ const labels={place:"PLACE / REGION",landmark:"LANDMARK",road:"ROAD",water:"WATER"};
+ function render(){
+  const q=search.value.trim().toLowerCase(),kind=filter.value;
+  const found=entries.filter(([name,type])=>(kind==="all"||kind===type)&&name.toLowerCase().includes(q));
+  grid.innerHTML=found.length?found.map(([name,type])=>'<article class="location-card"><small>'+labels[type]+'</small><b>'+name+'</b><span>PRINTED MAP LABEL</span></article>').join(""):'<div class="db-empty">No matching map labels. Try another search or category.</div>';
+ }
+ search.addEventListener("input",render);filter.addEventListener("change",render);render();
+})();
+
 /* GTA VI mission index: titles from current third-party guide lists. */
 (function initMissionLibrary(){
  const chapters=[
