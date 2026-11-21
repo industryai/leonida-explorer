@@ -356,3 +356,36 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
  reset.addEventListener("click",()=>{root.querySelectorAll("[data-completion]").forEach(x=>x.checked=false);saved={};try{localStorage.removeItem(key);}catch(e){}update(false);});
  update(false);
 })();
+
+/* Collectibles and activity progress log */
+(function initCollectionLog(){
+ const grid=document.getElementById("collectionGrid"),done=document.getElementById("collectionDone"),fill=document.getElementById("collectionFill"),reset=document.getElementById("collectionReset");
+ if(!grid||!done||!fill||!reset)return;
+ const data=[
+  ["Collectible Card Sets","COLLECTIBLES",15,"sets","Complete 15 of the 18 collectible card sets. There are 480 individual cards across all sets.","https://www.pushsquare.com/guides/gta-6-collectible-card-locations"],
+  ["Kenton Treasure Sets","UNDERWATER",5,"sets","Five sets count toward the story completion row; all seven are needed to cover every underwater discovery.","https://www.pushsquare.com/guides/gta-6-underwater-discoveries-locations-and-kentons-treasures"],
+  ["Underwater Discoveries","UNDERWATER",33,"discoveries","Find all 33 underwater discoveries. These are linked to Kenton's seven treasure sets.","https://www.pushsquare.com/guides/gta-6-underwater-discoveries-locations-and-kentons-treasures"],
+  ["WAiNK Locations","SCANS",100,"scans","Scan 100 landmarks, sculptures and other marked points while on foot using the WAiNK app.","https://www.powerpyx.com/gta-6-all-waink-scan-locations/"],
+  ["Magazines, Books & Comics","READABLES",30,"unique items","Find any 30 of the 34 combined unique magazines, books, comics and book swaps.","https://www.powerpyx.com/gta-6-all-magazines-books-comics-locations/"],
+  ["Meditation Spots","ACTIVITIES",15,"meditations","Complete 15 of the 18 meditation spots. Both protagonists can count at the same location.","https://www.powerpyx.com/gta-6-all-meditation-spots-locations/"],
+  ["Cocaine Flamingos","COLLECTIBLES",100,"flamingos","Destroy at least 100 of the 125 collectible flamingos.","https://www.powerpyx.com/gta-6-all-cocaine-flamingos-locations/"],
+  ["Unique Playlists","MUSIC",2,"playlists","Complete both unique playlists.","https://www.powerpyx.com/gta-6-100-completion-checklist-guide/"],
+  ["Discovered Styles","STYLE",70,"styles","Discover at least 70 of 79 styles.","https://www.powerpyx.com/gta-6-100-completion-checklist-guide/"],
+  ["Basketball Hoops","SPORT",90,"hoops","Score at 90 of the 100 basketball hoops.","https://www.pushsquare.com/guides/gta-6-basketball-hoop-locations"],
+  ["Drone Time Trials","TIME TRIALS",42,"trials","Complete all 42 drone time trials.","https://www.powerpyx.com/gta-6-100-completion-checklist-guide/"],
+  ["Animals Studied","WILDLIFE",100,"animals","Study at least 100 of the 255 animals for the Discovery requirement.","https://www.powerpyx.com/gta-6-all-animals-locations/"],
+  ["Stunts","CHALLENGES",300,"stunts","Complete 300 of the 397 stunt activities counted by the 100% checklist.","https://www.powerpyx.com/gta-6-100-completion-checklist-guide/"]
+ ];
+ const key="vicecitywire-collection-log-v1";let saved={};try{saved=JSON.parse(localStorage.getItem(key)||"{}")||{};}catch(e){}
+ const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ grid.innerHTML=data.map((x,i)=>'<article class="collection-card"><div class="collection-card-top"><span>'+esc(x[1])+'</span><small>TARGET · '+x[2]+'</small></div><h3>'+esc(x[0])+'</h3><p>'+esc(x[4])+'</p><div class="collection-entry"><label for="collection-'+i+'">YOUR PROGRESS</label><div><input id="collection-'+i+'" type="number" min="0" max="'+x[2]+'" step="1" value="'+Math.min(x[2],Math.max(0,Number(saved[i])||0))+'" data-collection="'+i+'"><span>/ '+x[2]+' '+esc(x[3])+'</span></div></div><div class="collection-track"><span data-collection-fill="'+i+'"></span></div><a href="'+x[5]+'" target="_blank" rel="noopener">OPEN LOCATION GUIDE ↗</a></article>').join("");
+ function update(save=true){
+  let completed=0;
+  data.forEach((x,i)=>{const input=grid.querySelector('[data-collection="'+i+'"]');const value=Math.min(x[2],Math.max(0,Number(input.value)||0));if(value>=x[2])completed++;const bar=grid.querySelector('[data-collection-fill="'+i+'"]');bar.style.width=(value/x[2]*100)+"%";});
+  done.textContent=completed+" / "+data.length;fill.style.width=(completed/data.length*100)+"%";
+  if(save){saved={};grid.querySelectorAll("[data-collection]").forEach(input=>saved[input.dataset.collection]=Math.max(0,Number(input.value)||0));try{localStorage.setItem(key,JSON.stringify(saved));}catch(e){}}
+ }
+ grid.addEventListener("input",e=>{if(e.target.matches("[data-collection]")){const x=data[Number(e.target.dataset.collection)];e.target.value=Math.min(x[2],Math.max(0,Number(e.target.value)||0));update(true);}});
+ reset.addEventListener("click",()=>{grid.querySelectorAll("[data-collection]").forEach(input=>input.value=0);try{localStorage.removeItem(key);}catch(e){}update(false);});
+ update(false);
+})();
