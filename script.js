@@ -36,12 +36,32 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
 /* Searchable starter catalogues. Scope is deliberately limited to sourced edition items. */
 (function initCatalogues(){
  const vehicles=[
-  {name:"'55 Vapid Stanier",type:"car",label:"Classic sedan",source:"Vintage Vice City Pack",note:"Listed as a pre-order bonus with a garage."},
-  {name:"'95 Grotti Cheetah",type:"car",label:"Sports car",source:"Ultimate Edition",note:"Listed as an Ultimate Edition exclusive vehicle."},
-  {name:"'67 Vapid Dominator Buggy",type:"car",label:"Beach buggy",source:"Ultimate Edition",note:"Listed as an Ultimate Edition exclusive vehicle."},
-  {name:"Dinka Enduro",type:"bike",label:"Off-road motorcycle",source:"Ultimate Edition",note:"Listed as an Ultimate Edition exclusive vehicle."},
-  {name:"Shitzu Squalo",type:"boat",label:"Speedboat",source:"Ultimate Edition",note:"Listed as an exclusive watercraft in the Ultimate Edition."},
-  {name:"Crest Kayak",type:"other",label:"Kayak",source:"Ultimate Edition",note:"Listed as an exclusive watercraft in the Ultimate Edition."}
+{name:"'55 Vapid Stanier",type:"car",label:"Classic sedan",maker:"Vapid",source:"Rockstar edition listing",status:"Officially named",note:"Vintage Vice City Pack vehicle with a garage.",url:"https://gta6.university/guides/gta-6-cars-vehicles/"},
+{name:"'95 Grotti Cheetah",type:"car",label:"Sports car",maker:"Grotti",source:"Rockstar edition listing",status:"Officially named",note:"Ultimate Edition vehicle.",url:"https://gta6.university/guides/gta-6-cars-vehicles/"},
+{name:"'67 Vapid Dominator Buggy",type:"car",label:"Off-road buggy",maker:"Vapid",source:"Rockstar edition listing",status:"Officially named",note:"Ultimate Edition off-road vehicle.",url:"https://gta6.university/guides/gta-6-cars-vehicles/"},
+{name:"Dinka Enduro",type:"bike",label:"Dirt bike",maker:"Dinka",source:"Rockstar edition listing",status:"Officially named",note:"Ultimate Edition motorcycle.",url:"https://gta6.university/guides/gta-6-cars-vehicles/"},
+{name:"Shitzu Squalo",type:"boat",label:"Speedboat",maker:"Shitzu",source:"Rockstar edition listing",status:"Officially named",note:"Ultimate Edition watercraft.",url:"https://gta6.university/guides/gta-6-cars-vehicles/"},
+{name:"Crest Kayak",type:"boat",label:"Kayak",maker:"Crest",source:"Rockstar edition listing",status:"Officially named",note:"Ultimate Edition watercraft.",url:"https://gta6.university/guides/gta-6-cars-vehicles/"},
+{name:"Ganado Retro Build",type:"car",label:"Custom classic build",maker:"Vapid",source:"Rockstar edition listing",status:"Officially named",note:"Custom build included with Ultimate Edition.",url:"https://gta6.university/guides/gta-6-cars-vehicles/"},
+{name:"Classic Car Collection",type:"car",label:"Classic car bundle",maker:"Multiple",source:"Rockstar edition listing",status:"Officially named",note:"Bundle; individual models are not all named in the edition summary.",url:"https://gta6.university/guides/gta-6-cars-vehicles/"},
+{name:"Airboat 09",type:"boat",label:"Airboat",maker:"Airgator",source:"Rockstar footage / readable name",status:"Name reported from footage",note:"Vehicle name reported as legible in official footage.",url:"https://gtaplaybook.com/gta6/vehicles/"},
+{name:"'85 Emperor",type:"car",label:"Sedan",maker:"Albany",source:"In-game panel capture",status:"Player-captured name",note:"Name reported from an in-game vehicle panel capture.",url:"https://gtaplaybook.com/gta6/vehicles/"},
+{name:"Schafter",type:"car",label:"Sedan",maker:"Benefactor",source:"Rockstar footage / readable name",status:"Name reported from footage",note:"Vehicle name reported as legible in official footage.",url:"https://gtaplaybook.com/gta6/vehicles/"},
+{name:"Bobcat",type:"utility",label:"Utility vehicle",maker:"Bobcat",source:"Rockstar footage / readable name",status:"Name reported from footage",note:"Utility vehicle name reported as legible in official footage.",url:"https://gtaplaybook.com/gta6/vehicles/"},
+{name:"BTN Delmar",type:"boat",label:"Boat",maker:"Not confirmed",source:"Rockstar footage / readable name",status:"Name reported from footage",note:"Boat name reported from footage; manufacturer not established.",url:"https://gtaplaybook.com/gta6/vehicles/"},
+{name:"Granger",type:"car",label:"SUV",maker:"Declasse",source:"In-game panel capture",status:"Player-captured name",note:"Name reported from an in-game vehicle panel capture.",url:"https://gtaplaybook.com/gta6/vehicles/"},
+{name:"Deviant",type:"car",label:"Sports classic",maker:"Not confirmed",source:"Rockstar official render",status:"Name reported from render",note:"Model name appears in the vehicle index; manufacturer not established.",url:"https://gtaplaybook.com/gta6/vehicles/"},
+{name:"Como",type:"boat",label:"Boat",maker:"Dingus",source:"In-game panel capture",status:"Player-captured name",note:"Name reported from an in-game vehicle panel capture.",url:"https://gtaplaybook.com/gta6/vehicles/"},
+{name:"'85 Blista",type:"car",label:"Compact",maker:"Dinka",source:"In-game panel capture",status:"Player-captured name",note:"Name reported from an in-game vehicle panel capture.",url:"https://gtaplaybook.com/gta6/vehicles/"},
+{name:"L35P",type:"boat",label:"Boat",maker:"Lürepredator",source:"Rockstar footage / readable name",status:"Name reported from footage",note:"Watercraft name reported as legible in official footage.",url:"https://gtaplaybook.com/gta6/vehicles/"},
+{name:"Alvino V1",type:"bike",label:"Motorcycle",maker:"Principe",source:"Rockstar footage / readable name",status:"Name reported from footage",note:"Motorcycle name reported as legible in official footage.",url:"https://gtaplaybook.com/gta6/vehicles/"},
+{name:"Rancher",type:"utility",label:"Utility vehicle",maker:"Not confirmed",source:"Rockstar footage / readable name",status:"Name reported from footage",note:"Vehicle name reported as legible in official footage.",url:"https://gtaplaybook.com/gta6/vehicles/"},
+{name:"Seashark",type:"boat",label:"Personal watercraft",maker:"Not confirmed",source:"Rockstar footage / readable name",status:"Name reported from footage",note:"Personal watercraft name reported as legible in official footage.",url:"https://gtaplaybook.com/gta6/vehicles/"},
+{name:"Sirius",type:"car",label:"Sports classic",maker:"Not confirmed",source:"Rockstar official render",status:"Name reported from render",note:"Model name appears in the vehicle index; manufacturer not established.",url:"https://gtaplaybook.com/gta6/vehicles/"},
+{name:"Sandking XT",type:"utility",label:"Pickup",maker:"Vapid",source:"In-game panel capture",status:"Player-captured name",note:"Name reported from an in-game vehicle panel capture.",url:"https://gtaplaybook.com/gta6/vehicles/"},
+{name:"Stanier G2",type:"car",label:"Sedan",maker:"Vapid",source:"In-game panel capture",status:"Player-captured name",note:"Name reported from an in-game vehicle panel capture.",url:"https://gtaplaybook.com/gta6/vehicles/"},
+{name:"Jugular",type:"car",label:"Sedan",maker:"Ocelot",source:"In-game panel capture",status:"Player-captured name",note:"Name reported from an in-game vehicle panel capture.",url:"https://gtaplaybook.com/gta6/vehicles/"},
+{name:"Riata",type:"car",label:"Off-road",maker:"Not confirmed",source:"Rockstar official render",status:"Name reported from render",note:"Off-road model name appears in the vehicle index.",url:"https://gtaplaybook.com/gta6/vehicles/"}
  ];
  const weapons=[
   {name:"Girardi ES9",type:"pistol",label:"Pistol",source:"Ultimate Edition",note:"Custom variant named in the edition content."},
@@ -54,9 +74,9 @@ const year=document.querySelector("#year");if(year)year.textContent=new Date().g
   if(!grid||!search||!select)return;
   function render(){
    const q=search.value.trim().toLowerCase(),kind=select.value;
-   const items=config.items.filter(x=>(kind==="all"||x.type===kind)&&(x.name+" "+x.label+" "+x.note).toLowerCase().includes(q));
+   const items=config.items.filter(x=>(kind==="all"||x.type===kind)&&(x.name+" "+x.label+" "+x.note+" "+x.maker+" "+x.status).toLowerCase().includes(q));
    if(!items.length){grid.innerHTML='<div class="db-empty">No matching entries. Try another search term or filter.</div>';return;}
-   grid.innerHTML=items.map(x=>'<article class="db-card"><div class="db-card-top"><span class="db-type">'+escapeText(x.label)+'</span><span class="db-status">SOURCE-BASED</span></div><h3>'+escapeText(x.name)+'</h3><p>'+escapeText(x.note)+'</p><div class="db-meta">DATA SOURCE: '+escapeText(x.source.toUpperCase())+'</div></article>').join("");
+   grid.innerHTML=items.map(x=>'<article class="db-card"><div class="db-card-top"><span class="db-type">'+escapeText(x.label)+'</span><span class="db-status">'+escapeText(x.status.toUpperCase())+'</span></div><h3>'+escapeText(x.name)+'</h3><p class="db-maker">MANUFACTURER · '+escapeText(x.maker)+'</p><p>'+escapeText(x.note)+'</p><div class="db-meta">SOURCE: '+escapeText(x.source.toUpperCase())+'<br><a href="'+x.url+'" target="_blank" rel="noopener">VERIFY SOURCE ↗</a></div></article>').join("");
   }
   search.addEventListener("input",render);select.addEventListener("change",render);render();
  }
