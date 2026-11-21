@@ -344,3 +344,32 @@ footer p a{color:#ff83b8}
 .hunting-decks span{display:block;margin-top:12px;padding-top:10px;border-top:1px solid #2a394d;font-size:8px;letter-spacing:.1em;color:#d2b58c}
 @media(max-width:850px){.hunting-controls{flex-wrap:wrap}.hunting-controls input{flex-basis:100%}}
 @media(max-width:620px){.hunting-summary{grid-template-columns:1fr}.hunting-controls{flex-direction:column}.hunting-controls select{width:100%}}
+
+/* Fishing field guide */
+.fishing-summary{display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:center;padding:15px;margin-bottom:14px;border:1px solid var(--line);background:#101a27}
+.fishing-summary>div:first-child{display:grid;gap:4px}
+.fishing-summary b{font:23px Georgia,serif;color:var(--cyan)}
+.fishing-summary small{font-size:8px;letter-spacing:.1em;color:var(--muted)}
+.fishing-summary-track{height:7px;background:#263448;overflow:hidden}
+.fishing-summary-track span{display:block;width:0;height:100%;background:linear-gradient(90deg,var(--cyan),var(--pink));transition:width .2s}
+.fishing-summary button{background:transparent;border:1px solid #4a586b;color:#c0cbd6;padding:9px 11px;font-size:8px;letter-spacing:.1em;cursor:pointer}
+.fishing-kit{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.fishing-kit>div{padding:18px;border:1px solid var(--line);background:linear-gradient(140deg,#172638,#101722)}
+.fishing-kit small{font-size:8px;letter-spacing:.15em;color:var(--cyan)}
+.fishing-kit h3{font:22px Georgia,serif;margin:7px 0 10px}
+.fishing-kit ul,.fishing-kit ol{margin:0;padding-left:18px;color:var(--muted);font-size:10px;line-height:1.8}
+.fishing-kit li b{color:var(--txt)}
+.fishing-controls{display:flex;gap:9px;margin:0 0 15px}
+.fishing-controls input,.fishing-controls select{background:#0b1420;color:var(--txt);border:1px solid var(--line);padding:12px 13px;font:inherit;font-size:10px;min-width:0}
+.fishing-controls input{flex:1}
+.fishing-card{padding:0 0 12px;overflow:hidden}
+.fishing-card .db-card-top,.fishing-card h3,.fishing-card p,.fishing-card .fishing-map-link{margin-left:15px;margin-right:15px}
+.fishing-card h3{font:20px Georgia,serif;margin-top:8px}
+.fishing-card p{font-size:9px;color:var(--muted);margin-top:8px}
+.fishing-card p b{font-size:8px;letter-spacing:.08em;color:var(--cyan)}
+.fishing-map-link{display:inline-block;font-size:8px;letter-spacing:.09em;color:var(--cyan);text-decoration:none}
+.fishing-map-link:hover{text-decoration:underline}
+.fishing-check{display:flex;align-items:center;gap:8px;padding:10px 15px;margin-top:10px;border-top:1px solid #2a394d;font-size:8px;letter-spacing:.1em;color:#b8c7d5;cursor:pointer}
+.fishing-check input{accent-color:var(--cyan)}
+@media(max-width:850px){.fishing-controls{flex-wrap:wrap}.fishing-controls input{flex-basis:100%}}
+@media(max-width:620px){.fishing-summary{grid-template-columns:1fr}.fishing-kit{grid-template-columns:1fr}.fishing-controls{flex-direction:column}.fishing-controls select{width:100%}}
