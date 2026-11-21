@@ -745,3 +745,7 @@ footer p a{color:#ff83b8}
 .story-fallback-detail p{font-size:12px;line-height:1.75;color:#c0cad6}
 .story-fallback-detail a{display:inline-block;margin:8px 10px 0 0;color:var(--cyan);font-size:9px}
 @media(max-width:620px){.story-fallback-grid{grid-template-columns:1fr}}
+
+/* Exact completion contribution shown beside each requirement. */
+.completion-item em{margin-left:auto;flex:none;font:700 9px/1 system-ui,sans-serif;font-style:normal;letter-spacing:.06em;color:var(--cyan);padding:4px 6px;border:1px solid #36586a;background:#0d1a25;white-space:nowrap}
+@media(max-width:720px){.completion-items{grid-template-columns:1fr}.completion-item em{font-size:8px}}
