@@ -930,3 +930,19 @@ footer p a{color:#ff83b8}
 .region-explored-toggle small{font-size:8px;color:var(--muted);margin-top:3px}
 .region-map-disclaimer{font-size:8px;color:#8291a4;margin:13px 0 0}
 @media(max-width:650px){.region-explorer{padding:15px}.region-explorer-head{align-items:flex-start;flex-direction:column;gap:9px}.region-marker-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.region-map-detail{align-items:flex-start;flex-direction:column}.region-explored-toggle{width:100%}}
+
+/* Post-launch intelligence hub */
+.launch-intel-section{padding-top:58px}
+.launch-status-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:24px 0 14px}
+.launch-status-card,.launch-resource-card{min-width:0;border:1px solid var(--line);background:linear-gradient(145deg,#151f2d,#0d1520);padding:20px;display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.launch-status-card small,.launch-resource-card small{font-size:9px;letter-spacing:.16em;color:var(--cyan)}
+.launch-status-card b{font-size:clamp(16px,2vw,23px);letter-spacing:.03em}
+.launch-status-card p,.launch-resource-card span{font-size:12px;line-height:1.65;color:#aab7c7;margin:0}
+.launch-status-card a,.launch-resource-card strong{font-size:9px;letter-spacing:.1em;color:#ff83b8;margin-top:auto;padding-top:8px}
+.launch-status-feature{border-color:#4b6875;background:linear-gradient(145deg,#1b3340,#101923)}
+.launch-resource-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:12px}
+.launch-resource-card{text-decoration:none;min-height:190px;transition:border-color .2s,transform .2s}
+.launch-resource-card:hover{border-color:var(--cyan);transform:translateY(-2px)}
+.launch-resource-card b{font-size:17px;line-height:1.2}
+@media(max-width:900px){.launch-status-grid{grid-template-columns:1fr 1fr}.launch-resource-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.launch-status-grid,.launch-resource-grid{grid-template-columns:1fr}.launch-resource-card{min-height:150px}.launch-intel-section{padding-top:42px}}
