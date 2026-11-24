@@ -946,3 +946,10 @@ footer p a{color:#ff83b8}
 .launch-resource-card b{font-size:17px;line-height:1.2}
 @media(max-width:900px){.launch-status-grid{grid-template-columns:1fr 1fr}.launch-resource-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:620px){.launch-status-grid,.launch-resource-grid{grid-template-columns:1fr}.launch-resource-card{min-height:150px}.launch-intel-section{padding-top:42px}}
+
+/* Mission database source transparency */
+.mission-source-note{border:1px solid var(--line);background:linear-gradient(145deg,#151f2d,#0d1520);padding:16px 18px;margin:16px 0 20px;display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.mission-source-note>b{font-size:9px;letter-spacing:.16em;color:var(--cyan);width:100%}
+.mission-source-note p{font-size:11px;line-height:1.65;color:#aab7c7;margin:0;flex-basis:100%}
+.mission-source-note a{font-size:9px;letter-spacing:.08em;color:#ff83b8;text-decoration:none}
+.mission-source-note a:hover{color:var(--cyan)}
