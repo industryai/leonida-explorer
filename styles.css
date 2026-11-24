@@ -953,3 +953,13 @@ footer p a{color:#ff83b8}
 .mission-source-note p{font-size:11px;line-height:1.65;color:#aab7c7;margin:0;flex-basis:100%}
 .mission-source-note a{font-size:9px;letter-spacing:.08em;color:#ff83b8;text-decoration:none}
 .mission-source-note a:hover{color:var(--cyan)}
+
+/* Vehicle Progress Database overview */
+.vehicle-progress-brief{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;padding:18px;border:1px solid var(--line);background:linear-gradient(145deg,#151f2d,#0d1520);margin:16px 0 18px}
+.vehicle-progress-stat{display:flex;flex-direction:column;gap:5px;border-right:1px solid var(--line);padding:4px 12px}
+.vehicle-progress-stat b{font-size:clamp(23px,3vw,34px);line-height:1;color:var(--cyan)}
+.vehicle-progress-stat small{font-size:8px;letter-spacing:.12em;color:#aab7c7}
+.vehicle-progress-brief p{grid-column:1/-1;font-size:11px;line-height:1.65;color:#aab7c7;margin:3px 0}
+.vehicle-progress-brief a{font-size:9px;letter-spacing:.1em;color:#ff83b8;text-decoration:none}
+.vehicle-progress-brief a:hover{color:var(--cyan)}
+@media(max-width:650px){.vehicle-progress-brief{grid-template-columns:1fr 1fr;padding:13px}.vehicle-progress-stat:nth-child(2){border-right:0}.vehicle-progress-stat{padding:8px}.vehicle-progress-brief p{grid-column:1/-1}}
